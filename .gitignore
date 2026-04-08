@@ -41,7 +41,7 @@ core/cmd/server/web/index.html
 frontend/auto-imports.d.ts
 frontend/components.d.ts
 frontend/src/xpack
-frontend/src/xpackee
+frontend/src/xpack-ee
 agent/xpack
 core/xpack
 core/xpack-ee
