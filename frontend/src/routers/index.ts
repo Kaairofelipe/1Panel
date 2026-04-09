@@ -11,6 +11,11 @@ router.beforeEach((to, from, next) => {
     NProgress.start();
     axiosCanceler.removeAllPending();
     const globalStore = GlobalStore();
+    if (globalStore.isXpackEE && !globalStore.isAdmin) {
+        if (xpackEEJumper(to, next)) {
+            return;
+        }
+    }
     if (to.name !== 'entrance' && !globalStore.isLogin) {
         next({
             name: 'entrance',
@@ -86,3 +91,25 @@ router.afterEach((to) => {
 });
 
 export default router;
+
+const xpackEEJumper = (to: any, next: any) => {
+    switch (to.name) {
+        case 'Panel':
+        case 'Safe':
+        case 'License':
+            next({
+                name: 'Alert',
+            });
+            NProgress.done();
+            return true;
+        case 'Node':
+        case 'SimpleNode':
+        case 'NodeAppUpgrade':
+        case 'UserXpackEEUser':
+            next({
+                name: 'NodeDashboard',
+            });
+            NProgress.done();
+            return true;
+    }
+};

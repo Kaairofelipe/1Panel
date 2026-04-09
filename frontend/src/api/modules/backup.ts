@@ -23,7 +23,7 @@ export const checkBackup = (params: Backup.BackupOperate) => {
     if (request.credential) {
         request.credential = Base64.encode(request.credential);
     }
-    if (!params.isPublic || !globalStore.isProductPro) {
+    if (!params.isPublic || !globalStore.isXpackNodeOrEE()) {
         return http.postLocalNode<Backup.CheckResult>(`/backups/conn/check`, request);
     }
     return http.post<Backup.CheckResult>(`/backups/conn/check`, request);
@@ -36,7 +36,7 @@ export const listBucket = (params: Backup.ForBucket) => {
     if (request.credential) {
         request.credential = Base64.encode(request.credential);
     }
-    if (!params.isPublic || !globalStore.isProductPro) {
+    if (!params.isPublic || !globalStore.isXpackNodeOrEE()) {
         return http.postLocalNode('/backups/buckets', request, TimeoutEnum.T_40S);
     }
     return http.post('/backups/buckets', request, TimeoutEnum.T_40S);

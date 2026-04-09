@@ -17,7 +17,7 @@
 
 <script setup>
 import { defineProps, defineEmits } from 'vue';
-import { listAllNodes } from '@/api/modules/setting';
+import { listNodes } from '@/utils/node';
 import { useGlobalStore } from '@/composables/useGlobalStore';
 const { globalStore } = useGlobalStore();
 
@@ -36,14 +36,14 @@ const handleChange = (value) => {
     emit('change', value);
 };
 
-const listNodes = async () => {
+const search = async () => {
     try {
-        const res = await listAllNodes();
+        const res = await listNodes('all');
         nodes.value = res.data || [];
     } catch (error) {}
 };
 
 onMounted(() => {
-    listNodes();
+    search();
 });
 </script>

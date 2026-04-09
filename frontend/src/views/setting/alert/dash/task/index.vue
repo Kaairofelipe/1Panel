@@ -345,7 +345,7 @@
                             <el-option
                                 value="sms"
                                 v-if="!globalStore.isIntl"
-                                :disabled="!globalStore.isProductPro"
+                                :disabled="!globalStore.isXpackNodeOrEE()"
                                 :label="$t('xpack.alert.sms')"
                             />
                         </el-select>
