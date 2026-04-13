@@ -2,6 +2,7 @@ import router from '@/routers/router';
 import NProgress from '@/config/nprogress';
 import { GlobalStore } from '@/store';
 import { AxiosCanceler } from '@/api/helper/axios-cancel';
+import { hasPermission } from '@/utils/rbac';
 
 const axiosCanceler = new AxiosCanceler();
 
@@ -62,6 +63,15 @@ router.beforeEach((to, from, next) => {
         return;
     }
 
+    const requiredPermission = [...to.matched].reverse().find((record) => record.meta?.permission)?.meta?.permission as
+        | string
+        | undefined;
+    if (requiredPermission && !hasPermission(requiredPermission)) {
+        next({ name: 'home' });
+        NProgress.done();
+        return;
+    }
+
     if (!to.matched.some((record) => record.meta.requiresAuth)) return next();
 
     return next();
@@ -96,16 +106,46 @@ const xpackEEJumper = (to: any, next: any) => {
     switch (to.name) {
         case 'Panel':
         case 'Safe':
-        case 'License':
+        case 'Alert':
+            if (hasPermission('setting_view')) {
+                return false;
+            }
             next({
-                name: 'Alert',
+                name: 'NodeDashboard',
             });
+            NProgress.done();
+            return true;
+        case 'License':
+            if (hasPermission('license_view')) {
+                return false;
+            }
+            next({ name: 'NodeDashboard' });
             NProgress.done();
             return true;
         case 'Node':
         case 'SimpleNode':
         case 'NodeAppUpgrade':
+            if (hasPermission('node_view')) {
+                return false;
+            }
+            next({
+                name: 'NodeDashboard',
+            });
+            NProgress.done();
+            return true;
         case 'UserXpackEEUser':
+            if (hasPermission('setting_view')) {
+                return false;
+            }
+            next({
+                name: 'NodeDashboard',
+            });
+            NProgress.done();
+            return true;
+        case 'XpackEERole':
+            if (hasPermission('setting_view')) {
+                return false;
+            }
             next({
                 name: 'NodeDashboard',
             });

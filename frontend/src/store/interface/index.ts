@@ -55,6 +55,9 @@ export interface GlobalState {
     isOnRestart: boolean;
     // tags
     isAdmin: boolean;
+    permissions: string[];
+    nodeScopes: number[];
+    nodeRoles: Array<{ nodeId: number; nodeName: string; roleId: number; roleName: string }>;
     isXpackEE: boolean;
     isIntl: boolean;
     docWithRegion: boolean;

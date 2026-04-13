@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { RouteRecordRaw, useRoute } from 'vue-router';
 import { loadingSvg } from '@/utils/svg';
 import Logo from './components/Logo.vue';
@@ -39,6 +39,7 @@ import { GlobalStore, MenuStore } from '@/store';
 import { isString } from '@vueuse/core';
 import { getSettingInfo } from '@/api/modules/setting';
 import PrimaryMenu from '@/assets/images/menu-bg.svg?component';
+import { hasPermission } from '@/utils/rbac';
 
 const route = useRoute();
 const menuStore = MenuStore();
@@ -107,12 +108,15 @@ const search = async () => {
                     (item) =>
                         item.name && showSet.has(item.name as string) && !(item.name === 'Upage' && globalStore.isIntl),
                 ) || [];
+            menuItem.children = itemChildren.filter((item) => allowMenuItem(item));
 
-            if (itemChildren.length === 1) {
-                menuItem.meta.icon = itemChildren[0].meta.icon;
-                menuItem.meta.title = itemChildren[0].meta.title;
+            if (menuItem.children.length === 1) {
+                menuItem.meta.icon = menuItem.children[0].meta.icon;
+                menuItem.meta.title = menuItem.children[0].meta.title;
             }
-            menuItem.children = itemChildren;
+            if (!allowMenuItem(menuItem)) {
+                continue;
+            }
             rstMenuList.push(menuItem);
         }
         if (!isSameMenuList(menuStore.menuList as RouteRecordRaw[], rstMenuList)) {
@@ -127,6 +131,14 @@ const search = async () => {
 
 function isSameMenuList(source: RouteRecordRaw[], target: RouteRecordRaw[]) {
     return JSON.stringify(source) === JSON.stringify(target);
+}
+
+function allowMenuItem(item: RouteRecordRaw) {
+    const permission = item.meta?.permission as string | undefined;
+    if (!permission) {
+        return true;
+    }
+    return hasPermission(permission);
 }
 
 function adjustAndCleanMenu(menuItem, list) {
@@ -179,6 +191,13 @@ onMounted(() => {
     }
     search();
 });
+
+watch(
+    () => [globalStore.currentNode, globalStore.permissions.join('|')],
+    () => {
+        search();
+    },
+);
 </script>
 
 <style lang="scss">
