@@ -216,7 +216,11 @@ func (m McpServerService) Delete(id uint) error {
 	}
 	composePath := path.Join(global.Dir.McpDir, mcpServer.Name, "docker-compose.yml")
 	_, _ = compose.Down(composePath)
-	_ = files.NewFileOp().DeleteDir(path.Join(global.Dir.McpDir, mcpServer.Name))
+	mcpDirToDelete := path.Join(global.Dir.McpDir, mcpServer.Name)
+	if !strings.HasPrefix(mcpDirToDelete, filepath.Clean(global.Dir.McpDir)+string(filepath.Separator)) {
+		return fmt.Errorf("invalid path: path traversal detected in %s", mcpServer.Name)
+	}
+	_ = files.NewFileOp().DeleteDir(mcpDirToDelete)
 
 	websiteID := GetWebsiteID()
 	if websiteID > 0 {
