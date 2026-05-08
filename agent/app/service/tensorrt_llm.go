@@ -56,6 +56,9 @@ func (t TensorRTLLMService) Page(req request.TensorRTLLMSearch) response.TensorR
 		serverDTO.Version = envs["VERSION"]
 		serverDTO.ModelDir = envs["MODEL_PATH"]
 		serverDTO.Dir = path.Join(global.Dir.TensorRTLLMDir, item.Name)
+		if !strings.HasPrefix(filepath.Join(global.Dir.TensorRTLLMDir, item.Name), filepath.Clean(global.Dir.TensorRTLLMDir)+string(filepath.Separator)) {
+			continue
+		}
 		serverDTO.Image = envs["IMAGE"]
 		serverDTO.Command = getCommand(item.Env)
 
@@ -228,6 +231,9 @@ func (t TensorRTLLMService) Create(create request.TensorRTLLMCreate) error {
 	}
 
 	tensorrtLLMDir := path.Join(global.Dir.TensorRTLLMDir, create.Name)
+	if !strings.HasPrefix(filepath.Join(global.Dir.TensorRTLLMDir, create.Name), filepath.Clean(global.Dir.TensorRTLLMDir)+string(filepath.Separator)) {
+		return fmt.Errorf("invalid path: path traversal detected in %s", create.Name)
+	}
 	filesOp := files.NewFileOp()
 	if !filesOp.Stat(tensorrtLLMDir) {
 		_ = filesOp.CreateDir(tensorrtLLMDir, 0644)
@@ -250,6 +256,9 @@ func (t TensorRTLLMService) Create(create request.TensorRTLLMCreate) error {
 	}
 	envMap := handleLLMEnv(tensorrtLLM, create)
 	llmDir := path.Join(global.Dir.TensorRTLLMDir, create.Name)
+	if !strings.HasPrefix(filepath.Join(global.Dir.TensorRTLLMDir, create.Name), filepath.Clean(global.Dir.TensorRTLLMDir)+string(filepath.Separator)) {
+		return fmt.Errorf("invalid path: path traversal detected in %s", create.Name)
+	}
 	envPath := path.Join(llmDir, ".env")
 	if err := env.WriteWithOrder(envMap, envPath, []string{"MODEL_PATH", "COMMAND"}); err != nil {
 		return err
@@ -289,6 +298,9 @@ func (t TensorRTLLMService) Update(req request.TensorRTLLMUpdate) error {
 	envStr, _ := gotenv.Marshal(envMap)
 	tensorrtLLM.Env = envStr
 	llmDir := path.Join(global.Dir.TensorRTLLMDir, tensorrtLLM.Name)
+	if !strings.HasPrefix(filepath.Join(global.Dir.TensorRTLLMDir, tensorrtLLM.Name), filepath.Clean(global.Dir.TensorRTLLMDir)+string(filepath.Separator)) {
+		return fmt.Errorf("invalid path: path traversal detected in %s", tensorrtLLM.Name)
+	}
 	envPath := path.Join(llmDir, ".env")
 	if err := env.WriteWithOrder(envMap, envPath, []string{"MODEL_PATH", "COMMAND"}); err != nil {
 		return err
@@ -312,7 +324,11 @@ func (t TensorRTLLMService) Delete(id uint) error {
 	}
 	composePath := path.Join(global.Dir.TensorRTLLMDir, tensorrtLLM.Name, "docker-compose.yml")
 	_, _ = compose.Down(composePath)
-	_ = files.NewFileOp().DeleteDir(path.Join(global.Dir.TensorRTLLMDir, tensorrtLLM.Name))
+	joined := filepath.Join(global.Dir.TensorRTLLMDir, tensorrtLLM.Name)
+	if !strings.HasPrefix(joined, filepath.Clean(global.Dir.TensorRTLLMDir)+string(filepath.Separator)) {
+		return fmt.Errorf("invalid path: path traversal detected in %s", tensorrtLLM.Name)
+	}
+	_ = files.NewFileOp().DeleteDir(joined)
 	return tensorrtLLMRepo.DeleteBy(repo.WithByID(id))
 }
 
