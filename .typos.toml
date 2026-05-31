@@ -1,0 +1,12 @@
+[files]
+extend-exclude = [
+  "frontend/src/lang/modules/es-es.ts",
+  "frontend/src/lang/modules/en.ts",
+  "frontend/src/views/home/index.vue",
+  "frontend/src/views/ai/model/tensorrt/operate/index.vue",
+  "frontend/src/views/ai/model/tensorrt/index.vue",
+  "frontend/src/views/ai/mcp/server/index.vue",
+  "frontend/src/api/modules/app.ts",
+  "frontend/src/views/setting/backup-account/operate/index.vue",
+  "docs/README.fr.md"
+]
