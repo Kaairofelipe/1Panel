@@ -651,9 +651,23 @@ func (u *CronjobService) HandleStop(id uint) error {
 }
 
 func (u *CronjobService) Delete(req dto.CronjobBatchDelete) error {
+	if len(req.IDs) == 0 {
+		return nil
+	}
+
+	cronjobs, err := cronjobRepo.List(repo.WithByIDs(req.IDs))
+	if err != nil {
+		return err
+	}
+
+	cronjobMap := make(map[uint]model.Cronjob)
+	for _, c := range cronjobs {
+		cronjobMap[c.ID] = c
+	}
+
 	for _, id := range req.IDs {
-		cronjob, _ := cronjobRepo.Get(repo.WithByID(id))
-		if cronjob.ID == 0 {
+		cronjob, ok := cronjobMap[id]
+		if !ok || cronjob.ID == 0 {
 			return errors.New("find cronjob in db failed")
 		}
 		_ = os.RemoveAll(path.Join(global.Dir.DataDir, "task/shell", cronjob.Name))
