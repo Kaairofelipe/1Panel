@@ -1,0 +1,11 @@
+[default]
+extend-ignore-re = [
+    "(?i)broswer",
+    "(?i)datas",
+    "(?i)reques",
+    "(?i)entrys",
+    "(?i)fo"
+]
+
+[files]
+extend-exclude = ["frontend/src/lang/modules/es-es.ts", "docs/README.fr.md"]
