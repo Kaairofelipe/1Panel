@@ -1273,16 +1273,15 @@ func (f FileOp) TarGzExtractPro(src, dst string, secret string) error {
 		}
 	}
 
-	commands := ""
 	if len(secret) != 0 {
-		commands = fmt.Sprintf("openssl enc -d -aes-256-cbc -salt -k '%s' -in %s | tar -zxf - > /root/log", secret, src)
-		global.LOG.Debug(strings.ReplaceAll(commands, fmt.Sprintf(" '%s' ", secret), " ****** "))
+		global.LOG.Debug(fmt.Sprintf("openssl enc -d -aes-256-cbc -salt -k '******' -in '%s' | tar -zxf - > /root/log", src))
+		cmdMgr := cmd.NewCommandMgr(cmd.WithWorkDir(dst), cmd.WithIgnoreExist1())
+		return cmdMgr.RunBashCWithArgs(`openssl enc -d -aes-256-cbc -salt -k "$1" -in "$2" | tar -zxf - > /root/log`, "bash", secret, src)
 	} else {
-		commands = fmt.Sprintf("tar zxvf %s", src)
-		global.LOG.Debug(commands)
+		global.LOG.Debug(fmt.Sprintf("tar zxvf '%s'", src))
+		cmdMgr := cmd.NewCommandMgr(cmd.WithWorkDir(dst), cmd.WithIgnoreExist1())
+		return cmdMgr.Run("tar", "zxvf", src)
 	}
-	cmdMgr := cmd.NewCommandMgr(cmd.WithWorkDir(dst), cmd.WithIgnoreExist1())
-	return cmdMgr.RunBashC(commands)
 }
 func CopyCustomAppFile(srcPath, dstPath string) error {
 	if _, err := os.Stat(srcPath); os.IsNotExist(err) {
