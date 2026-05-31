@@ -170,19 +170,24 @@ func (f *FtpService) Create(req dto.FtpCreate) (uint, error) {
 }
 
 func (f *FtpService) Delete(req dto.BatchDeleteReq) error {
+	if len(req.Ids) == 0 {
+		return nil
+	}
 	client, err := toolbox.NewFtpClient()
 	if err != nil {
 		return err
 	}
-	for _, id := range req.Ids {
-		ftpItem, err := ftpRepo.Get(repo.WithByID(id))
-		if err != nil {
-			return err
-		}
-		_ = client.UserDel(ftpItem.User)
-		_ = ftpRepo.Delete(repo.WithByID(id))
+
+	ftpItems, err := ftpRepo.GetList(repo.WithByIDs(req.Ids))
+	if err != nil {
+		return err
 	}
-	return nil
+
+	for _, ftpItem := range ftpItems {
+		_ = client.UserDel(ftpItem.User)
+	}
+
+	return ftpRepo.Delete(repo.WithByIDs(req.Ids))
 }
 
 func (f *FtpService) Update(req dto.FtpUpdate) error {
