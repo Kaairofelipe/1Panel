@@ -2919,7 +2919,7 @@ const message = {
         browserCacheTime: '瀏覽器快取時間',
         browserCacheTimeHelper:
             '靜態資源在瀏覽器本機快取的時間，減少重複請求。到期前使用者重新整理頁面會直接使用本機快取。',
-        donotLinkeDB: '不關聯資料庫',
+        donotLinkDB: '不關聯資料庫',
         toWebsiteDir: '進入網站目錄',
         execParameters: '執行參數',
         extCommand: '補充指令',

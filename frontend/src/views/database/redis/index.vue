@@ -247,11 +247,11 @@ const changeDatabase = async () => {
 const loadDBOptions = async () => {
     try {
         const res = await listDatabases('redis,redis-cluster');
-        let datas = res.data || [];
+        let dataList = res.data || [];
         dbOptionsLocal.value = [];
         dbOptionsRemote.value = [];
         currentDBName.value = globalStore.currentRedisDB;
-        for (const item of datas) {
+        for (const item of dataList) {
             if (currentDBName.value && item.database === currentDBName.value) {
                 currentDB.value = item;
                 if (item.from === 'local') {

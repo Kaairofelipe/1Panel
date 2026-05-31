@@ -17,6 +17,7 @@ import (
 	"github.com/1Panel-dev/1Panel/agent/constant"
 	"github.com/1Panel-dev/1Panel/agent/global"
 	"github.com/1Panel-dev/1Panel/agent/utils/files"
+	"github.com/jackc/pgx/v5"
 )
 
 type Local struct {
@@ -32,7 +33,7 @@ func NewLocal(command []string, containerName, username, password, database stri
 }
 
 func (r *Local) Create(info CreateInfo) error {
-	createSql := fmt.Sprintf("CREATE DATABASE \"%s\"", info.Name)
+	createSql := fmt.Sprintf("CREATE DATABASE %s", pgx.Identifier{info.Name}.Sanitize())
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrDatabaseIsExist")
@@ -41,7 +42,7 @@ func (r *Local) Create(info CreateInfo) error {
 	}
 
 	if err := r.CreateUser(info, true); err != nil {
-		_ = r.ExecSQL(fmt.Sprintf("DROP DATABASE \"%s\"", info.Name), info.Timeout)
+		_ = r.ExecSQL(fmt.Sprintf("DROP DATABASE %s", pgx.Identifier{info.Name}.Sanitize()), info.Timeout)
 		return err
 	}
 
@@ -53,12 +54,12 @@ func (r *Local) ChangePrivileges(info Privileges) error {
 	if !info.SuperUser {
 		super = "NOSUPERUSER"
 	}
-	changeSql := fmt.Sprintf("ALTER USER \"%s\" WITH %s", info.Username, super)
+	changeSql := fmt.Sprintf("ALTER USER %s WITH %s", pgx.Identifier{info.Username}.Sanitize(), super)
 	return r.ExecSQL(changeSql, info.Timeout)
 }
 
 func (r *Local) CreateUser(info CreateInfo, withDeleteDB bool) error {
-	createSql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", info.Username, info.Password)
+	createSql := fmt.Sprintf("CREATE USER %s WITH PASSWORD '%s'", pgx.Identifier{info.Username}.Sanitize(), strings.ReplaceAll(info.Password, "'", "''"))
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrUserIsExist")
@@ -84,7 +85,7 @@ func (r *Local) CreateUser(info CreateInfo, withDeleteDB bool) error {
 			return err
 		}
 	}
-	grantStr := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE \"%s\" TO \"%s\"", info.Name, info.Username)
+	grantStr := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE %s TO %s", pgx.Identifier{info.Name}.Sanitize(), pgx.Identifier{info.Username}.Sanitize())
 	if err := r.ExecSQL(grantStr, info.Timeout); err != nil {
 		if withDeleteDB {
 			_ = r.Delete(DeleteInfo{
@@ -107,12 +108,12 @@ func (r *Local) Delete(info DeleteInfo) error {
 		if inUse && !info.ForceDelete {
 			return buserr.WithDetail("ErrInUsed", info.Name, nil)
 		}
-		dropSql := fmt.Sprintf("DROP DATABASE \"%s\"", info.Name)
+		dropSql := fmt.Sprintf("DROP DATABASE %s", pgx.Identifier{info.Name}.Sanitize())
 		if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 			return fmt.Errorf("drop database failed, err: %v", err)
 		}
 	}
-	dropSql := fmt.Sprintf("DROP USER \"%s\"", info.Username)
+	dropSql := fmt.Sprintf("DROP USER %s", pgx.Identifier{info.Username}.Sanitize())
 	if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 		return fmt.Errorf("drop user failed, err: %v", err)
 	}
@@ -120,7 +121,7 @@ func (r *Local) Delete(info DeleteInfo) error {
 }
 
 func (r *Local) ChangePassword(info PasswordChangeInfo) error {
-	changeSql := fmt.Sprintf("ALTER USER \"%s\" WITH PASSWORD '%s'", info.Username, info.Password)
+	changeSql := fmt.Sprintf("ALTER USER %s WITH PASSWORD '%s'", pgx.Identifier{info.Username}.Sanitize(), strings.ReplaceAll(info.Password, "'", "''"))
 	if err := r.ExecSQL(changeSql, info.Timeout); err != nil {
 		return err
 	}

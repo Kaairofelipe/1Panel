@@ -127,7 +127,7 @@ export const updateAppInstallSort = (items: Array<{ installID: number; sortOrder
     return http.post(`apps/installed/sort/update`, { items });
 };
 
-export const syncCutomAppStore = (req: App.AppStoreSync) => {
+export const syncCustomAppStore = (req: App.AppStoreSync) => {
     return http.post(`/custom/app/sync`, req);
 };
 

@@ -450,8 +450,8 @@ function initLoadCharts(item: Host.MonitorData) {
         grid: mobile.value ? { left: '15%', right: '15%', bottom: '20%' } : null,
         tooltip: {
             trigger: 'axis',
-            formatter: function (datas: any) {
-                return withCPUProcess(datas);
+            formatter: function (dataList: any) {
+                return withCPUProcess(dataList);
             },
         },
     };
@@ -472,8 +472,8 @@ function initCPUCharts(baseDate: any, items: Host.MonitorData) {
         ],
         tooltip: {
             trigger: 'axis',
-            formatter: function (datas: any) {
-                return withCPUProcess(datas);
+            formatter: function (dataList: any) {
+                return withCPUProcess(dataList);
             },
         },
 
@@ -496,8 +496,8 @@ function initMemCharts(baseDate: any, items: Host.MonitorData) {
         ],
         tooltip: {
             trigger: 'axis',
-            formatter: function (datas: any) {
-                return withMemProcess(datas);
+            formatter: function (dataList: any) {
+                return withMemProcess(dataList);
             },
         },
 
@@ -533,9 +533,9 @@ function initNetCharts(item: Host.MonitorData) {
         ],
         tooltip: {
             trigger: 'axis',
-            formatter: function (datas: any) {
-                let res = loadDate(datas[0].name);
-                for (const item of datas) {
+            formatter: function (dataList: any) {
+                let res = loadDate(dataList[0].name);
+                for (const item of dataList) {
                     res += loadSeries(item, computeSizeFromKBs(item.data), '');
                 }
                 return res;
@@ -595,9 +595,9 @@ function initIOCharts(item: Host.MonitorData) {
         ],
         tooltip: {
             trigger: 'axis',
-            formatter: function (datas: any) {
-                let res = loadDate(datas[0].name);
-                for (const item of datas) {
+            formatter: function (dataList: any) {
+                let res = loadDate(dataList[0].name);
+                for (const item of dataList) {
                     if (
                         item.seriesName === i18n.global.t('monitor.read') ||
                         item.seriesName === i18n.global.t('monitor.write')
@@ -644,10 +644,10 @@ function loadTopEmptyData() {
     return [{ value: 0, top: 0, unit: '' }];
 }
 
-function withCPUProcess(datas: any) {
+function withCPUProcess(dataList: any) {
     let tops;
-    let res = loadDate(datas[0].name);
-    for (const item of datas) {
+    let res = loadDate(dataList[0].name);
+    for (const item of dataList) {
         if (item.data?.top) {
             tops = item.data?.top;
         }
@@ -690,12 +690,12 @@ function withCPUProcess(datas: any) {
     return res;
 }
 
-function withMemProcess(datas: any) {
-    let res = loadDate(datas[0].name);
-    for (const item of datas) {
+function withMemProcess(dataList: any) {
+    let res = loadDate(dataList[0].name);
+    for (const item of dataList) {
         res += loadSeries(item, item.data.value ? item.data.value : item.data, ' %');
     }
-    if (!datas[0].data.top) {
+    if (!dataList[0].data.top) {
         return res;
     }
     res += `
@@ -712,7 +712,7 @@ function withMemProcess(datas: any) {
         </thead>
         <tbody>
     `;
-    for (const item of datas) {
+    for (const item of dataList) {
         for (const row of item.data.top) {
             res += `
                   <tr>
