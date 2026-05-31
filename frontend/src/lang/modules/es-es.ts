@@ -2815,7 +2815,7 @@ const message = {
         webUI: 'Dirección web',
         webUIPlaceholder: 'Ejemplo: ejemplo.com:8080/login',
         defaultWebDomain: 'Dirección de acceso predeterminada',
-        defaultWebDomainHepler: 'Si el puerto es 8080, el acceso será http(s)://dirección:8080',
+        defaultWebDomainHelper: 'Si el puerto es 8080, el acceso será http(s)://dirección:8080',
         webUIConfig:
             'No hay dirección de acceso predeterminada. Configúrela en los parámetros de la app o en la configuración del panel.',
         toLink: 'Abrir',
@@ -3682,7 +3682,7 @@ const message = {
             reqMap: 'Mapa de ataques (últimos 30 días)',
             resource: 'Fuente',
             count: 'Cantidad',
-            hight: 'Alto',
+            height: 'Alto',
             low: 'Bajo',
             reqCount: 'Solicitudes',
             interceptCount: 'Número de intercepciones',

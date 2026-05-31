@@ -20,21 +20,22 @@ import (
 
 func AddScanTask(taskItem *task.Task, clam model.Clam, timeNow string) {
 	taskItem.AddSubTask(i18n.GetWithName("Clamscan", clam.Path), func(t *task.Task) error {
-		strategy := ""
+		args := []string{"--fdpass"}
 		switch clam.InfectedStrategy {
 		case "remove":
-			strategy = "--remove"
+			args = append(args, "--remove")
 		case "move", "copy":
 			dir := path.Join(clam.InfectedDir, "1panel-infected", clam.Name, timeNow)
 			taskItem.Log("infected dir: " + dir)
 			if _, err := os.Stat(dir); err != nil {
 				_ = os.MkdirAll(dir, os.ModePerm)
 			}
-			strategy = fmt.Sprintf("--%s=%s", clam.InfectedStrategy, dir)
+			args = append(args, fmt.Sprintf("--%s=%s", clam.InfectedStrategy, dir))
 		}
-		taskItem.Logf("clamdscan --fdpass %s %s", strategy, clam.Path)
+		args = append(args, clam.Path)
+		taskItem.Logf("clamdscan %s", strings.Join(args, " "))
 		mgr := cmd.NewCommandMgr(cmd.WithIgnoreExist1(), cmd.WithTimeout(time.Duration(clam.Timeout)*time.Second), cmd.WithTask(*taskItem))
-		if err := mgr.RunBashCf("clamdscan --fdpass %s %s", strategy, clam.Path); err != nil {
+		if err := mgr.Run("clamdscan", args...); err != nil {
 			return fmt.Errorf("clamdscan failed, %v", err)
 		}
 		return nil
