@@ -1,12 +1,10 @@
 package files
 
 import (
-	"bufio"
 	"fmt"
 	"io/fs"
 	"net/http"
 	"os"
-	"os/exec"
 	"path"
 	"path/filepath"
 	"sort"
@@ -147,38 +145,27 @@ func handleExpansion(file *FileInfo, op FileOption) error {
 }
 
 func (f *FileInfo) search(search string, count int) (files []FileSearchInfo, total int, err error) {
-	cmd := exec.Command("find", f.Path, "-name", fmt.Sprintf("*%s*", search))
-	output, err := cmd.StdoutPipe()
-	if err != nil {
-		return
-	}
-	if err = cmd.Start(); err != nil {
-		return
-	}
-	defer func() {
-		_ = cmd.Wait()
-		_ = cmd.Process.Kill()
-	}()
-
-	scanner := bufio.NewScanner(output)
-	for scanner.Scan() {
-		line := scanner.Text()
-		info, err := os.Stat(line)
+	err = filepath.WalkDir(f.Path, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
-			continue
+			return nil
 		}
-		total++
-		if total > count {
-			continue
+		if path == f.Path {
+			return nil
 		}
-		files = append(files, FileSearchInfo{
-			Path:     line,
-			FileInfo: info,
-		})
-	}
-	if err = scanner.Err(); err != nil {
-		return
-	}
+		if strings.Contains(d.Name(), search) {
+			total++
+			if total <= count {
+				info, err := d.Info()
+				if err == nil {
+					files = append(files, FileSearchInfo{
+						Path:     path,
+						FileInfo: info,
+					})
+				}
+			}
+		}
+		return nil
+	})
 	return
 }
 
