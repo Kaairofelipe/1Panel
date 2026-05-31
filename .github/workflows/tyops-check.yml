@@ -8,4 +8,4 @@ jobs:
     - name: Checkout Actions Repository
       uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
     - name: Check spelling
-      uses: crate-ci/typos@ccafba17281f6d35272a246d61d1ea34cf64b2df
+      uses: crate-ci/typos@539b4ae0f98b1262eb4c5b12e2c8f8bdf90fb8c5
