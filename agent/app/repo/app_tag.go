@@ -15,6 +15,7 @@ type IAppTagRepo interface {
 	DeleteByAppIds(ctx context.Context, appIds []uint) error
 	DeleteAll(ctx context.Context) error
 	GetByAppId(appId uint) ([]model.AppTag, error)
+	GetByAppIds(appIds []uint) ([]model.AppTag, error)
 	GetByTagIds(tagIds []uint) ([]model.AppTag, error)
 	DeleteBy(ctx context.Context, opts ...DBOption) error
 	GetFirst(ctx context.Context, opts ...DBOption) (*model.AppTag, error)
@@ -54,6 +55,14 @@ func (a AppTagRepo) DeleteAll(ctx context.Context) error {
 func (a AppTagRepo) GetByAppId(appId uint) ([]model.AppTag, error) {
 	var appTags []model.AppTag
 	if err := getDb().Where("app_id = ?", appId).Find(&appTags).Error; err != nil {
+		return nil, err
+	}
+	return appTags, nil
+}
+
+func (a AppTagRepo) GetByAppIds(appIds []uint) ([]model.AppTag, error) {
+	var appTags []model.AppTag
+	if err := getDb().Where("app_id in (?)", appIds).Find(&appTags).Error; err != nil {
 		return nil, err
 	}
 	return appTags, nil

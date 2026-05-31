@@ -119,11 +119,43 @@ func (a AppService) PageApp(ctx *gin.Context, req request.AppSearch) (*response.
 		return nil, err
 	}
 	appDTOs := make([]*response.AppItem, 0)
+	if len(apps) == 0 {
+		res.Items = appDTOs
+		res.Total = total
+		return res, nil
+	}
+
 	info := &dto.SettingInfo{}
 	if req.Type == "php" {
 		info, _ = NewISettingService().GetSettingInfo()
 	}
 	lang := strings.ToLower(common.GetLang(ctx))
+
+	var appIds []uint
+	for _, ap := range apps {
+		appIds = append(appIds, ap.ID)
+	}
+	appTagNamesMap, _ := getBatchAppTags(appIds, lang)
+
+	allDetails, _ := appDetailRepo.GetBy(appDetailRepo.WithAppIdsIn(appIds))
+	appDetailMap := make(map[uint][]uint)
+	var detailIds []uint
+	for _, d := range allDetails {
+		detailIds = append(detailIds, d.ID)
+		appDetailMap[d.AppId] = append(appDetailMap[d.AppId], d.ID)
+	}
+	allRuntimes, _ := runtimeRepo.List(runtimeRepo.WithDetailIdsIn(detailIds))
+	detailRuntimeMap := make(map[uint]bool)
+	for _, r := range allRuntimes {
+		detailRuntimeMap[r.AppDetailId] = true
+	}
+
+	allInstalls, _ := appInstallRepo.ListBy(context.Background(), appInstallRepo.WithAppIdsIn(appIds))
+	appInstallMap := make(map[uint]bool)
+	for _, i := range allInstalls {
+		appInstallMap[i.AppId] = true
+	}
+
 	for _, ap := range apps {
 		if req.Type == "php" {
 			if !global.CONF.Base.IsOffLine && (ap.RequiredPanelVersion == 0 || !common.CompareAppVersion(common.GetSystemVersion(info.SystemVersion), fmt.Sprintf("%f", ap.RequiredPanelVersion))) {
@@ -142,27 +174,18 @@ func (a AppService) PageApp(ctx *gin.Context, req request.AppSearch) (*response.
 			BatchInstallSupport: ap.BatchInstallSupport,
 		}
 		appDTOs = append(appDTOs, appDTO)
-		tags, err := getAppTags(ap.ID, lang)
-		if err != nil {
-			continue
-		}
-		for _, tag := range tags {
-			appDTO.Tags = append(appDTO.Tags, tag.Name)
-		}
+
+		appDTO.Tags = appTagNamesMap[ap.ID]
+
 		if ap.Type == constant.RuntimePHP || ap.Type == constant.RuntimeGo || ap.Type == constant.RuntimeNode || ap.Type == constant.RuntimePython || ap.Type == constant.RuntimeJava || ap.Type == constant.RuntimeDotNet {
-			details, _ := appDetailRepo.GetBy(appDetailRepo.WithAppId(ap.ID))
-			var ids []uint
-			if len(details) == 0 {
-				continue
+			for _, dId := range appDetailMap[ap.ID] {
+				if detailRuntimeMap[dId] {
+					appDTO.Installed = true
+					break
+				}
 			}
-			for _, d := range details {
-				ids = append(ids, d.ID)
-			}
-			runtimes, _ := runtimeRepo.List(runtimeRepo.WithDetailIdsIn(ids))
-			appDTO.Installed = len(runtimes) > 0
 		} else {
-			installs, _ := appInstallRepo.ListBy(context.Background(), appInstallRepo.WithAppId(ap.ID))
-			appDTO.Installed = len(installs) > 0
+			appDTO.Installed = appInstallMap[ap.ID]
 		}
 	}
 	res.Items = appDTOs
