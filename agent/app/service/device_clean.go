@@ -282,7 +282,7 @@ func loadUpgradeTree(fileOp fileUtils.FileOp) dto.CleanTree {
 			if copies == 0 || copies > len(upgradeTree.Children) {
 				copies = len(upgradeTree.Children)
 			}
-			for i := 0; i < copies; i++ {
+			for i := range upgradeTree.Children[:copies] {
 				upgradeTree.Children[i].IsCheck = false
 				upgradeTree.Children[i].IsRecommend = false
 			}
