@@ -55,6 +55,9 @@ func TestBaseApi_CreateScript(t *testing.T) {
 
 	api := &BaseApi{}
 
+	originalScriptService := scriptService
+	defer func() { scriptService = originalScriptService }()
+
 	t.Run("success", func(t *testing.T) {
 		mockService := &MockScriptService{
 			CreateFunc: func(req dto.ScriptOperate) error {
