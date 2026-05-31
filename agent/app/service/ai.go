@@ -77,7 +77,7 @@ func (u *AIToolService) LoadDetail(name string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	stdout, err := cmd.RunDefaultWithStdoutBashCf("docker exec %s ollama show %s", containerName, name)
+	stdout, err := cmd.NewCommandMgr().RunWithStdout("docker", "exec", containerName, "ollama", "show", name)
 	if err != nil {
 		return "", err
 	}
@@ -137,7 +137,7 @@ func (u *AIToolService) Close(name string) error {
 	if err != nil {
 		return err
 	}
-	if err := cmd.RunDefaultBashCf("docker exec %s ollama stop %s", containerName, name); err != nil {
+	if err := cmd.NewCommandMgr().Run("docker", "exec", containerName, "ollama", "stop", name); err != nil {
 		return fmt.Errorf("handle ollama stop %s failed, %v", name, err)
 	}
 	return nil
@@ -194,7 +194,7 @@ func (u *AIToolService) Delete(req dto.ForceDelete) error {
 	}
 	for _, item := range ollamaList {
 		if item.Status != constant.StatusDeleted {
-			if err := cmd.RunDefaultBashCf("docker exec %s ollama rm %s", containerName, item.Name); err != nil && !req.ForceDelete {
+			if err := cmd.NewCommandMgr().Run("docker", "exec", containerName, "ollama", "rm", item.Name); err != nil && !req.ForceDelete {
 				return fmt.Errorf("handle ollama rm %s failed, %v", item.Name, err)
 			}
 		}
@@ -210,7 +210,7 @@ func (u *AIToolService) Sync() ([]dto.OllamaModelDropList, error) {
 	if err != nil {
 		return nil, err
 	}
-	stdout, err := cmd.RunDefaultWithStdoutBashCf("docker exec %s ollama list", containerName)
+	stdout, err := cmd.NewCommandMgr().RunWithStdout("docker", "exec", containerName, "ollama", "list")
 	if err != nil {
 		return nil, err
 	}
@@ -382,7 +382,7 @@ func LoadContainerName() (string, error) {
 }
 
 func loadModelSize(name string, containerName string) (string, error) {
-	stdout, err := cmd.RunDefaultWithStdoutBashCf("docker exec %s ollama list | grep %s", containerName, name)
+	stdout, err := cmd.NewCommandMgr().RunWithStdout("docker", "exec", containerName, "ollama", "list")
 	if err != nil {
 		return "", err
 	}
@@ -392,7 +392,9 @@ func loadModelSize(name string, containerName string) (string, error) {
 		if len(parts) < 5 {
 			continue
 		}
-		return parts[2] + " " + parts[3], nil
+		if parts[0] == name {
+			return parts[2] + " " + parts[3], nil
+		}
 	}
 	return "", fmt.Errorf("no such model %s in ollama list, std: %s", name, stdout)
 }
