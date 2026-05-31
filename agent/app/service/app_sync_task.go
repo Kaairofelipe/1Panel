@@ -279,9 +279,9 @@ func (c *appSyncContext) syncAppIconsAndDetails() error {
 	}()
 
 	var (
-		completed    int
-		icon200Count int
-		icon304Count int
+		completed     int
+		icon200Count  int
+		icon304Count  int
 		iconFailCount int
 	)
 	milestones := [4]int{totalWork / 4, totalWork / 2, totalWork * 3 / 4, totalWork}
