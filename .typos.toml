@@ -1,0 +1,45 @@
+[default.extend-words]
+datas = "datas"
+Datas = "Datas"
+fo = "fo"
+Cutom = "Cutom"
+fileds = "fileds"
+Broswer = "Broswer"
+reques = "reques"
+lso = "lso"
+sistem = "sistem"
+Sistem = "Sistem"
+Modul = "Modul"
+modul = "modul"
+Padam = "Padam"
+padam = "padam"
+Rrror = "Rrror"
+Cahe = "Cahe"
+versionn = "versionn"
+Websit = "Websit"
+conetnt = "conetnt"
+Linke = "Linke"
+respons = "respons"
+Respons = "Respons"
+soket = "soket"
+Analisis = "Analisis"
+analisis = "analisis"
+seret = "seret"
+Hepler = "Hepler"
+blok = "blok"
+Blok = "Blok"
+Templat = "Templat"
+Visiable = "Visiable"
+segmen = "segmen"
+tema = "tema"
+maka = "maka"
+cros = "cros"
+
+[files]
+extend-exclude = [
+    "docs/**",
+    ".github/workflows/tyops-check.yml",
+    "core/i18n/**",
+    "frontend/src/lang/**",
+    "frontend/lint-staged.config.js"
+]
