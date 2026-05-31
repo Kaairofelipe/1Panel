@@ -1,0 +1,6 @@
+[files]
+extend-exclude = [
+    "core/i18n/lang/*.yaml",
+    "docs/*.md",
+    "frontend/src/lang/modules/*.ts"
+]
