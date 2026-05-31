@@ -9,3 +9,5 @@ jobs:
       uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5
     - name: Check spelling
       uses: crate-ci/typos@f8a58b6b53f2279f71eb605f03a4ae4d10608f45
+      with:
+        config: .github/typos.toml
