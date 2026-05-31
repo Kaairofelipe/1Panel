@@ -313,10 +313,10 @@ func resolveByDB(dbItem *gorm.DB, values map[string]interface{}, beforeFunctions
 			}
 			var names []string
 			if funcs.IsList {
-				sql := fmt.Sprintf("SELECT %s FROM %s where %s in (?);", dbItem.Statement.Quote(funcs.OutputColumn), dbItem.Statement.Quote(funcs.DB), dbItem.Statement.Quote(funcs.InputColumn))
+				sql := fmt.Sprintf("SELECT %s FROM %s where %s in (?);", funcs.OutputColumn, funcs.DB, funcs.InputColumn)
 				_ = dbItem.Raw(sql, value).Scan(&names)
 			} else {
-				sql := fmt.Sprintf("select %s from %s where %s = ?;", dbItem.Statement.Quote(funcs.OutputColumn), dbItem.Statement.Quote(funcs.DB), dbItem.Statement.Quote(funcs.InputColumn))
+				sql := fmt.Sprintf("select %s from %s where %s = ?;", funcs.OutputColumn, funcs.DB, funcs.InputColumn)
 				_ = dbItem.Raw(sql, value).Scan(&names)
 			}
 			values[funcs.OutputValue] = strings.Join(names, ",")
