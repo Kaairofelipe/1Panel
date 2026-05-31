@@ -24,6 +24,7 @@ type IAppInstallRepo interface {
 	WithStatus(status string) DBOption
 	WithServiceName(serviceName string) DBOption
 	WithContainerName(containerName string) DBOption
+	WithAppIdsIn(appIds []uint) DBOption
 	WithPort(port int) DBOption
 	WithIdNotInWebsite() DBOption
 	WithIDNotIs(id uint) DBOption
@@ -95,6 +96,12 @@ func (a *AppInstallRepo) WithServiceName(serviceName string) DBOption {
 func (a *AppInstallRepo) WithContainerName(containerName string) DBOption {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where("container_name = ?", containerName)
+	}
+}
+
+func (a *AppInstallRepo) WithAppIdsIn(appIds []uint) DBOption {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where("app_id in (?)", appIds)
 	}
 }
 

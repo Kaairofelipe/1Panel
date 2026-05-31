@@ -14,6 +14,7 @@ type AppDetailRepo struct {
 type IAppDetailRepo interface {
 	WithVersion(version string) DBOption
 	WithAppId(id uint) DBOption
+	WithAppIdsIn(ids []uint) DBOption
 	WithIgnored() DBOption
 	GetFirst(opts ...DBOption) (model.AppDetail, error)
 	Update(ctx context.Context, detail model.AppDetail) error
@@ -38,6 +39,12 @@ func (a AppDetailRepo) WithVersion(version string) DBOption {
 func (a AppDetailRepo) WithAppId(id uint) DBOption {
 	return func(g *gorm.DB) *gorm.DB {
 		return g.Where("app_id = ?", id)
+	}
+}
+
+func (a AppDetailRepo) WithAppIdsIn(ids []uint) DBOption {
+	return func(g *gorm.DB) *gorm.DB {
+		return g.Where("app_id in (?)", ids)
 	}
 }
 

@@ -2016,6 +2016,45 @@ func getAppTags(appID uint, lang string) ([]response.TagDTO, error) {
 	return res, nil
 }
 
+func getBatchAppTags(appIds []uint, lang string) (map[uint][]string, error) {
+	appTags, err := appTagRepo.GetByAppIds(appIds)
+	if err != nil {
+		return nil, err
+	}
+	var tagIds []uint
+	appTagMap := make(map[uint][]uint)
+	tagIdSet := make(map[uint]struct{})
+	for _, at := range appTags {
+		if _, ok := tagIdSet[at.TagId]; !ok {
+			tagIds = append(tagIds, at.TagId)
+			tagIdSet[at.TagId] = struct{}{}
+		}
+		appTagMap[at.AppId] = append(appTagMap[at.AppId], at.TagId)
+	}
+	tags, err := tagRepo.GetByIds(tagIds)
+	if err != nil {
+		return nil, err
+	}
+	tagMap := make(map[uint]model.Tag)
+	for _, t := range tags {
+		tagMap[t.ID] = t
+	}
+
+	res := make(map[uint][]string)
+	for appId, tIds := range appTagMap {
+		for _, tagId := range tIds {
+			if t, ok := tagMap[tagId]; ok {
+				var translations = make(map[string]string)
+				_ = json.Unmarshal([]byte(t.Translations), &translations)
+				if name, ok := translations[lang]; ok {
+					res[appId] = append(res[appId], name)
+				}
+			}
+		}
+	}
+	return res, nil
+}
+
 func handleSiteDir(app model.App, appDetail model.AppDetail, req request.AppInstallCreate, t *task.Task) error {
 	if app.Key == "openresty" && (app.Resource == "remote" || app.Resource == "custom") && common.CompareVersion(appDetail.Version, "1.27") {
 		if dir, ok := req.Params["WEBSITE_DIR"]; ok {
