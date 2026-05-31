@@ -279,14 +279,15 @@ func (u *HostService) Create(req dto.HostOperate) (*dto.HostInfo, error) {
 }
 
 func (u *HostService) Delete(ids []uint) error {
-	for _, id := range ids {
-		host, _ := hostRepo.Get(repo.WithByID(id))
-		if host.ID == 0 {
-			return buserr.New("ErrRecordNotFound")
-		}
-		if err := hostRepo.Delete(repo.WithByID(id)); err != nil {
-			return err
-		}
+	if len(ids) == 0 {
+		return nil
+	}
+	hosts, _ := hostRepo.GetList(repo.WithByIDs(ids))
+	if len(hosts) != len(ids) {
+		return buserr.New("ErrRecordNotFound")
+	}
+	if err := hostRepo.Delete(repo.WithByIDs(ids)); err != nil {
+		return err
 	}
 	return nil
 }
