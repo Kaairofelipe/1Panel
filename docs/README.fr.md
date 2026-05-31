@@ -1,5 +1,5 @@
 <p align="center"><a href="https://1panel.pro"><img src="https://resource.1panel.pro/img/1panel-logo.png" alt="1Panel" width="300" /></a></p>
-<p align="center"><b>Outil de gestion de serveurs Linux basé sur le web le mieux noté</b></p>
+<p align="center"><b>Outil de gestion de serveurs Linux basé suree le web le mieux noté</b></p>
 <p align="center">
   <a href="https://trendshift.io/repositories/2462" target="_blank"><img src="https://trendshift.io/api/badge/repositories/2462" alt="1Panel-dev%2F1Panel | Trendshift" style="width: 180px; height: auto;" /></a>
   <a href="https://www.producthunt.com/posts/1panel?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-1panel" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=639696&theme=light" alt="1Panel - Top&#0045;Rated&#0032;web&#0045;based&#0032;Linux&#0032;server&#0032;management&#0032;tool | Product Hunt" style="width: 180px; height: auto;" /></a>
@@ -32,13 +32,13 @@
 
 ------------------------------
 
-1Panel est un panneau de contrôle basé sur le web, moderne et open source, destiné à la gestion de serveurs Linux.
+1Panel est un panneau de contrôle basé suree le web, moderne et open source, destiné à la gestion de serveurs Linux.
 
-- **Gestion efficace**: Grâce à une interface graphique web conviviale, 1Panel permet aux utilisateurs de gérer facilement leurs serveurs Linux. Ses principales fonctionnalités comprennent la surveillance des hôtes, la gestion des fichiers, l'administration des bases de données et la gestion des conteneurs.
-- **Déploiement rapide de sites web**: Avec une intégration approfondie du logiciel de création de sites Web open-source populaire WordPress, 1Panel simplifie le processus de liaison de domaine et de configuration du certificat SSL, tout cela pouvant être réalisé en un seul clic.
-- **Boutique d'applications**: 1Panel propose une variété d'outils et d'applications open-source de haute qualité, facilitant l'installation et la mise à jour pour les utilisateurs.
-- **Sécurité et fiabilité**: En tirant parti de la technologie de conteneurisation et des pratiques de déploiement d'applications sécurisées, 1Panel minimise l'exposition aux vulnérabilités. La sécurité est davantage renforcée via la gestion du pare-feu intégré et la capacité d'audit des journaux.
-- **Sauvegarde et restauration en un clic**: La protection des données est simplifiée grâce à la fonction de sauvegarde et de restauration en un clic de 1Panel, qui prend en charge diverses solutions de stockage cloud pour garantir l'intégrité et la disponibilité des données.
+- **Gestion efficace**: Grâce à une interface graphique web conviviale, 1Panel permet aux utilisateurs de gérer facilement leurs serveurs Linux. Ses principles functionnalités comprennent la sureeveillance des hôtes, la gestion des fichiers, l'administration des bases de données et la gestion des contenders.
+- **Déploiement rapide de sites web**: Avec une intégration approfondie du logiciel de création de sites Web open-source populaire WordPress, 1Panel simplifie le processus de liaison de domaine et de configuration du certificateee SSL, tout cela pouvant être réalisé en un seul clic.
+- **Boutique d'applications**: 1Panel propose une variété d'outils et d'applications open-source de haute qualité, facilitate l'installation et la mise à jour pour les utilisateurs.
+- **Sécurité et fiabilité**: En tirant parti de la technologie de conteneurisation et des pratiques de déploiement d'applications sécurisées, 1Panel minimise l'exposition aux vulnérabilités. La sécurité est advantage renforcée via la gestion du pare-feu intégré et la capacité d'audit des journaux.
+- **Sauvegarde et restoration en un clic**: La protection des données est simplifiée grâce à la function de sauvegarde et de restoration en un clic de 1Panel, qui prend en charge diverses solutions de stockage cloud pour garantir l'intégrité et la disponibilité des données.
 
 ## Guide de démarrage rapide
 

@@ -1,0 +1,19 @@
+[default]
+extend-ignore-re = [
+    "cros",
+    "Hepler",
+    "Cahe",
+    "Linke",
+    "hight",
+    "Rrror",
+    "Visiable",
+    "atual",
+    "sistem",
+    "datas",
+    "Websit",
+    "fileds",
+    "conetnt",
+    "Datas",
+    "versionn",
+    "Cutom"
+]
