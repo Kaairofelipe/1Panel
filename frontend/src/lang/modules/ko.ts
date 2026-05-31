@@ -811,7 +811,7 @@ const message = {
             groupSessionScope: '그룹 세션 범위',
             groupSessionScopeGroup: '그룹 공유',
             groupSessionScopeGroupSender: '발신자별',
-            sharedMemoryAcrossConversations: '대화 간 메모리 공유',
+            sharedMemoryAcrossssConversations: '대화 간 메모리 공유',
             asyncMode: '비동기 모드',
             ackText: '확인 메시지',
             ackTextDefault: '작업을 받았습니다. 처리 중입니다...',
@@ -2177,7 +2177,7 @@ const message = {
         SFTP: 'SFTP',
         WebDAV: 'WebDAV',
         WebDAVAlist: 'Alist 에 WebDAV 를 연결하는 방법은 공식 문서를 참조하십시오.',
-        OneDrive: 'Microsoft OneDrive',
+        OneDrive: 'Microsssoft OneDrive',
         isCN: 'Century Internet',
         isNotCN: '국제 버전',
         client_id: '클라이언트 ID',
@@ -2317,7 +2317,7 @@ const message = {
         mfaTitleHelper:
             '제목은 다른 1Panel 호스트를 구별하는 데 사용됩니다. 제목을 수정한 후 다시 스캔하거나 비밀키를 수동으로 추가하세요.',
         mfaIntervalHelper:
-            '갱신 간격을 변경한 후 다시 스캔하거나 비밀키를 수동으로 추가하세요.\n일부 인증 앱은 30초 간격만 지원합니다(예: Google/Microsoft Authenticator).',
+            '갱신 간격을 변경한 후 다시 스캔하거나 비밀키를 수동으로 추가하세요.\n일부 인증 앱은 30초 간격만 지원합니다(예: Google/Microsssoft Authenticator).',
         mfaAlert:
             '일회용 토큰은 현재 시간을 기반으로 생성된 동적 6자리 숫자입니다. 서버 시간이 동기화되어 있는지 확인하세요.',
         mfaHelper: '활성화 후 일회용 토큰 검증이 필요합니다.',
@@ -2714,7 +2714,7 @@ const message = {
         webUI: '웹 접속 주소',
         webUIPlaceholder: '예: example.com:8080/login',
         defaultWebDomain: '기본 접속 주소',
-        defaultWebDomainHepler: '애플리케이션 포트가 8080인 경우 접속 주소는 http(s)://기본 접속 주소:8080입니다',
+        defaultWebDomainHelper: '애플리케이션 포트가 8080인 경우 접속 주소는 http(s)://기본 접속 주소:8080입니다',
         webUIConfig:
             '현재 노드에 기본 접근 주소가 설정되지 않았습니다. 애플리케이션 매개변수에서 설정하거나 패널 설정으로 이동하여 설정하세요!',
         toLink: '이동',
@@ -3101,7 +3101,7 @@ const message = {
         browserCacheTime: '브라우저 캐시 시간',
         browserCacheTimeHelper:
             '정적 리소스가 브라우저 로컬에 캐시되는 시간, 중복 요청을 줄입니다. 유효기간 전에 사용자가 페이지를 새로 고치면 로컬 캐시가 직접 사용됩니다.',
-        donotLinkeDB: '데이터베이스 연결하지 않기',
+        donotLinkDB: '데이터베이스 연결하지 않기',
         toWebsiteDir: '웹사이트 디렉토리로 이동',
         execParameters: '실행 매개변수',
         extCommand: '추가 명령',
@@ -3120,8 +3120,8 @@ const message = {
         syncHtmlHelper: 'PHP 및 정적 웹사이트에 동기화',
         wafValueHelper: '값',
         parentWbeiste: '상위 웹사이트',
-        shareCahe: '캐시 수 메모리 크기',
-        shareCaheHelper: '메모리 1M당 약 8000개의 캐시 객체를 저장할 수 있습니다',
+        shareCache: '캐시 수 메모리 크기',
+        shareCacheHelper: '메모리 1M당 약 8000개의 캐시 객체를 저장할 수 있습니다',
         cacheExpireJHelper: '만료 후 미적중 시 캐시가 삭제됩니다',
     },
     php: {
@@ -3585,7 +3585,7 @@ const message = {
             reqMap: '공격 맵 (최근 30일)',
             resource: '출처',
             count: '수량',
-            hight: '높음',
+            high: '높음',
             low: '낮음',
             reqCount: '요청 수',
             interceptCount: '차단 수',
@@ -3898,7 +3898,7 @@ const message = {
             excludeUri: 'URI 제외',
             top100Helper: '상위 100 개의 데이터를 표시합니다',
             logSaveDay: '로그 보관 기간 (일)',
-            cros: '크롬 OS',
+            crosss: '크롬 OS',
             theworld: '더월드 브라우저',
             edge: '마이크로소프트 엣지',
             maxthon: '맥스톤 브라우저',

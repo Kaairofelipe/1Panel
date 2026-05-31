@@ -824,7 +824,7 @@ const message = {
             groupSessionScope: 'Область групповой сессии',
             groupSessionScopeGroup: 'Общая для группы',
             groupSessionScopeGroupSender: 'По отправителю',
-            sharedMemoryAcrossConversations: 'Общая память между диалогами',
+            sharedMemoryAcrossssConversations: 'Общая память между диалогами',
             asyncMode: 'Асинхронный режим',
             ackText: 'Текст подтверждения',
             ackTextDefault: 'Задача получена, выполняется...',
@@ -2244,7 +2244,7 @@ const message = {
         SFTP: 'SFTP',
         WebDAV: 'WebDAV',
         WebDAVAlist: 'Подключение WebDAV к Alist можно найти в официальной документации',
-        OneDrive: 'Microsoft OneDrive',
+        OneDrive: 'Microsssoft OneDrive',
         isCN: 'Китайский интернет',
         isNotCN: 'Международная версия',
         client_id: 'ID клиента',
@@ -2393,7 +2393,7 @@ const message = {
         mfaTitleHelper:
             'Заголовок используется для различения разных хостов 1Panel. Отсканируйте снова или вручную добавьте секретный ключ после изменения заголовка.',
         mfaIntervalHelper:
-            'После изменения интервала обновления снова отсканируйте QR-код или вручную добавьте секретный ключ.\nНекоторые приложения-аутентификаторы поддерживают только интервал 30 секунд (например, Google/Microsoft Authenticator).',
+            'После изменения интервала обновления снова отсканируйте QR-код или вручную добавьте секретный ключ.\nНекоторые приложения-аутентификаторы поддерживают только интервал 30 секунд (например, Google/Microsssoft Authenticator).',
         mfaAlert:
             'Одноразовый токен - это динамически генерируемое 6-значное число, основанное на текущем времени. Убедитесь, что время сервера синхронизировано.',
         mfaHelper: 'После включения потребуется проверка одноразового токена.',
@@ -2811,7 +2811,7 @@ const message = {
         webUI: 'Веб-адрес доступа',
         webUIPlaceholder: 'Например: example.com:8080/login',
         defaultWebDomain: 'Адрес доступа по умолчанию',
-        defaultWebDomainHepler: 'Если порт приложения 8080, то адрес будет http(s)://адрес по умолчанию:8080',
+        defaultWebDomainHelper: 'Если порт приложения 8080, то адрес будет http(s)://адрес по умолчанию:8080',
         webUIConfig:
             'Текущий узел не имеет настроенного адреса доступа по умолчанию. Пожалуйста, настройте его в параметрах приложения или перейдите в настройки панели!',
         toLink: 'Перейти',
@@ -3194,7 +3194,7 @@ const message = {
         saveCustom: 'Сохранить как Шаблон',
         rainyun: 'Rainyun',
         volcengine: 'Volcengine',
-        runtimePortHelper: 'O ambiente de runtime atual possui várias portas. Por favor, selecione uma porta de proxy.',
+        runtimePortHelper: 'O ambiente de runtime actual possui várias portas. Por favor, selecione uma porta de proxy.',
         runtimePortWarn: 'В текущей среде выполнения нет портов, невозможно проксировать',
         cacheWarn: 'Пожалуйста, сначала выключите кэш в обратном прокси',
         loadBalanceHelper:
@@ -3213,7 +3213,7 @@ const message = {
         browserCacheTime: 'Время кеширования в браузере',
         browserCacheTimeHelper:
             'Время, в течение которого статические ресурсы кешируются локально в браузере, уменьшая повторные запросы. Пользователи будут использовать локальный кеш напрямую, если срок его действия не истек при обновлении страницы.',
-        donotLinkeDB: 'Не связывать с базой данных',
+        donotLinkDB: 'Не связывать с базой данных',
         toWebsiteDir: 'Перейти в каталог сайта',
         execParameters: 'Параметры выполнения',
         extCommand: 'Дополнительная команда',
@@ -3233,8 +3233,8 @@ const message = {
         wafValueHelper: 'Значение',
         createDb: 'Создать базу данных',
         parentWbeiste: 'Родительский сайт',
-        shareCahe: 'Размер памяти под кэш',
-        shareCaheHelper: 'На 1M памяти можно хранить около 8000 кэш-объектов',
+        shareCache: 'Размер памяти под кэш',
+        shareCacheHelper: 'На 1M памяти можно хранить около 8000 кэш-объектов',
         cacheExpireJHelper: 'Кэш будет удален, если после истечения срока по нему не было обращений',
     },
     php: {
@@ -3714,7 +3714,7 @@ const message = {
             reqMap: 'Карта атак (последние 30 дней)',
             resource: 'Источник',
             count: 'Количество',
-            hight: 'Высокий',
+            high: 'Высокий',
             low: 'Низкий',
             reqCount: 'Запросы',
             interceptCount: 'Количество перехватов',
@@ -4034,9 +4034,9 @@ const message = {
             excludeUri: 'Исключить URI',
             top100Helper: 'Показать топ 100 данных',
             logSaveDay: 'Период хранения логов (дни)',
-            cros: 'Chrome OS',
+            crosss: 'Chrome OS',
             theworld: 'Браузер TheWorld',
-            edge: 'Microsoft Edge',
+            edge: 'Microsssoft Edge',
             maxthon: 'Браузер Maxthon',
             monitorStatusHelper: 'Мониторинг не включён, пожалуйста, включите его в настройках',
             excludeIp: 'Исключить IP-адреса',
@@ -4266,9 +4266,9 @@ const message = {
             withProxy: 'Proxy Erişimini Etkinleştir',
             withoutProxy: 'Proxy Erişimini Devre Dışı Bırak',
             withProxyHelper:
-                'Alt düğümlere erişmek için panel ayarlarında tutulan sistem proxy {0} kullanılacak. Devam etmek istiyor musunuz?',
+                'Alt düğümlere erişmek için panel ayarlarında tutulan system proxy {0} kullanılacak. Devam etmek istiyor musunuz?',
             withoutProxyHelper:
-                'Alt düğümlere erişmek için panel ayarlarında tutulan sistem proxy kullanımı durdurulacak. Devam etmek istiyor musunuz?',
+                'Alt düğümlere erişmek için panel ayarlarında tutulan system proxy kullanımı durdurulacak. Devam etmek istiyor musunuz?',
             syncInfo: 'Синхронизация данных,',
             syncHelper:
                 'При изменении данных главного узла, происходит синхронизация с этим дочерним узлом в реальном времени,',

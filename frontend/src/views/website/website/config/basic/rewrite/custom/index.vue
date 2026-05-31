@@ -43,8 +43,8 @@ const handleClose = () => {
     em('close', false);
 };
 
-const acceptParams = async (conetnt: string) => {
-    req.value.content = conetnt;
+const acceptParams = async (content: string) => {
+    req.value.content = content;
     open.value = true;
 };
 
