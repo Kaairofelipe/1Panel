@@ -58,7 +58,7 @@ export function getCurrentDateFormatted() {
     return `${year}${month}${day}${hours}${minutes}${seconds}`;
 }
 
-export function dateFormat(row: any, col: any, dataStr: any) {
+export function dateFormat(row: any, col: any, dataStr: string | number | Date) {
     const date = new Date(dataStr);
     const y = date.getFullYear();
     let m: string | number = date.getMonth() + 1;
@@ -74,7 +74,7 @@ export function dateFormat(row: any, col: any, dataStr: any) {
     return `${String(y)}-${String(m)}-${String(d)}   ${String(h)}:${String(minute)}:${String(second)}`;
 }
 
-export function dateFormatSimple(dataStr: any) {
+export function dateFormatSimple(dataStr: string | number | Date) {
     const date = new Date(dataStr);
     const y = date.getFullYear();
     let m: string | number = date.getMonth() + 1;
@@ -84,7 +84,7 @@ export function dateFormatSimple(dataStr: any) {
     return `${String(y)}-${String(m)}-${String(d)}`;
 }
 
-export function dateFormatForName(dataStr: any) {
+export function dateFormatForName(dataStr: string | number | Date) {
     const date = new Date(dataStr);
     const y = date.getFullYear();
     let m: string | number = date.getMonth() + 1;
@@ -100,7 +100,7 @@ export function dateFormatForName(dataStr: any) {
     return `${String(y)}${String(m)}${String(d)}${String(h)}${String(minute)}${String(second)}`;
 }
 
-export function dateFormatWithoutYear(dataStr: any) {
+export function dateFormatWithoutYear(dataStr: string | number | Date) {
     const date = new Date(dataStr);
     let m: string | number = date.getMonth() + 1;
     m = m < 10 ? `0${String(m)}` : m;
@@ -115,7 +115,7 @@ export function dateFormatWithoutYear(dataStr: any) {
     return `${String(m)}-${String(d)}\n${String(h)}:${String(minute)}:${String(s)}`;
 }
 
-export function dateFormatForSecond(dataStr: any) {
+export function dateFormatForSecond(dataStr: string | number | Date) {
     const date = new Date(dataStr);
     let h: string | number = date.getHours();
     h = h < 10 ? `0${String(h)}` : h;
