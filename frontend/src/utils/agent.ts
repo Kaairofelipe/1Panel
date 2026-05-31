@@ -95,7 +95,10 @@ export const validateAllowedOriginsInput = (value: string): string => {
             return i18n.global.t('aiTools.agents.allowedOriginsRequired');
         }
         return '';
-    } catch (error: any) {
-        return error?.message || i18n.global.t('aiTools.agents.allowedOriginsInvalid');
+    } catch (error: unknown) {
+        if (error instanceof Error && error.message) {
+            return error.message;
+        }
+        return i18n.global.t('aiTools.agents.allowedOriginsInvalid');
     }
 };
