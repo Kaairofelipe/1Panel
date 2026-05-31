@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { ResultData } from '@/api/interface';
+import { ResultData, Result } from '@/api/interface';
 import { ResultEnum } from '@/enums/http-enum';
 import { checkStatus } from './helper/check-status';
 import router from '@/routers';
@@ -17,7 +17,7 @@ const config = {
     withCredentials: true,
 };
 
-const isCsrfForbidden = (response?: AxiosResponse<any>) => {
+const isCsrfForbidden = (response?: AxiosResponse<Result>) => {
     const message = response?.data?.message;
     return typeof message === 'string' && message.toLowerCase().includes('csrf token invalid');
 };
@@ -58,7 +58,7 @@ class RequestHttp {
                 }
                 return {
                     ...config,
-                } as InternalAxiosRequestConfig<any>;
+                } as InternalAxiosRequestConfig<unknown>;
             },
             (error: AxiosError) => {
                 return Promise.reject(error);
@@ -180,7 +180,7 @@ class RequestHttp {
     put<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
         return this.service.put(url, params, _object);
     }
-    delete<T>(url: string, params?: any, _object = {}): Promise<ResultData<T>> {
+    delete<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
         return this.service.delete(url, { params, ..._object });
     }
     download<BlobPart>(url: string, params?: object, _object = {}): Promise<BlobPart> {
