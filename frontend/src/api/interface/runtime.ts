@@ -225,7 +225,7 @@ export namespace Runtime {
     export interface PHPContainerConfig {
         id: number;
         containerName: string;
-        exposedPorts: ExposedPort[];
+        exposedPorts?: ExposedPort[];
         environments: Environment[];
         volumes: Volume[];
         extraHosts: ExtraHost[];

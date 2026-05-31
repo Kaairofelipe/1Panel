@@ -58,7 +58,7 @@ func (i *Iptables) Version() (string, error) {
 }
 
 func (i *Iptables) ListPort() ([]FireInfo, error) {
-	var datas []FireInfo
+	var data []FireInfo
 	basicRules, err := iptables.ReadFilterRulesByChain(iptables.Chain1PanelBasic)
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (i *Iptables) ListPort() ([]FireInfo, error) {
 			item.Strategy = "drop"
 		}
 
-		datas = append(datas, FireInfo{
+		data = append(data, FireInfo{
 			Chain:    item.Chain,
 			Address:  item.SrcIP,
 			Protocol: item.Protocol,
@@ -83,11 +83,11 @@ func (i *Iptables) ListPort() ([]FireInfo, error) {
 		})
 	}
 
-	return datas, nil
+	return data, nil
 }
 
 func (i *Iptables) ListAddress() ([]FireInfo, error) {
-	var datas []FireInfo
+	var data []FireInfo
 	basicRules, err := iptables.ReadFilterRulesByChain(iptables.Chain1PanelBasic)
 	if err != nil {
 		return nil, err
@@ -99,13 +99,13 @@ func (i *Iptables) ListAddress() ([]FireInfo, error) {
 		if item.Strategy == "drop" || item.Strategy == "reject" {
 			item.Strategy = "drop"
 		}
-		datas = append(datas, FireInfo{
+		data = append(data, FireInfo{
 			Address:  item.SrcIP,
 			Strategy: item.Strategy,
 			Family:   "ipv4",
 		})
 	}
-	return datas, nil
+	return data, nil
 }
 
 func (i *Iptables) Port(port FireInfo, operation string) error {
@@ -289,9 +289,9 @@ func iptablesListForward() ([]FireInfo, error) {
 		return nil, fmt.Errorf("failed to list NAT rules: %w", err)
 	}
 
-	var datas []FireInfo
+	var data []FireInfo
 	for _, nat := range natList {
-		datas = append(datas, FireInfo{
+		data = append(data, FireInfo{
 			Num:        nat.Num,
 			Protocol:   nat.Protocol,
 			Port:       strings.TrimPrefix(nat.SrcPort, ":"),
@@ -301,7 +301,7 @@ func iptablesListForward() ([]FireInfo, error) {
 		})
 	}
 
-	return datas, nil
+	return data, nil
 }
 
 func parsePort(portStr string) (int, error) {

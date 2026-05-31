@@ -2281,29 +2281,57 @@ func (w WebsiteService) GetWebsiteResource(websiteID uint) ([]response.Resource,
 func (w WebsiteService) ListDatabases() ([]response.Database, error) {
 	var res []response.Database
 	mysqlDBs, _ := mysqlRepo.List()
+	var mysqlNames []string
 	for _, db := range mysqlDBs {
-		database, _ := databaseRepo.Get(repo.WithByName(db.MysqlName))
-		if database.ID > 0 {
-			res = append(res, response.Database{
-				ID:           db.ID,
-				Name:         db.Name,
-				Type:         database.Type,
-				From:         database.From,
-				DatabaseName: database.Name,
-			})
+		if db.MysqlName != "" {
+			mysqlNames = append(mysqlNames, db.MysqlName)
 		}
 	}
+
 	pgSqls, _ := postgresqlRepo.List()
+	var pgNames []string
 	for _, db := range pgSqls {
-		database, _ := databaseRepo.Get(repo.WithByName(db.PostgresqlName))
-		if database.ID > 0 {
-			res = append(res, response.Database{
-				ID:           db.ID,
-				Name:         db.Name,
-				Type:         database.Type,
-				From:         database.From,
-				DatabaseName: database.Name,
-			})
+		if db.PostgresqlName != "" {
+			pgNames = append(pgNames, db.PostgresqlName)
+		}
+	}
+
+	var allNames []string
+	allNames = append(allNames, mysqlNames...)
+	allNames = append(allNames, pgNames...)
+
+	dbMap := make(map[string]model.Database)
+	if len(allNames) > 0 {
+		databases, _ := databaseRepo.GetList(repo.WithByNames(allNames))
+		for _, db := range databases {
+			dbMap[db.Name] = db
+		}
+	}
+
+	for _, db := range mysqlDBs {
+		if database, ok := dbMap[db.MysqlName]; ok {
+			if database.ID > 0 {
+				res = append(res, response.Database{
+					ID:           db.ID,
+					Name:         db.Name,
+					Type:         database.Type,
+					From:         database.From,
+					DatabaseName: database.Name,
+				})
+			}
+		}
+	}
+	for _, db := range pgSqls {
+		if database, ok := dbMap[db.PostgresqlName]; ok {
+			if database.ID > 0 {
+				res = append(res, response.Database{
+					ID:           db.ID,
+					Name:         db.Name,
+					Type:         database.Type,
+					From:         database.From,
+					DatabaseName: database.Name,
+				})
+			}
 		}
 	}
 	return res, nil

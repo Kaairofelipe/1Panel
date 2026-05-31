@@ -427,7 +427,7 @@ type diskInfo struct {
 }
 
 func loadDiskInfo() []dto.DiskInfo {
-	var datas []dto.DiskInfo
+	var data []dto.DiskInfo
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(2 * time.Second))
 	format := `awk 'NR>1 && !/tmpfs|snap\/core|udev/ {printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\n", $1, $2, $3, $4, $5, $6, $7}'`
 	stdout, err := cmdMgr.RunWithStdout("bash", "-c", `timeout 2 df -hT -P | `+format)
@@ -435,7 +435,7 @@ func loadDiskInfo() []dto.DiskInfo {
 		cmdMgr2 := cmd.NewCommandMgr(cmd.WithTimeout(1 * time.Second))
 		stdout, err = cmdMgr2.RunWithStdout("bash", "-c", `timeout 1 df -lhT -P | `+format)
 		if err != nil {
-			return datas
+			return data
 		}
 	}
 	lines := strings.Split(stdout, "\n")
@@ -499,13 +499,13 @@ func loadDiskInfo() []dto.DiskInfo {
 			select {
 			case <-time.After(5 * time.Second):
 				mu.Lock()
-				datas = append(datas, itemData)
+				data = append(data, itemData)
 				mu.Unlock()
 				global.LOG.Errorf("load disk info from %s failed, err: timeout", mount.Mount)
 			case result := <-resultCh:
 				if result.err != nil {
 					mu.Lock()
-					datas = append(datas, itemData)
+					data = append(data, itemData)
 					mu.Unlock()
 					global.LOG.Errorf("load disk info from %s failed, err: %v", mount.Mount, result.err)
 					return
@@ -519,17 +519,17 @@ func loadDiskInfo() []dto.DiskInfo {
 				itemData.InodesFree = result.state.InodesFree
 				itemData.InodesUsedPercent = result.state.InodesUsedPercent
 				mu.Lock()
-				datas = append(datas, itemData)
+				data = append(data, itemData)
 				mu.Unlock()
 			}
 		}(mounts[i])
 	}
 	wg.Wait()
 
-	sort.Slice(datas, func(i, j int) bool {
-		return datas[i].Path < datas[j].Path
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].Path < data[j].Path
 	})
-	return datas
+	return data
 }
 
 func loadGPUInfo() []dto.GPUInfo {

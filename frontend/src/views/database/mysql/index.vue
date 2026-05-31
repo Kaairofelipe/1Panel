@@ -512,11 +512,11 @@ const checkExist = (data: App.CheckInstalled) => {
 const loadDBOptions = async () => {
     try {
         const res = await listDatabases('mysql,mariadb,mysql-cluster');
-        let datas = res.data || [];
+        let data = res.data || [];
         dbOptionsLocal.value = [];
         dbOptionsRemote.value = [];
         currentDBName.value = globalStore.currentDB;
-        for (const item of datas) {
+        for (const item of data) {
             if (currentDBName.value && item.database === currentDBName.value) {
                 currentDB.value = item;
                 if (item.from === 'local') {

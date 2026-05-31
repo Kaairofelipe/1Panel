@@ -1,0 +1,37 @@
+[default.extend-words]
+ser = "ser"
+utiliza = "utiliza"
+versiones = "versiones"
+hace = "hace"
+requiere = "requiere"
+Oficial = "Oficial"
+inicial = "inicial"
+tema = "tema"
+lso = "lso"
+grup = "grup"
+ist = "ist"
+anormal = "anormal"
+populer = "populer"
+rige = "rige"
+distribuye = "distribuye"
+aplicable = "aplicable"
+Historial = "Historial"
+administrar = "administrar"
+analisis = "analisis"
+sistem = "sistem"
+padam = "padam"
+Padam = "Padam"
+Arry = "Arry"
+Sistem = "Sistem"
+fo = "fo"
+
+[files]
+extend-exclude = [
+  "docs/README.fr.md",
+  "docs/README.de.md",
+  "docs/README.id.md",
+  "docs/README.es-es.md",
+  "frontend/src/lang/modules/es-es.ts",
+  "frontend/src/lang/modules/ms.ts",
+  "core/i18n/lang/tr.yaml"
+]
