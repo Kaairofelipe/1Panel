@@ -123,14 +123,26 @@ func (u *HostService) SearchWithPage(req dto.SearchPageWithGroup) (int64, interf
 	if err != nil {
 		return 0, nil, err
 	}
+
+	var groupIDs []uint
+	for _, host := range hosts {
+		groupIDs = append(groupIDs, host.GroupID)
+	}
+	groupMap := make(map[uint]string)
+	if len(groupIDs) > 0 {
+		groups, _ := groupRepo.GetList(repo.WithByIDs(groupIDs))
+		for _, group := range groups {
+			groupMap[group.ID] = group.Name
+		}
+	}
+
 	var dtoHosts []dto.HostInfo
 	for _, host := range hosts {
 		var item dto.HostInfo
 		if err := copier.Copy(&item, &host); err != nil {
 			return 0, nil, buserr.WithDetail("ErrStructTransform", err.Error(), nil)
 		}
-		group, _ := groupRepo.Get(repo.WithByID(host.GroupID))
-		item.GroupBelong = group.Name
+		item.GroupBelong = groupMap[host.GroupID]
 		if !item.RememberPassword {
 			item.Password = ""
 			item.PrivateKey = ""
