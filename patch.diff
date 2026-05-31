@@ -1,0 +1,21 @@
+--- agent/app/service/snapshot_create.go
++++ agent/app/service/snapshot_create.go
+@@ -362,12 +362,16 @@
+
+	var appInstalls []model.AppInstall
+	_ = snap.snapAgentDB.Where("1 = 1").Find(&appInstalls).Error
++	var ids []uint
+	for _, item := range appInstalls {
++		ids = append(ids, item.ID)
++	}
++	if len(ids) > 0 {
+		if err := snap.snapAgentDB.
+			Model(&model.AppInstall{}).
+-			Where("id = ?", item.ID).
++			Where("id IN ?", ids).
+			Updates(map[string]interface{}{"status": constant.StatusWaitingRestart}).
+			Error; err != nil {
+-			global.LOG.Errorf("update app %s status failed, err: %v", item.Name, err)
++			global.LOG.Errorf("update apps status failed, err: %v", err)
+		}
+	}

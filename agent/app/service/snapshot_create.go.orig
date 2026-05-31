@@ -362,17 +362,13 @@ func snapAppImage(snap snapHelper, req dto.SnapshotCreate, targetDir string) err
 
 	var appInstalls []model.AppInstall
 	_ = snap.snapAgentDB.Where("1 = 1").Find(&appInstalls).Error
-	var ids []uint
 	for _, item := range appInstalls {
-		ids = append(ids, item.ID)
-	}
-	if len(ids) > 0 {
 		if err := snap.snapAgentDB.
 			Model(&model.AppInstall{}).
-			Where("id IN ?", ids).
+			Where("id = ?", item.ID).
 			Updates(map[string]interface{}{"status": constant.StatusWaitingRestart}).
 			Error; err != nil {
-			global.LOG.Errorf("update apps status failed, err: %v", err)
+			global.LOG.Errorf("update app %s status failed, err: %v", item.Name, err)
 		}
 	}
 
