@@ -1,0 +1,32 @@
+[default.extend-words]
+sistem = "sistem"
+senario = "senario"
+Padam = "Padam"
+padam = "padam"
+respons = "respons"
+Respons = "Respons"
+Sistem = "Sistem"
+soket = "soket"
+Analisis = "Analisis"
+analisis = "analisis"
+seret = "seret"
+tema = "tema"
+blok = "blok"
+Blok = "Blok"
+Templat = "Templat"
+Modul = "Modul"
+modul = "modul"
+segmen = "segmen"
+hight = "hight"
+maka = "maka"
+cros = "cros"
+Faktor = "Faktor"
+
+[files]
+extend-exclude = [
+    "frontend/src/lang/modules/*.ts",
+    "docs/*.md",
+    "core/i18n/lang/*.yaml"
+]
+anser = "anser"
+lso = "lso"

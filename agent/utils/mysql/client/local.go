@@ -33,9 +33,9 @@ func NewLocal(command []string, dbType, containerName, password, database string
 }
 
 func (r *Local) Create(info CreateInfo) error {
-	createSql := fmt.Sprintf("create database `%s` default character set %s collate %s", info.Name, info.Format, info.Collation)
+	createSql := fmt.Sprintf("create database `%s` default character set `%s` collate `%s`", EscapeIdentifier(info.Name), EscapeIdentifier(info.Format), EscapeIdentifier(info.Collation))
 	if len(info.Collation) == 0 {
-		createSql = fmt.Sprintf("create database `%s` default character set %s", info.Name, info.Format)
+		createSql = fmt.Sprintf("create database `%s` default character set `%s`", EscapeIdentifier(info.Name), EscapeIdentifier(info.Format))
 	}
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "error 1007") {
@@ -45,7 +45,7 @@ func (r *Local) Create(info CreateInfo) error {
 	}
 
 	if err := r.CreateUser(info, true); err != nil {
-		_ = r.ExecSQL(fmt.Sprintf("drop database if exists `%s`", info.Name), info.Timeout)
+		_ = r.ExecSQL(fmt.Sprintf("drop database if exists `%s`", EscapeIdentifier(info.Name)), info.Timeout)
 		return err
 	}
 
@@ -58,15 +58,15 @@ func (r *Local) CreateUser(info CreateInfo, withDeleteDB bool) error {
 		ips := strings.Split(info.Permission, ",")
 		for _, ip := range ips {
 			if len(ip) != 0 {
-				userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", info.Username, ip))
+				userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", Escape(info.Username), Escape(ip)))
 			}
 		}
 	} else {
-		userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", info.Username, info.Permission))
+		userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", Escape(info.Username), Escape(info.Permission)))
 	}
 
 	for _, user := range userlist {
-		if err := r.ExecSQL(fmt.Sprintf("create user %s identified by '%s';", user, info.Password), info.Timeout); err != nil {
+		if err := r.ExecSQL(fmt.Sprintf("create user %s identified by '%s';", user, Escape(info.Password)), info.Timeout); err != nil {
 			if strings.Contains(strings.ToLower(err.Error()), "error 1396") {
 				return buserr.New("ErrUserIsExist")
 			}
@@ -81,12 +81,12 @@ func (r *Local) CreateUser(info CreateInfo, withDeleteDB bool) error {
 			}
 			return err
 		}
-		grantStr := fmt.Sprintf("grant all privileges on `%s`.* to %s", info.Name, user)
+		grantStr := fmt.Sprintf("grant all privileges on `%s`.* to %s", EscapeIdentifier(info.Name), user)
 		if info.Name == "*" {
 			grantStr = fmt.Sprintf("grant all privileges on *.* to %s", user)
 		}
 		if strings.HasPrefix(info.Version, "5.7") || strings.HasPrefix(info.Version, "5.6") {
-			grantStr = fmt.Sprintf("%s identified by '%s' with grant option;", grantStr, info.Password)
+			grantStr = fmt.Sprintf("%s identified by '%s' with grant option;", grantStr, Escape(info.Password))
 		} else {
 			grantStr = grantStr + " with grant option;"
 		}
@@ -112,11 +112,11 @@ func (r *Local) Delete(info DeleteInfo) error {
 		ips := strings.Split(info.Permission, ",")
 		for _, ip := range ips {
 			if len(ip) != 0 {
-				userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", info.Username, ip))
+				userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", Escape(info.Username), Escape(ip)))
 			}
 		}
 	} else {
-		userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", info.Username, info.Permission))
+		userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", Escape(info.Username), Escape(info.Permission)))
 	}
 
 	for _, user := range userlist {
@@ -131,7 +131,7 @@ func (r *Local) Delete(info DeleteInfo) error {
 		}
 	}
 	if len(info.Name) != 0 {
-		if err := r.ExecSQL(fmt.Sprintf("drop database if exists `%s`", info.Name), info.Timeout); err != nil && !info.ForceDelete {
+		if err := r.ExecSQL(fmt.Sprintf("drop database if exists `%s`", EscapeIdentifier(info.Name)), info.Timeout); err != nil && !info.ForceDelete {
 			return fmt.Errorf("drop database failed, err: %v", err)
 		}
 	}
@@ -149,17 +149,17 @@ func (r *Local) ChangePassword(info PasswordChangeInfo) error {
 			ips := strings.Split(info.Permission, ",")
 			for _, ip := range ips {
 				if len(ip) != 0 {
-					userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", info.Username, ip))
+					userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", Escape(info.Username), Escape(ip)))
 				}
 			}
 		} else {
-			userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", info.Username, info.Permission))
+			userlist = append(userlist, fmt.Sprintf("'%s'@'%s'", Escape(info.Username), Escape(info.Permission)))
 		}
 
 		for _, user := range userlist {
-			passwordChangeSql := fmt.Sprintf("set password for %s = password('%s')", user, info.Password)
+			passwordChangeSql := fmt.Sprintf("set password for %s = password('%s')", user, Escape(info.Password))
 			if !strings.HasPrefix(info.Version, "5.7") && !strings.HasPrefix(info.Version, "5.6") {
-				passwordChangeSql = fmt.Sprintf("ALTER USER %s IDENTIFIED BY '%s';", user, info.Password)
+				passwordChangeSql = fmt.Sprintf("ALTER USER %s IDENTIFIED BY '%s';", user, Escape(info.Password))
 			}
 			if err := r.ExecSQL(passwordChangeSql, info.Timeout); err != nil {
 				return err
@@ -174,9 +174,9 @@ func (r *Local) ChangePassword(info PasswordChangeInfo) error {
 	}
 	for _, host := range hosts {
 		if host == "%" || host == "localhost" {
-			passwordRootChangeCMD := fmt.Sprintf("set password for 'root'@'%s' = password('%s')", host, info.Password)
+			passwordRootChangeCMD := fmt.Sprintf("set password for 'root'@'%s' = password('%s')", Escape(host), Escape(info.Password))
 			if !strings.HasPrefix(info.Version, "5.7") && !strings.HasPrefix(info.Version, "5.6") {
-				passwordRootChangeCMD = fmt.Sprintf("alter user 'root'@'%s' identified by '%s';", host, info.Password)
+				passwordRootChangeCMD = fmt.Sprintf("alter user 'root'@'%s' identified by '%s';", Escape(host), Escape(info.Password))
 			}
 			if err := r.ExecSQL(passwordRootChangeCMD, info.Timeout); err != nil {
 				return err
@@ -320,7 +320,7 @@ func (r *Local) SyncDB(version string) ([]SyncDBInfo, error) {
 			Format:    parts[1],
 			Collation: parts[2],
 		}
-		userLines, err := r.ExecSQLForRows(fmt.Sprintf("select user,host from mysql.db where db = '%s'", parts[0]), 300)
+		userLines, err := r.ExecSQLForRows(fmt.Sprintf("select user,host from mysql.db where db = '%s'", Escape(parts[0])), 300)
 		if err != nil {
 			global.LOG.Debugf("sync user of db %s failed, err: %v", parts[0], err)
 			dataItem.Permission = "%"

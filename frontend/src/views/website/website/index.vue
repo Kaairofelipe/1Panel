@@ -38,7 +38,7 @@
                     <template #prefix>{{ $t('commons.table.type') }}</template>
                     <el-option :label="$t('commons.table.all')" :value="''"></el-option>
                     <el-option
-                        v-for="item in WebsiteTypes"
+                        v-for="item in WebsiteeTypes"
                         :label="item.label"
                         :value="item.value"
                         :key="item.value"
@@ -97,7 +97,7 @@
                                 :is-hovered="hoveredRowIndex === $index"
                                 :defaultHttpPort="appStatusRef?.getHttpPort?.() || 0"
                                 :defaultHttpsPort="appStatusRef?.getHttpsPort?.() || 0"
-                                @favorite-change="favoriteWebsite"
+                                @favorite-change="favoriteWebsitee"
                                 @domain-edit="handleDomainEdit"
                             />
                         </template>
@@ -146,13 +146,13 @@
                                     v-if="row.status === 'Running'"
                                     :operate="true"
                                     :status="row.status"
-                                    @click="operateWebsite('stop', row)"
+                                    @click="operateWebsitee('stop', row)"
                                 />
                                 <Status
                                     v-else
                                     :status="row.status"
                                     :operate="true"
-                                    @click="operateWebsite('start', row)"
+                                    @click="operateWebsitee('start', row)"
                                 />
                             </span>
                         </template>
@@ -179,7 +179,7 @@
                                     :disabled-date="checkDate"
                                     :shortcuts="shortcuts"
                                     :clearable="false"
-                                    @change="updateWebsitConfig(row)"
+                                    @change="updateWebsiteConfig(row)"
                                     :ref="(el) => setdateRefs(el)"
                                     @visible-change="(visibility: boolean) => pickerVisibility(visibility, row)"
                                     size="small"
@@ -266,7 +266,7 @@
                     <span v-if="nginxIsExist">
                         {{ $t('commons.service.serviceNotStarted', ['OpenResty']) }}
                         <el-button type="primary" link @click="routerToFileWithPath(websiteDir)" icon="FolderOpened">
-                            {{ $t('website.toWebsiteDir') }}
+                            {{ $t('website.toWebsiteeDir') }}
                         </el-button>
                     </span>
                     <span v-else>
@@ -279,7 +279,7 @@
             </template>
         </LayoutContent>
         <CreateWebSite ref="createRef" @close="search" />
-        <DeleteWebsite ref="deleteRef" @close="search" />
+        <DeleteWebsitee ref="deleteRef" @close="search" />
         <UploadDialog ref="uploadRef" />
         <Backups ref="dialogBackupRef" />
         <DefaultServer ref="defaultRef" />
@@ -299,7 +299,7 @@ import UploadDialog from '@/components/upload/index.vue';
 import DefaultServer from '@/views/website/website/default/index.vue';
 import DefaultHtml from '@/views/website/website/html/index.vue';
 import CreateWebSite from '@/views/website/website/create/index.vue';
-import DeleteWebsite from '@/views/website/website/delete/index.vue';
+import DeleteWebsitee from '@/views/website/website/delete/index.vue';
 import NginxConfig from '@/views/website/website/nginx/index.vue';
 import GroupDialog from '@/components/agent-group/index.vue';
 import AppStatus from '@/components/app-status/index.vue';
@@ -310,8 +310,8 @@ import BatchSetHttps from '@/views/website/website/batch-op/https.vue';
 
 import i18n from '@/lang';
 import { onMounted, reactive, ref, computed } from 'vue';
-import { batchOperate, opWebsite, searchWebsites, updateWebsite } from '@/api/modules/website';
-import { Website } from '@/api/interface/website';
+import { batchOperate, opWebsitee, searchWebsitees, updateWebsitee } from '@/api/modules/website';
+import { Websitee } from '@/api/interface/website';
 import { App } from '@/api/interface/app';
 import { ElMessageBox } from 'element-plus';
 import { dateFormatSimple } from '@/utils/date';
@@ -321,7 +321,7 @@ import { useI18n } from 'vue-i18n';
 import { getAgentGroupList } from '@/api/modules/group';
 import { Group } from '@/api/interface/group';
 import { GlobalStore } from '@/store';
-import { getWebsiteTypes } from '@/global/mimetype';
+import { getWebsiteeTypes } from '@/global/mimetype';
 import { routerToFileWithPath, routerToNameWithParams, routerToNameWithQuery } from '@/utils/router';
 const globalStore = GlobalStore();
 
@@ -341,7 +341,7 @@ const shortcuts = [
         },
     },
 ];
-const WebsiteTypes = getWebsiteTypes();
+const WebsiteeTypes = getWebsiteeTypes();
 const loading = ref(false);
 const maskShow = ref(false);
 const createRef = ref();
@@ -405,14 +405,14 @@ const hideFavorite = () => {
     hoveredRowIndex.value = -1;
 };
 
-const favoriteWebsite = (row: Website.Website) => {
+const favoriteWebsitee = (row: Websitee.Websitee) => {
     row.favorite = !row.favorite;
-    updateWebsitConfig(row);
+    updateWebsiteConfig(row);
 };
 
-const handleDomainEdit = (row: Website.Website, domain: string) => {
+const handleDomainEdit = (row: Websitee.Websitee, domain: string) => {
     row.primaryDomain = domain;
-    updateWebsitConfig(row);
+    updateWebsiteConfig(row);
 };
 
 const disabledConfig = computed(() => {
@@ -446,7 +446,7 @@ const search = async () => {
 
     loading.value = true;
     data.value = [];
-    await searchWebsites(req)
+    await searchWebsitees(req)
         .then((res) => {
             data.value = res.data.items;
             paginationConfig.total = res.data.total;
@@ -466,7 +466,7 @@ const setting = () => {
 };
 
 const openConfig = (id: number) => {
-    routerToNameWithParams('WebsiteConfig', { id: id, tab: 'basic' });
+    routerToNameWithParams('WebsiteeConfig', { id: id, tab: 'basic' });
 };
 
 const isEver = (time: string) => {
@@ -532,7 +532,7 @@ const pickerVisibility = (visibility: boolean, row: any) => {
     }
 };
 
-const updateWebsitConfig = (row: any) => {
+const updateWebsiteConfig = (row: any) => {
     let reqDate = dateFormatSimple(row.expireDate);
     if (reqDate == '2006-01-02') {
         reqDate = '9999-12-31';
@@ -547,7 +547,7 @@ const updateWebsitConfig = (row: any) => {
         favorite: row.favorite,
     };
 
-    updateWebsite(req).then(() => {
+    updateWebsitee(req).then(() => {
         MsgSuccess(i18n.global.t('commons.msg.updateSuccess'));
         search();
     });
@@ -556,13 +556,13 @@ const updateWebsitConfig = (row: any) => {
 const buttons = [
     {
         label: i18n.global.t('menu.config'),
-        click: function (row: Website.Website) {
+        click: function (row: Websitee.Websitee) {
             openConfig(row.id);
         },
     },
     {
         label: i18n.global.t('database.backupList'),
-        click: (row: Website.Website) => {
+        click: (row: Websitee.Websitee) => {
             let params = {
                 type: 'website',
                 name: row.alias,
@@ -573,7 +573,7 @@ const buttons = [
     },
     {
         label: i18n.global.t('database.loadBackup'),
-        click: (row: Website.Website) => {
+        click: (row: Websitee.Websitee) => {
             let params = {
                 type: 'website',
                 name: row.primaryDomain,
@@ -584,13 +584,13 @@ const buttons = [
     },
     {
         label: i18n.global.t('commons.button.delete'),
-        click: function (row: Website.Website) {
+        click: function (row: Websitee.Websitee) {
             openDelete(row);
         },
     },
 ];
 
-const openDelete = (website: Website.Website) => {
+const openDelete = (website: Websitee.Websitee) => {
     deleteRef.value.acceptParams(website);
 };
 
@@ -623,7 +623,7 @@ const checkDate = (date: Date) => {
     return date.getTime() < now.getTime();
 };
 
-const operateWebsite = (op: string, row: Website.Website) => {
+const operateWebsitee = (op: string, row: Websitee.Websitee) => {
     if (row.type === 'stream') {
         return;
     }
@@ -631,19 +631,19 @@ const operateWebsite = (op: string, row: Website.Website) => {
         confirmButtonText: i18n.global.t('commons.button.confirm'),
         cancelButtonText: i18n.global.t('commons.button.cancel'),
     }).then(async () => {
-        await opWebsite({ id: row.id, operate: op });
+        await opWebsitee({ id: row.id, operate: op });
         MsgSuccess(i18n.global.t('commons.msg.operationSuccess'));
         search();
     });
 };
 
-const updateRemark = (row: Website.Website, bulr: Function) => {
+const updateRemark = (row: Websitee.Websitee, bulr: Function) => {
     bulr();
     if (row.remark && row.remark.length > 128) {
         MsgError(i18n.global.t('commons.rule.length128Err'));
         return;
     }
-    updateWebsitConfig(row);
+    updateWebsiteConfig(row);
 };
 
 const openTaskLog = () => {
