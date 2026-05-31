@@ -1,12 +1,12 @@
 package common
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path"
 	"time"
 
+	"github.com/1Panel-dev/1Panel/core/global"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -14,19 +14,19 @@ import (
 
 func LoadDBConnByPath(fullPath, dbName string) *gorm.DB {
 	if _, err := CreateDirWhenNotExist(true, path.Dir(fullPath)); err != nil {
-		panic(fmt.Errorf("init db dir failed, err: %v", err))
+		global.LOG.Fatalf("init db dir failed, err: %v", err)
 	}
 	if _, err := os.Stat(fullPath); err != nil {
 		f, err := os.Create(fullPath)
 		if err != nil {
-			panic(fmt.Errorf("init %s db file failed, err: %v", dbName, err))
+			global.LOG.Fatalf("init %s db file failed, err: %v", dbName, err)
 		}
 		_ = f.Close()
 	}
 
 	db, err := GetDBWithPath(fullPath)
 	if err != nil {
-		panic(err)
+		global.LOG.Fatalf("init %s db failed, err: %v", dbName, err)
 	}
 	return db
 }
