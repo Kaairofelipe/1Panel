@@ -1211,16 +1211,31 @@ var AddFileManageAISettings = &gormigrate.Migration{
 			{Key: "FileAIStatus", Value: constant.StatusDisable},
 			{Key: "FileAIAccountID", Value: ""},
 		}
+		keys := make([]string, len(rows))
 		for i := range rows {
-			var exist model.Setting
-			if err := tx.Where("`key` = ?", rows[i].Key).First(&exist).Error; err != nil {
-				if errors.Is(err, gorm.ErrRecordNotFound) {
-					if err := tx.Create(&rows[i]).Error; err != nil {
-						return err
-					}
-				} else {
-					return err
-				}
+			keys[i] = rows[i].Key
+		}
+
+		var exists []model.Setting
+		if err := tx.Where("`key` IN ?", keys).Find(&exists).Error; err != nil {
+			return err
+		}
+
+		existMap := make(map[string]bool)
+		for i := range exists {
+			existMap[exists[i].Key] = true
+		}
+
+		var newRows []model.Setting
+		for i := range rows {
+			if !existMap[rows[i].Key] {
+				newRows = append(newRows, rows[i])
+			}
+		}
+
+		if len(newRows) > 0 {
+			if err := tx.Create(&newRows).Error; err != nil {
+				return err
 			}
 		}
 		return nil
