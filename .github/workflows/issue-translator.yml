@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: usthe/issues-translate-action@v2.7
+      - uses: usthe/issues-translate-action@2683b4d3da1affffa31a4381ffc9b13af9464fd7
         with:
           IS_MODIFY_TITLE: true
           BOT_GITHUB_TOKEN: ${{ secrets.ISSUE_TRANSLATOR_TOKEN }} 
