@@ -376,7 +376,7 @@ func (a AgentService) InstallPlugin(req dto.AgentPluginInstallReq) error {
 				if _, err := mgr.RunWithStdout("docker", "exec", "-i", install.ContainerName, "sh", "-c", buildOpenclawPluginUninstallScript("qqbot")); err != nil {
 					return err
 				}
-				time.Sleep(2 * time.Second)
+				waitForPluginUninstall(mgr, install.ContainerName, "qqbot")
 			}
 		}
 		if _, err := mgr.RunWithStdout("docker", "exec", install.ContainerName, "sh", "-c", buildOpenclawPluginInstallScript(spec, pluginID)); err != nil {
@@ -418,7 +418,7 @@ func (a AgentService) UpgradePlugin(req dto.AgentPluginUpgradeReq) error {
 		if _, err := mgr.RunWithStdout("docker", "exec", "-i", install.ContainerName, "sh", "-c", buildOpenclawPluginUninstallScript(pluginID)); err != nil {
 			return err
 		}
-		time.Sleep(2 * time.Second)
+		waitForPluginUninstall(mgr, install.ContainerName, pluginID)
 		if _, err := mgr.RunWithStdout("docker", "exec", install.ContainerName, "sh", "-c", buildOpenclawPluginInstallScript(spec, pluginID)); err != nil {
 			return err
 		}
@@ -1600,4 +1600,14 @@ func getDefaultQQBot(bots []dto.AgentQQBotBot) dto.AgentQQBotBot {
 		return bot
 	}
 	return defaultQQBot()
+}
+
+func waitForPluginUninstall(mgr *cmd.CommandHelper, containerName, pluginID string) {
+	pluginPath := path.Join(openclawPluginBaseDir, pluginID)
+	for i := 0; i < 20; i++ {
+		if err := mgr.RunBashCf("docker exec %s test -d %s", containerName, pluginPath); err != nil {
+			break
+		}
+		time.Sleep(100 * time.Millisecond)
+	}
 }
