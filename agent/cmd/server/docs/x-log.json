@@ -948,7 +948,7 @@
 				"input_column": "id",
 				"input_value": "ids",
 				"isList": true,
-				"db": "script_librarys",
+				"db": "script_libraries",
 				"output_column": "name",
 				"output_value": "names"
 			}
@@ -2047,7 +2047,7 @@
 		"paramKeys": [],
 		"beforeFunctions": [],
 		"formatZH": "清空监控数据",
-		"formatEN": "clean monitor datas"
+		"formatEN": "clean monitor data"
 	},
 	"/hosts/monitor/setting/update": {
 		"bodyKeys": [
@@ -2372,7 +2372,7 @@
 			}
 		],
 		"formatZH": "重试创建快照 [name]",
-		"formatEN": "recrete the snapshot [name]"
+		"formatEN": "recreate the snapshot [name]"
 	},
 	"/settings/snapshot/rollback": {
 		"bodyKeys": [

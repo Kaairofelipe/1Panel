@@ -331,17 +331,17 @@ func (r *Remote) Recover(info RecoverInfo) error {
 }
 
 func (r *Remote) SyncDB(version string) ([]SyncDBInfo, error) {
-	var datas []SyncDBInfo
+	var data []SyncDBInfo
 	rows, err := r.Client.Query("select schema_name, default_character_set_name, default_collation_name from information_schema.SCHEMATA")
 	if err != nil {
-		return datas, err
+		return data, err
 	}
 	defer func() { _ = rows.Close() }()
 
 	for rows.Next() {
 		var dbName, charsetName, collation string
 		if err = rows.Scan(&dbName, &charsetName, &collation); err != nil {
-			return datas, err
+			return data, err
 		}
 		if dbName == "information_schema" || dbName == "mysql" || dbName == "performance_schema" || dbName == "sys" || dbName == "__recycle_bin__" || dbName == "recycle_bin" {
 			continue
@@ -357,7 +357,7 @@ func (r *Remote) SyncDB(version string) ([]SyncDBInfo, error) {
 		if err != nil {
 			global.LOG.Debugf("sync user of db %s failed, err: %v", dbName, err)
 			dataItem.Permission = "%"
-			datas = append(datas, dataItem)
+			data = append(data, dataItem)
 			continue
 		}
 
@@ -367,7 +367,7 @@ func (r *Remote) SyncDB(version string) ([]SyncDBInfo, error) {
 		for userRows.Next() {
 			var user, host string
 			if err = userRows.Scan(&user, &host); err != nil {
-				return datas, err
+				return data, err
 			}
 			if user == "root" {
 				continue
@@ -394,12 +394,12 @@ func (r *Remote) SyncDB(version string) ([]SyncDBInfo, error) {
 				dataItem.Permission = strings.Join(permissionItem, ",")
 			}
 		}
-		datas = append(datas, dataItem)
+		data = append(data, dataItem)
 	}
 	if err = rows.Err(); err != nil {
-		return datas, err
+		return data, err
 	}
-	return datas, nil
+	return data, nil
 }
 
 func (r *Remote) Close() {
