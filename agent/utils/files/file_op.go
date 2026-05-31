@@ -225,48 +225,54 @@ func (f FileOp) SaveFileWithByte(dst string, content []byte, mode fs.FileMode) e
 }
 
 func (f FileOp) ChownR(dst string, uid string, gid string, sub bool) error {
-	cmdStr := fmt.Sprintf(`%s chown %s:%s "%s"`, cmd.SudoHandleCmd(), uid, gid, dst)
+	var cmdScript string
 	if sub {
-		cmdStr = fmt.Sprintf(`chown -R %s:%s "%s"`, uid, gid, dst)
+		cmdScript = `chown -R "$1":"$2" "$3"`
+	} else {
+		cmdScript = fmt.Sprintf(`%s chown "$1":"$2" "$3"`, cmd.SudoHandleCmd())
 	}
 	timeout := cmdDefaultTimeout
 	if sub {
 		timeout = cmdRecursiveTimeout
 	}
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(timeout))
-	if err := cmdMgr.RunBashC(cmdStr); err != nil {
+	if err := cmdMgr.RunBashCWithArgs(cmdScript, "bash", uid, gid, dst); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (f FileOp) ChmodR(dst string, mode int64, sub bool) error {
-	cmdStr := fmt.Sprintf(`%s chmod %v "%s"`, cmd.SudoHandleCmd(), fmt.Sprintf("%04o", mode), dst)
+	var cmdScript string
 	if sub {
-		cmdStr = fmt.Sprintf(`%s chmod -R %v "%s"`, cmd.SudoHandleCmd(), fmt.Sprintf("%04o", mode), dst)
+		cmdScript = fmt.Sprintf(`%s chmod -R "$1" "$2"`, cmd.SudoHandleCmd())
+	} else {
+		cmdScript = fmt.Sprintf(`%s chmod "$1" "$2"`, cmd.SudoHandleCmd())
 	}
 	timeout := cmdDefaultTimeout
 	if sub {
 		timeout = cmdRecursiveTimeout
 	}
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(timeout))
-	if err := cmdMgr.RunBashC(cmdStr); err != nil {
+	if err := cmdMgr.RunBashCWithArgs(cmdScript, "bash", fmt.Sprintf("%04o", mode), dst); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (f FileOp) ChmodRWithMode(dst string, mode fs.FileMode, sub bool) error {
-	cmdStr := fmt.Sprintf(`%s chmod %v "%s"`, cmd.SudoHandleCmd(), fmt.Sprintf("%o", mode.Perm()), dst)
+	var cmdScript string
 	if sub {
-		cmdStr = fmt.Sprintf(`%s chmod -R %v "%s"`, cmd.SudoHandleCmd(), fmt.Sprintf("%o", mode.Perm()), dst)
+		cmdScript = fmt.Sprintf(`%s chmod -R "$1" "$2"`, cmd.SudoHandleCmd())
+	} else {
+		cmdScript = fmt.Sprintf(`%s chmod "$1" "$2"`, cmd.SudoHandleCmd())
 	}
 	timeout := cmdDefaultTimeout
 	if sub {
 		timeout = cmdRecursiveTimeout
 	}
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(timeout))
-	if err := cmdMgr.RunBashC(cmdStr); err != nil {
+	if err := cmdMgr.RunBashCWithArgs(cmdScript, "bash", fmt.Sprintf("%o", mode.Perm()), dst); err != nil {
 		return err
 	}
 	return nil
@@ -279,23 +285,24 @@ func (f FileOp) ChownRPaths(paths []string, uid string, gid string, sub bool) er
 	if len(paths) == 1 {
 		return f.ChownR(paths[0], uid, gid, sub)
 	}
-	quoted := make([]string, len(paths))
-	for i, p := range paths {
-		quoted[i] = fmt.Sprintf(`"%s"`, p)
-	}
-	args := strings.Join(quoted, " ")
-	var cmdStr string
+
+	var cmdScript string
 	if sub {
-		cmdStr = fmt.Sprintf(`chown -R %s:%s %s`, uid, gid, args)
+		cmdScript = `chown -R "$1":"$2" "${@:3}"`
 	} else {
-		cmdStr = fmt.Sprintf(`%s chown %s:%s %s`, cmd.SudoHandleCmd(), uid, gid, args)
+		cmdScript = fmt.Sprintf(`%s chown "$1":"$2" "${@:3}"`, cmd.SudoHandleCmd())
 	}
+
 	timeout := cmdDefaultTimeout
 	if sub {
 		timeout = cmdRecursiveTimeout
 	}
+
+	args := []string{cmdScript, "bash", uid, gid}
+	args = append(args, paths...)
+
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(timeout))
-	if err := cmdMgr.RunBashC(cmdStr); err != nil {
+	if err := cmdMgr.RunBashCWithArgs(args...); err != nil {
 		return err
 	}
 	return nil
@@ -308,24 +315,25 @@ func (f FileOp) ChmodRPaths(paths []string, mode int64, sub bool) error {
 	if len(paths) == 1 {
 		return f.ChmodR(paths[0], mode, sub)
 	}
-	quoted := make([]string, len(paths))
-	for i, p := range paths {
-		quoted[i] = fmt.Sprintf(`"%s"`, p)
-	}
-	args := strings.Join(quoted, " ")
-	modeStr := fmt.Sprintf("%04o", mode)
-	var cmdStr string
+
+	var cmdScript string
 	if sub {
-		cmdStr = fmt.Sprintf(`%s chmod -R %s %s`, cmd.SudoHandleCmd(), modeStr, args)
+		cmdScript = fmt.Sprintf(`%s chmod -R "$1" "${@:2}"`, cmd.SudoHandleCmd())
 	} else {
-		cmdStr = fmt.Sprintf(`%s chmod %s %s`, cmd.SudoHandleCmd(), modeStr, args)
+		cmdScript = fmt.Sprintf(`%s chmod "$1" "${@:2}"`, cmd.SudoHandleCmd())
 	}
+
 	timeout := cmdDefaultTimeout
 	if sub {
 		timeout = cmdRecursiveTimeout
 	}
+
+	modeStr := fmt.Sprintf("%04o", mode)
+	args := []string{cmdScript, "bash", modeStr}
+	args = append(args, paths...)
+
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(timeout))
-	if err := cmdMgr.RunBashC(cmdStr); err != nil {
+	if err := cmdMgr.RunBashCWithArgs(args...); err != nil {
 		return err
 	}
 	return nil
