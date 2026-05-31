@@ -415,7 +415,7 @@ func formatDisk(req dto.DiskFormatRequest) error {
 		}
 		mkfsCmd = exec.Command("mkfs.xfs", "-f", req.Device)
 	default:
-		return fmt.Errorf("unsupport type: %s", req.Filesystem)
+		return fmt.Errorf("unsupported type: %s", req.Filesystem)
 	}
 	if err := mkfsCmd.Run(); err != nil {
 		return err

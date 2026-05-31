@@ -323,8 +323,8 @@ func (u *DashboardService) LoadAppLauncher(ctx *gin.Context) ([]dto.AppLauncher,
 				})
 			}
 		}
-		if (ArryContains(showList, showItem) && len(itemData.Detail) != 0) ||
-			(ArryContains(defaultList, showItem) && len(itemData.Detail) == 0) {
+		if (ArrayContains(showList, showItem) && len(itemData.Detail) != 0) ||
+			(ArrayContains(defaultList, showItem) && len(itemData.Detail) == 0) {
 			data = append(data, itemData)
 		}
 	}
@@ -564,7 +564,7 @@ type AppLauncher struct {
 	Key string `json:"key"`
 }
 
-func ArryContains(arr []string, element string) bool {
+func ArrayContains(arr []string, element string) bool {
 	for _, v := range arr {
 		if v == element {
 			return true
