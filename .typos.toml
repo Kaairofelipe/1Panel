@@ -1,0 +1,51 @@
+[default.extend-words]
+lso = "lso"
+datas = "datas"
+Datas = "Datas"
+Rrror = "Rrror"
+Visiable = "Visiable"
+Cutom = "Cutom"
+fo = "fo"
+Hepler = "Hepler"
+Sistem = "Sistem"
+sistem = "sistem"
+Linke = "Linke"
+Cahe = "Cahe"
+Respons = "Respons"
+unsupport = "unsupport"
+Templat = "Templat"
+padam = "padam"
+Padam = "Padam"
+simbol = "simbol"
+Analisis = "Analisis"
+analisis = "analisis"
+Arry = "Arry"
+faild = "faild"
+referers = "referers"
+Broswer = "Broswer"
+atual = "atual"
+librarys = "librarys"
+recrete = "recrete"
+entrys = "entrys"
+reques = "reques"
+Websit = "Websit"
+conetnt = "conetnt"
+fileds = "fileds"
+versionn = "versionn"
+styl = "styl"
+populer = "populer"
+
+[files]
+extend-exclude = [
+    "frontend/src/lang/modules/es-es.ts",
+    "docs/README.fr.md",
+    "docs/README.es.md",
+    "docs/README.de.md",
+    "core/i18n/lang/tr.yaml",
+    "docs/README.id.md",
+    "docs/README.es-es.md",
+    "frontend/src/lang/modules/zh.ts",
+    "frontend/src/lang/modules/ms.ts",
+    "frontend/src/lang/modules/ko.ts",
+    "frontend/src/lang/modules/ru.ts"
+]
