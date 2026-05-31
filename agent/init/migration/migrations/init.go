@@ -1211,16 +1211,31 @@ var AddFileManageAISettings = &gormigrate.Migration{
 			{Key: "FileAIStatus", Value: constant.StatusDisable},
 			{Key: "FileAIAccountID", Value: ""},
 		}
-		for i := range rows {
-			var exist model.Setting
-			if err := tx.Where("`key` = ?", rows[i].Key).First(&exist).Error; err != nil {
-				if errors.Is(err, gorm.ErrRecordNotFound) {
-					if err := tx.Create(&rows[i]).Error; err != nil {
-						return err
-					}
-				} else {
-					return err
-				}
+		keys := make([]string, 0, len(rows))
+		for _, row := range rows {
+			keys = append(keys, row.Key)
+		}
+
+		var existingSettings []model.Setting
+		if err := tx.Where("`key` IN ?", keys).Find(&existingSettings).Error; err != nil {
+			return err
+		}
+
+		existingKeysMap := make(map[string]bool)
+		for _, setting := range existingSettings {
+			existingKeysMap[setting.Key] = true
+		}
+
+		var newSettings []model.Setting
+		for _, row := range rows {
+			if !existingKeysMap[row.Key] {
+				newSettings = append(newSettings, row)
+			}
+		}
+
+		if len(newSettings) > 0 {
+			if err := tx.Create(&newSettings).Error; err != nil {
+				return err
 			}
 		}
 		return nil
@@ -1245,16 +1260,31 @@ var AddFileHistoryTable = &gormigrate.Migration{
 			{Key: "FileHistoryMaxPerPath", Value: "20"},
 			{Key: "FileHistoryDiskQuotaMB", Value: "1024"},
 		}
-		for i := range defaultRows {
-			var exist model.Setting
-			if err := tx.Where("`key` = ?", defaultRows[i].Key).First(&exist).Error; err != nil {
-				if errors.Is(err, gorm.ErrRecordNotFound) {
-					if err := tx.Create(&defaultRows[i]).Error; err != nil {
-						return err
-					}
-				} else {
-					return err
-				}
+		keys := make([]string, 0, len(defaultRows))
+		for _, row := range defaultRows {
+			keys = append(keys, row.Key)
+		}
+
+		var existingSettings []model.Setting
+		if err := tx.Where("`key` IN ?", keys).Find(&existingSettings).Error; err != nil {
+			return err
+		}
+
+		existingKeysMap := make(map[string]bool)
+		for _, setting := range existingSettings {
+			existingKeysMap[setting.Key] = true
+		}
+
+		var newSettings []model.Setting
+		for _, row := range defaultRows {
+			if !existingKeysMap[row.Key] {
+				newSettings = append(newSettings, row)
+			}
+		}
+
+		if len(newSettings) > 0 {
+			if err := tx.Create(&newSettings).Error; err != nil {
+				return err
 			}
 		}
 		return nil
