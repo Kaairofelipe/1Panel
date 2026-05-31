@@ -102,6 +102,8 @@ import { copyText } from '@/utils/clipboard';
 import { Base64 } from 'js-base64';
 import { reactive, ref } from 'vue';
 
+const DOWNLOAD_DELAY_MS = 100;
+
 const loading = ref();
 const drawerVisible = ref();
 const data = ref();
@@ -176,7 +178,7 @@ const onDownload = async (row: Host.RootCertInfo, type: string) => {
     setTimeout(() => {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(downloadUrl);
-    }, 100);
+    }, DOWNLOAD_DELAY_MS);
 };
 
 const search = async () => {
