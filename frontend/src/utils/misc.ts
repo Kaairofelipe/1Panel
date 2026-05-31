@@ -1,20 +1,25 @@
 import { toUnicode } from 'punycode';
 
-export function deepCopy<T>(obj: any): T {
+export function deepCopy<T>(obj: T): T {
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
+    }
     let newObj: any;
     try {
-        newObj = obj.push ? [] : {};
+        newObj = Array.isArray(obj) ? [] : {};
     } catch (error) {
         newObj = {};
     }
     for (let attr in obj) {
-        if (typeof obj[attr] === 'object') {
-            newObj[attr] = deepCopy(obj[attr]);
-        } else {
-            newObj[attr] = obj[attr];
+        if (Object.prototype.hasOwnProperty.call(obj, attr)) {
+            if (typeof obj[attr] === 'object' && obj[attr] !== null) {
+                newObj[attr] = deepCopy(obj[attr]);
+            } else {
+                newObj[attr] = obj[attr];
+            }
         }
     }
-    return newObj;
+    return newObj as T;
 }
 
 export function debounce(func: Function, wait: number) {
