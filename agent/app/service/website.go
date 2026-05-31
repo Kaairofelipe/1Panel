@@ -2281,9 +2281,27 @@ func (w WebsiteService) GetWebsiteResource(websiteID uint) ([]response.Resource,
 func (w WebsiteService) ListDatabases() ([]response.Database, error) {
 	var res []response.Database
 	mysqlDBs, _ := mysqlRepo.List()
+
+	var names []string
 	for _, db := range mysqlDBs {
-		database, _ := databaseRepo.Get(repo.WithByName(db.MysqlName))
-		if database.ID > 0 {
+		names = append(names, db.MysqlName)
+	}
+	pgSqls, _ := postgresqlRepo.List()
+	for _, db := range pgSqls {
+		names = append(names, db.PostgresqlName)
+	}
+
+	if len(names) == 0 {
+		return res, nil
+	}
+	databases, _ := databaseRepo.GetList(repo.WithByNames(names))
+	dbMap := make(map[string]model.Database)
+	for _, db := range databases {
+		dbMap[db.Name] = db
+	}
+
+	for _, db := range mysqlDBs {
+		if database, ok := dbMap[db.MysqlName]; ok && database.ID > 0 {
 			res = append(res, response.Database{
 				ID:           db.ID,
 				Name:         db.Name,
@@ -2293,10 +2311,8 @@ func (w WebsiteService) ListDatabases() ([]response.Database, error) {
 			})
 		}
 	}
-	pgSqls, _ := postgresqlRepo.List()
 	for _, db := range pgSqls {
-		database, _ := databaseRepo.Get(repo.WithByName(db.PostgresqlName))
-		if database.ID > 0 {
+		if database, ok := dbMap[db.PostgresqlName]; ok && database.ID > 0 {
 			res = append(res, response.Database{
 				ID:           db.ID,
 				Name:         db.Name,
