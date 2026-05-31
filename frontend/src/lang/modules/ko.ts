@@ -811,7 +811,7 @@ const message = {
             groupSessionScope: '그룹 세션 범위',
             groupSessionScopeGroup: '그룹 공유',
             groupSessionScopeGroupSender: '발신자별',
-            sharedMemoryAcrossConversations: '대화 간 메모리 공유',
+            sharedMemoryAcrosssConversations: '대화 간 메모리 공유',
             asyncMode: '비동기 모드',
             ackText: '확인 메시지',
             ackTextDefault: '작업을 받았습니다. 처리 중입니다...',
@@ -2177,7 +2177,7 @@ const message = {
         SFTP: 'SFTP',
         WebDAV: 'WebDAV',
         WebDAVAlist: 'Alist 에 WebDAV 를 연결하는 방법은 공식 문서를 참조하십시오.',
-        OneDrive: 'Microsoft OneDrive',
+        OneDrive: 'Microssoft OneDrive',
         isCN: 'Century Internet',
         isNotCN: '국제 버전',
         client_id: '클라이언트 ID',
@@ -2317,7 +2317,7 @@ const message = {
         mfaTitleHelper:
             '제목은 다른 1Panel 호스트를 구별하는 데 사용됩니다. 제목을 수정한 후 다시 스캔하거나 비밀키를 수동으로 추가하세요.',
         mfaIntervalHelper:
-            '갱신 간격을 변경한 후 다시 스캔하거나 비밀키를 수동으로 추가하세요.\n일부 인증 앱은 30초 간격만 지원합니다(예: Google/Microsoft Authenticator).',
+            '갱신 간격을 변경한 후 다시 스캔하거나 비밀키를 수동으로 추가하세요.\n일부 인증 앱은 30초 간격만 지원합니다(예: Google/Microssoft Authenticator).',
         mfaAlert:
             '일회용 토큰은 현재 시간을 기반으로 생성된 동적 6자리 숫자입니다. 서버 시간이 동기화되어 있는지 확인하세요.',
         mfaHelper: '활성화 후 일회용 토큰 검증이 필요합니다.',
@@ -3898,7 +3898,7 @@ const message = {
             excludeUri: 'URI 제외',
             top100Helper: '상위 100 개의 데이터를 표시합니다',
             logSaveDay: '로그 보관 기간 (일)',
-            cros: '크롬 OS',
+            cross: '크롬 OS',
             theworld: '더월드 브라우저',
             edge: '마이크로소프트 엣지',
             maxthon: '맥스톤 브라우저',
