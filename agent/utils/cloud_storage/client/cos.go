@@ -65,11 +65,11 @@ func (c cosClient) ListBuckets() ([]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var datas []interface{}
+	var dataList []interface{}
 	for _, bucket := range buckets.Buckets {
-		datas = append(datas, bucket.Name)
+		dataList = append(dataList, bucket.Name)
 	}
-	return datas, nil
+	return dataList, nil
 }
 
 func (c cosClient) Exist(path string) (bool, error) {
@@ -139,13 +139,13 @@ func (c cosClient) Download(src, target string) (bool, error) {
 }
 
 func (c cosClient) ListObjects(prefix string) ([]string, error) {
-	datas, _, err := c.clientWithBucket.Bucket.Get(context.Background(), &cosSDK.BucketGetOptions{Prefix: prefix})
+	dataList, _, err := c.clientWithBucket.Bucket.Get(context.Background(), &cosSDK.BucketGetOptions{Prefix: prefix})
 	if err != nil {
 		return nil, err
 	}
 
 	var result []string
-	for _, item := range datas.Contents {
+	for _, item := range dataList.Contents {
 		result = append(result, item.Key)
 	}
 	return result, nil

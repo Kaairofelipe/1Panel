@@ -64,7 +64,7 @@ func (f *Firewall) Reload() error {
 
 func (f *Firewall) ListPort() ([]FireInfo, error) {
 	var wg sync.WaitGroup
-	var datas []FireInfo
+	var dataList []FireInfo
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
@@ -83,7 +83,7 @@ func (f *Firewall) ListPort() ([]FireInfo, error) {
 				itemPort.Protocol = strings.Split(port, "/")[1]
 			}
 			itemPort.Strategy = "accept"
-			datas = append(datas, itemPort)
+			dataList = append(dataList, itemPort)
 		}
 	}()
 
@@ -100,12 +100,12 @@ func (f *Firewall) ListPort() ([]FireInfo, error) {
 			}
 			itemRule := f.loadInfo(rule)
 			if len(itemRule.Port) != 0 && (itemRule.Family == "ipv4" || (itemRule.Family == "ipv6" && len(itemRule.Address) != 0)) {
-				datas = append(datas, itemRule)
+				dataList = append(dataList, itemRule)
 			}
 		}
 	}()
 	wg.Wait()
-	return datas, nil
+	return dataList, nil
 }
 
 func (f *Firewall) ListForward() ([]FireInfo, error) {
@@ -116,7 +116,7 @@ func (f *Firewall) ListForward() ([]FireInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	var datas []FireInfo
+	var dataList []FireInfo
 	for _, line := range strings.Split(stdout, "\n") {
 		line = strings.TrimSpace(line)
 		parts := strings.Split(line, ":")
@@ -126,14 +126,14 @@ func (f *Firewall) ListForward() ([]FireInfo, error) {
 		if parts[3] == "toaddr=" {
 			parts[3] = "127.0.0.1"
 		}
-		datas = append(datas, FireInfo{
+		dataList = append(dataList, FireInfo{
 			Port:       strings.TrimPrefix(parts[0], "port="),
 			Protocol:   strings.TrimPrefix(parts[1], "proto="),
 			TargetIP:   strings.TrimPrefix(parts[3], "toaddr="),
 			TargetPort: strings.TrimPrefix(parts[2], "toport="),
 		})
 	}
-	return datas, nil
+	return dataList, nil
 }
 
 func (f *Firewall) ListAddress() ([]FireInfo, error) {
@@ -141,7 +141,7 @@ func (f *Firewall) ListAddress() ([]FireInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	var datas []FireInfo
+	var dataList []FireInfo
 	rules := strings.Split(stdout, "\n")
 	for _, rule := range rules {
 		if len(rule) == 0 {
@@ -149,10 +149,10 @@ func (f *Firewall) ListAddress() ([]FireInfo, error) {
 		}
 		itemRule := f.loadInfo(rule)
 		if len(itemRule.Port) == 0 && len(itemRule.Address) != 0 {
-			datas = append(datas, itemRule)
+			dataList = append(dataList, itemRule)
 		}
 	}
-	return datas, nil
+	return dataList, nil
 }
 
 func (f *Firewall) Port(port FireInfo, operation string) error {

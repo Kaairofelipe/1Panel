@@ -1,11 +1,43 @@
 [default]
 extend-ignore-re = [
     "(?i)broswer",
-    "(?i)datas",
-    "(?i)reques",
-    "(?i)entrys",
-    "(?i)fo"
+    "(?i)sistem",
+    "(?i)anormal",
+    "(?i)Grup",
+    "(?i)grup",
+    "(?i)Paket",
+    "(?i)hight",
+    "(?i)Faktor",
+    "(?i)respons",
+    "(?i)soket",
+    "(?i)Analisis",
+    "(?i)seret",
+    "(?i)Padam",
+    "(?i)padam",
+    "(?i)Visiable",
+    "(?i)Rrror",
+    "(?i)Hepler",
+    "(?i)blok",
+    "(?i)Blok",
+    "(?i)Templat",
+    "(?i)Linke",
+    "(?i)Cahe",
+    "(?i)Modul",
+    "(?i)modul",
+    "(?i)analisis",
+    "(?i)segmen",
+    "(?i)tema",
+    "(?i)lso",
+    "(?i)Cutom",
+    "(?i)maka"
 ]
 
 [files]
-extend-exclude = ["frontend/src/lang/modules/es-es.ts", "docs/README.fr.md"]
+extend-exclude = [
+    "frontend/src/lang/modules/es-es.ts",
+    "docs/README.fr.md",
+    "docs/README.es-es.md",
+    "core/i18n/lang/tr.yaml",
+    "frontend/src/lang/modules/ms.ts",
+    "frontend/src/lang/modules/en.ts"
+]

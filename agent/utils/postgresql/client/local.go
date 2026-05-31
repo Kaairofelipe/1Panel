@@ -194,19 +194,19 @@ func (r *Local) Recover(info RecoverInfo) error {
 }
 
 func (r *Local) SyncDB() ([]SyncDBInfo, error) {
-	var datas []SyncDBInfo
+	var dataList []SyncDBInfo
 	lines, err := r.ExecSQLForRows("SELECT datname FROM pg_database", 300)
 	if err != nil {
-		return datas, err
+		return dataList, err
 	}
 	for _, line := range lines {
 		itemLine := strings.TrimLeft(line, " ")
 		if len(itemLine) == 0 || itemLine == "template1" || itemLine == "template0" || itemLine == r.Username {
 			continue
 		}
-		datas = append(datas, SyncDBInfo{Name: itemLine, From: "local", PostgresqlName: r.Database})
+		dataList = append(dataList, SyncDBInfo{Name: itemLine, From: "local", PostgresqlName: r.Database})
 	}
-	return datas, nil
+	return dataList, nil
 }
 
 func (r *Local) Close() {}

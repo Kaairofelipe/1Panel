@@ -60,7 +60,7 @@ const (
 	Ovh          DnsType = "Ovh"
 	AcmeDNS      DnsType = "AcmeDNS"
 	PorkBun      DnsType = "PorkBun"
-	Technitium	 DnsType = "Technitium"
+	Technitium   DnsType = "Technitium"
 )
 
 type DNSParam struct {

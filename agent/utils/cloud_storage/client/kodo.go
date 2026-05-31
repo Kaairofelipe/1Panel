@@ -41,11 +41,11 @@ func (k kodoClient) ListBuckets() ([]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var datas []interface{}
+	var dataList []interface{}
 	for _, bucket := range buckets {
-		datas = append(datas, bucket)
+		dataList = append(dataList, bucket)
 	}
-	return datas, nil
+	return dataList, nil
 }
 
 func (k kodoClient) Exist(path string) (bool, error) {
@@ -94,8 +94,8 @@ func (k kodoClient) Download(src, target string) (bool, error) {
 	deadline := time.Now().Add(time.Second * 3600).Unix()
 	privateAccessURL := storage.MakePrivateURL(k.auth, k.domain, src, deadline)
 
-	fo := files.NewFileOp()
-	if err := fo.DownloadFile(privateAccessURL, target); err != nil {
+	fOp := files.NewFileOp()
+	if err := fOp.DownloadFile(privateAccessURL, target); err != nil {
 		return false, err
 	}
 	return true, nil
