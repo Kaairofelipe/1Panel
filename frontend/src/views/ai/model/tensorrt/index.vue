@@ -43,7 +43,7 @@
                                 link
                                 type="primary"
                                 :disabled="
-                                    row.status !== 'Running' && row.status !== 'Rrror' && row.status !== 'Restarting'
+                                    row.status !== 'Running' && row.status !== 'Error' && row.status !== 'Restarting'
                                 "
                             >
                                 {{ $t('website.check') }}
