@@ -628,12 +628,12 @@ const changeDatabase = async () => {
 const loadDBOptions = async () => {
     try {
         const res = await listDatabases('mongodb');
-        const datas = res.data || [];
+        const data = res.data || [];
         dbOptionsLocal.value = [];
         dbOptionsRemote.value = [];
         currentDB.value = undefined;
         currentDBName.value = globalStore.currentMongodbDB;
-        for (const item of datas) {
+        for (const item of data) {
             if (currentDBName.value && item.database === currentDBName.value) {
                 currentDB.value = item;
                 if (item.from === 'local') {

@@ -1,0 +1,11 @@
+[default.extend-words]
+lso = "lso"
+anser = "anser"
+
+[files]
+extend-exclude = [
+    "docs/README.fr.md",
+    "frontend/src/lang/modules/ms.ts",
+    "frontend/src/lang/modules/en.ts",
+    "frontend/src/lang/fu.ts"
+]
