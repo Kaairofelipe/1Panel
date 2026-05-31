@@ -38,7 +38,7 @@ func NewRemote(db Remote) *Remote {
 	return &db
 }
 func (r *Remote) Create(info CreateInfo) error {
-	createSql := fmt.Sprintf("CREATE DATABASE \"%s\"", info.Name)
+	createSql := fmt.Sprintf("CREATE DATABASE %s", EscapeIdentifier(info.Name))
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrDatabaseIsExist")
@@ -52,7 +52,7 @@ func (r *Remote) Create(info CreateInfo) error {
 }
 
 func (r *Remote) CreateUser(info CreateInfo, withDeleteDB bool) error {
-	createSql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", info.Username, info.Password)
+	createSql := fmt.Sprintf("CREATE USER %s WITH PASSWORD %s", EscapeIdentifier(info.Username), EscapeString(info.Password))
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrUserIsExist")
@@ -78,7 +78,7 @@ func (r *Remote) CreateUser(info CreateInfo, withDeleteDB bool) error {
 			return err
 		}
 	}
-	grantSql := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE \"%s\" TO \"%s\"", info.Name, info.Username)
+	grantSql := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE %s TO %s", EscapeIdentifier(info.Name), EscapeIdentifier(info.Username))
 	if err := r.ExecSQL(grantSql, info.Timeout); err != nil {
 		if withDeleteDB {
 			_ = r.Delete(DeleteInfo{
@@ -102,12 +102,12 @@ func (r *Remote) Delete(info DeleteInfo) error {
 		if inUse && !info.ForceDelete {
 			return buserr.WithDetail("ErrInUsed", info.Name, nil)
 		}
-		dropSql := fmt.Sprintf("DROP DATABASE \"%s\"", info.Name)
+		dropSql := fmt.Sprintf("DROP DATABASE %s", EscapeIdentifier(info.Name))
 		if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 			return fmt.Errorf("drop database failed, err: %v", err)
 		}
 	}
-	dropSql := fmt.Sprintf("DROP USER \"%s\"", info.Username)
+	dropSql := fmt.Sprintf("DROP USER %s", EscapeIdentifier(info.Username))
 	if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 		return fmt.Errorf("drop user failed, err: %v", err)
 	}
@@ -137,11 +137,11 @@ func (r *Remote) ChangePrivileges(info Privileges) error {
 	if !info.SuperUser {
 		super = "NOSUPERUSER"
 	}
-	return r.ExecSQL(fmt.Sprintf("ALTER USER \"%s\" WITH %s", info.Username, super), info.Timeout)
+	return r.ExecSQL(fmt.Sprintf("ALTER USER %s WITH %s", EscapeIdentifier(info.Username), super), info.Timeout)
 }
 
 func (r *Remote) ChangePassword(info PasswordChangeInfo) error {
-	return r.ExecSQL(fmt.Sprintf("ALTER USER \"%s\" WITH ENCRYPTED PASSWORD '%s'", info.Username, info.Password), info.Timeout)
+	return r.ExecSQL(fmt.Sprintf("ALTER USER %s WITH ENCRYPTED PASSWORD %s", EscapeIdentifier(info.Username), EscapeString(info.Password)), info.Timeout)
 }
 
 func (r *Remote) Backup(info BackupInfo) error {
@@ -161,8 +161,8 @@ func (r *Remote) Backup(info BackupInfo) error {
 	}
 	fileNameItem := info.TargetDir + "/" + strings.TrimSuffix(info.FileName, ".gz")
 	backupCommand := exec.Command("bash", "-c",
-		fmt.Sprintf("docker run --rm --net=host -i %s /bin/bash -c 'PGPASSWORD='\\''%s'\\'' pg_dump  -h %s -p %d --no-owner -Fc -U %s %s' > %s",
-			imageTag, r.Password, r.Address, r.Port, r.User, info.Name, fileNameItem))
+		fmt.Sprintf("docker run --rm --net=host -i %s /bin/bash -c 'PGPASSWORD=%s pg_dump  -h %s -p %d --no-owner -Fc -U %s %s' > %s",
+			imageTag, EscapeBashString(r.Password), r.Address, r.Port, EscapeIdentifier(r.User), EscapeIdentifier(info.Name), fileNameItem))
 	_ = backupCommand.Run()
 	b := make([]byte, 5)
 	n := []byte{80, 71, 68, 77, 80}
@@ -208,8 +208,8 @@ func (r *Remote) Recover(info RecoverInfo) error {
 		}()
 	}
 	recoverCommand := exec.Command("bash", "-c",
-		fmt.Sprintf("docker run --rm --net=host -i %s /bin/bash -c 'PGPASSWORD='\\''%s'\\'' pg_restore -h %s -p %d --verbose --clean --no-privileges --no-owner -Fc -c  --if-exists --no-owner -U %s -d %s --role=%s' < %s",
-			imageTag, r.Password, r.Address, r.Port, r.User, info.Name, info.Username, fileName))
+		fmt.Sprintf("docker run --rm --net=host -i %s /bin/bash -c 'PGPASSWORD=%s pg_restore -h %s -p %d --verbose --clean --no-privileges --no-owner -Fc -c  --if-exists --no-owner -U %s -d %s --role=%s' < %s",
+			imageTag, EscapeBashString(r.Password), r.Address, r.Port, EscapeIdentifier(r.User), EscapeIdentifier(info.Name), EscapeIdentifier(info.Username), fileName))
 	pipe, _ := recoverCommand.StdoutPipe()
 	stderrPipe, _ := recoverCommand.StderrPipe()
 	defer pipe.Close()

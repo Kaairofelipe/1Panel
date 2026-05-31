@@ -32,7 +32,7 @@ func NewLocal(command []string, containerName, username, password, database stri
 }
 
 func (r *Local) Create(info CreateInfo) error {
-	createSql := fmt.Sprintf("CREATE DATABASE \"%s\"", info.Name)
+	createSql := fmt.Sprintf("CREATE DATABASE %s", EscapeIdentifier(info.Name))
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrDatabaseIsExist")
@@ -41,7 +41,7 @@ func (r *Local) Create(info CreateInfo) error {
 	}
 
 	if err := r.CreateUser(info, true); err != nil {
-		_ = r.ExecSQL(fmt.Sprintf("DROP DATABASE \"%s\"", info.Name), info.Timeout)
+		_ = r.ExecSQL(fmt.Sprintf("DROP DATABASE %s", EscapeIdentifier(info.Name)), info.Timeout)
 		return err
 	}
 
@@ -53,12 +53,12 @@ func (r *Local) ChangePrivileges(info Privileges) error {
 	if !info.SuperUser {
 		super = "NOSUPERUSER"
 	}
-	changeSql := fmt.Sprintf("ALTER USER \"%s\" WITH %s", info.Username, super)
+	changeSql := fmt.Sprintf("ALTER USER %s WITH %s", EscapeIdentifier(info.Username), super)
 	return r.ExecSQL(changeSql, info.Timeout)
 }
 
 func (r *Local) CreateUser(info CreateInfo, withDeleteDB bool) error {
-	createSql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", info.Username, info.Password)
+	createSql := fmt.Sprintf("CREATE USER %s WITH PASSWORD %s", EscapeIdentifier(info.Username), EscapeString(info.Password))
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrUserIsExist")
@@ -84,7 +84,7 @@ func (r *Local) CreateUser(info CreateInfo, withDeleteDB bool) error {
 			return err
 		}
 	}
-	grantStr := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE \"%s\" TO \"%s\"", info.Name, info.Username)
+	grantStr := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE %s TO %s", EscapeIdentifier(info.Name), EscapeIdentifier(info.Username))
 	if err := r.ExecSQL(grantStr, info.Timeout); err != nil {
 		if withDeleteDB {
 			_ = r.Delete(DeleteInfo{
@@ -107,12 +107,12 @@ func (r *Local) Delete(info DeleteInfo) error {
 		if inUse && !info.ForceDelete {
 			return buserr.WithDetail("ErrInUsed", info.Name, nil)
 		}
-		dropSql := fmt.Sprintf("DROP DATABASE \"%s\"", info.Name)
+		dropSql := fmt.Sprintf("DROP DATABASE %s", EscapeIdentifier(info.Name))
 		if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 			return fmt.Errorf("drop database failed, err: %v", err)
 		}
 	}
-	dropSql := fmt.Sprintf("DROP USER \"%s\"", info.Username)
+	dropSql := fmt.Sprintf("DROP USER %s", EscapeIdentifier(info.Username))
 	if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 		return fmt.Errorf("drop user failed, err: %v", err)
 	}
@@ -120,7 +120,7 @@ func (r *Local) Delete(info DeleteInfo) error {
 }
 
 func (r *Local) ChangePassword(info PasswordChangeInfo) error {
-	changeSql := fmt.Sprintf("ALTER USER \"%s\" WITH PASSWORD '%s'", info.Username, info.Password)
+	changeSql := fmt.Sprintf("ALTER USER %s WITH PASSWORD %s", EscapeIdentifier(info.Username), EscapeString(info.Password))
 	if err := r.ExecSQL(changeSql, info.Timeout); err != nil {
 		return err
 	}
@@ -144,7 +144,7 @@ func (r *Local) Backup(info BackupInfo) error {
 
 	cmd := exec.Command("docker", "exec", "-i", r.ContainerName,
 		"sh", "-c",
-		fmt.Sprintf("PGPASSWORD=%s pg_dump -F c -U %s -d %s", r.Password, r.Username, info.Name),
+		fmt.Sprintf("PGPASSWORD=%s pg_dump -F c -U %s -d %s", EscapeBashString(r.Password), EscapeIdentifier(r.Username), EscapeIdentifier(info.Name)),
 	)
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
@@ -166,7 +166,7 @@ func (r *Local) Recover(info RecoverInfo) error {
 	defer fi.Close()
 
 	cmd := exec.Command("docker", "exec", "-i", r.ContainerName, "sh", "-c",
-		fmt.Sprintf("PGPASSWORD=%s pg_restore -F c -c --if-exists --no-owner -U %s -d %s", r.Password, r.Username, info.Name),
+		fmt.Sprintf("PGPASSWORD=%s pg_restore -F c -c --if-exists --no-owner -U %s -d %s", EscapeBashString(r.Password), EscapeIdentifier(r.Username), EscapeIdentifier(info.Name)),
 	)
 	if strings.HasSuffix(info.SourceFile, ".gz") {
 		gzipFile, err := os.Open(info.SourceFile)
