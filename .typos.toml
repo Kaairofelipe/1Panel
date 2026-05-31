@@ -1,0 +1,13 @@
+[default.extend-words]
+ser = "ser"
+utiliza = "utiliza"
+versiones = "versiones"
+hace = "hace"
+requiere = "requiere"
+Oficial = "Oficial"
+inicial = "inicial"
+tema = "tema"
+lso = "lso"
+
+[files]
+extend-exclude = ["docs/README.fr.md", "frontend/src/lang/modules/es-es.ts"]
