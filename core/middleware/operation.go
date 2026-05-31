@@ -124,7 +124,7 @@ func OperationLog() gin.HandlerFunc {
 		record.DetailEN = strings.ReplaceAll(operationDic.FormatEN, "[]", "")
 		record.DetailZH = strings.ReplaceAll(operationDic.FormatZH, "[]", "")
 
-		datas := writer.body.Bytes()
+		data := writer.body.Bytes()
 		logRepo := repo.NewILogRepo()
 		if c.Request.Header.Get("Content-Encoding") == "gzip" {
 			buf := bytes.NewReader(writer.body.Bytes())
@@ -141,13 +141,13 @@ func OperationLog() gin.HandlerFunc {
 				return
 			}
 			defer reader.Close()
-			datas, _ = io.ReadAll(reader)
+			data, _ = io.ReadAll(reader)
 		}
 		var res response
 		contentType := strings.ToLower(c.Writer.Header().Get("Content-Type"))
 		isJSONResponse := strings.Contains(contentType, "application/json")
 		if isJSONResponse {
-			_ = json.Unmarshal(datas, &res)
+			_ = json.Unmarshal(data, &res)
 			if res.Code == 200 {
 				record.Status = constant.StatusSuccess
 			} else {
