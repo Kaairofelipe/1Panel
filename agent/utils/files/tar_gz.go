@@ -6,7 +6,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"strings"
+
 	"time"
 
 	"github.com/1Panel-dev/1Panel/agent/global"
@@ -26,16 +26,15 @@ func (t TarGzArchiver) Extract(ctx context.Context, filePath, dstDir string, sec
 		return fmt.Errorf("failed to create destination dir: %w", err)
 	}
 	var err error
-	commands := ""
 	if len(secret) != 0 {
-		extraCmd := fmt.Sprintf("openssl enc -d -aes-256-cbc -k '%s' -in '%s' | ", secret, filePath)
-		commands = fmt.Sprintf("%s tar -zxvf - -C '%s' > /dev/null 2>&1", extraCmd, dstDir)
-		global.LOG.Debug(strings.ReplaceAll(commands, fmt.Sprintf(" %s ", secret), "******"))
+		script := "openssl enc -d -aes-256-cbc -k \"$1\" -in \"$2\" | tar -zxvf - -C \"$3\" > /dev/null 2>&1"
+		global.LOG.Debug(fmt.Sprintf("openssl enc -d -aes-256-cbc -k '******' -in '%s' | tar -zxvf - -C '%s' > /dev/null 2>&1", filePath, dstDir))
+		err = cmd.NewCommandMgr(cmd.WithContext(ctx)).RunBashCWithArgs(script, secret, filePath, dstDir)
 	} else {
-		commands = fmt.Sprintf("tar -zxvf '%s' -C '%s' > /dev/null 2>&1", filePath, dstDir)
-		global.LOG.Debug(commands)
+		global.LOG.Debug(fmt.Sprintf("tar -zxvf '%s' -C '%s' > /dev/null 2>&1", filePath, dstDir))
+		err = cmd.NewCommandMgr(cmd.WithContext(ctx)).Run("tar", "-zxvf", filePath, "-C", dstDir)
 	}
-	if err = cmd.NewCommandMgr(cmd.WithContext(ctx)).RunBashC(commands); err != nil {
+	if err != nil {
 		return err
 	}
 	return nil
@@ -52,25 +51,27 @@ func (t TarGzArchiver) Compress(ctx context.Context, sourcePaths []string, dstFi
 		}
 	}()
 
-	var itemDirs []string
-	for _, item := range sourcePaths {
-		itemDirs = append(itemDirs, fmt.Sprintf("\"%s\"", filepath.Base(item)))
-	}
-	itemDir := strings.Join(itemDirs, " ")
 	aheadDir := filepath.Dir(sourcePaths[0])
 	if len(aheadDir) == 0 {
 		aheadDir = "/"
 	}
-	commands := ""
-	if len(secret) != 0 {
-		extraCmd := fmt.Sprintf("| openssl enc -aes-256-cbc -salt -k '%s' -out '%s'", secret, tmpFile)
-		commands = fmt.Sprintf("tar -zcf - -C \"%s\" %s %s", aheadDir, itemDir, extraCmd)
-		global.LOG.Debug(strings.ReplaceAll(commands, fmt.Sprintf(" '%s' ", secret), " ****** "))
-	} else {
-		commands = fmt.Sprintf("tar -zcf \"%s\" -C \"%s\" %s", tmpFile, aheadDir, itemDir)
-		global.LOG.Debug(commands)
+
+	relativePaths := make([]string, len(sourcePaths))
+	for i, sp := range sourcePaths {
+		relativePaths[i] = filepath.Base(sp)
 	}
-	err = cmd.NewCommandMgr(cmd.WithContext(ctx)).RunBashC(commands)
+
+	if len(secret) != 0 {
+		script := "tar -zcf - -C \"$1\" \"${@:4}\" | openssl enc -aes-256-cbc -salt -k \"$2\" -out \"$3\""
+		global.LOG.Debug(fmt.Sprintf("tar -zcf - -C \"%s\" ... | openssl enc -aes-256-cbc -salt -k ****** -out \"%s\"", aheadDir, tmpFile))
+		args := append([]string{aheadDir, secret, tmpFile}, relativePaths...)
+		argsWithScript := append([]string{script}, args...)
+		err = cmd.NewCommandMgr(cmd.WithContext(ctx)).RunBashCWithArgs(argsWithScript...)
+	} else {
+		global.LOG.Debug(fmt.Sprintf("tar -zcf \"%s\" -C \"%s\" ...", tmpFile, aheadDir))
+		args := append([]string{"-zcf", tmpFile, "-C", aheadDir}, relativePaths...)
+		err = cmd.NewCommandMgr(cmd.WithContext(ctx)).Run("tar", args...)
+	}
 	if err != nil {
 		return err
 	}

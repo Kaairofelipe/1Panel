@@ -179,7 +179,7 @@
                                     :disabled-date="checkDate"
                                     :shortcuts="shortcuts"
                                     :clearable="false"
-                                    @change="updateWebsitConfig(row)"
+                                    @change="updateWebsiteConfig(row)"
                                     :ref="(el) => setdateRefs(el)"
                                     @visible-change="(visibility: boolean) => pickerVisibility(visibility, row)"
                                     size="small"
@@ -407,12 +407,12 @@ const hideFavorite = () => {
 
 const favoriteWebsite = (row: Website.Website) => {
     row.favorite = !row.favorite;
-    updateWebsitConfig(row);
+    updateWebsiteConfig(row);
 };
 
 const handleDomainEdit = (row: Website.Website, domain: string) => {
     row.primaryDomain = domain;
-    updateWebsitConfig(row);
+    updateWebsiteConfig(row);
 };
 
 const disabledConfig = computed(() => {
@@ -532,7 +532,7 @@ const pickerVisibility = (visibility: boolean, row: any) => {
     }
 };
 
-const updateWebsitConfig = (row: any) => {
+const updateWebsiteConfig = (row: any) => {
     let reqDate = dateFormatSimple(row.expireDate);
     if (reqDate == '2006-01-02') {
         reqDate = '9999-12-31';
@@ -643,7 +643,7 @@ const updateRemark = (row: Website.Website, bulr: Function) => {
         MsgError(i18n.global.t('commons.rule.length128Err'));
         return;
     }
-    updateWebsitConfig(row);
+    updateWebsiteConfig(row);
 };
 
 const openTaskLog = () => {
