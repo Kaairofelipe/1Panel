@@ -58,6 +58,7 @@ import { getAppStoreConfig } from '@/api/modules/setting';
 import i18n from '@/lang';
 import bus from '@/global/bus';
 import TaskLog from '@/components/log/task/index.vue';
+import DOMPurify from 'dompurify';
 import { v4 as uuidv4 } from 'uuid';
 
 const deleteReq = ref({
@@ -106,7 +107,7 @@ const acceptParams = async (app: App.AppInstallDto) => {
     deleteInfo.value = '';
     deleteReq.value.installId = app.id;
     appType.value = app.appType;
-    deleteHelper.value = i18n.global.t('website.deleteConfirmHelper', [app.name]);
+    deleteHelper.value = DOMPurify.sanitize(i18n.global.t('website.deleteConfirmHelper', [app.name]));
     appInstallName.value = app.name;
     linkDB.value = app.linkDB;
     open.value = true;

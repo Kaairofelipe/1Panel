@@ -55,6 +55,7 @@ import { FormInstance } from 'element-plus';
 import { ref } from 'vue';
 import { Website } from '@/api/interface/website';
 import { MsgSuccess } from '@/utils/message';
+import DOMPurify from 'dompurify';
 
 const initData = () => ({
     id: 0,
@@ -90,7 +91,7 @@ const acceptParams = async (website: Website.WebsiteDTO) => {
     deleteInfo.value = '';
     deleteReq.value.id = website.id;
     websiteName.value = website.primaryDomain;
-    deleteHelper.value = i18n.global.t('website.deleteConfirmHelper', [website.primaryDomain]);
+    deleteHelper.value = DOMPurify.sanitize(i18n.global.t('website.deleteConfirmHelper', [website.primaryDomain]));
     type.value = website.type;
     open.value = true;
 };
