@@ -1,0 +1,30 @@
+[default]
+extend-ignore-re = [
+    "(?i)padam",
+    "(?i)sistem",
+    "(?i)blok",
+    "(?i)modul",
+    "(?i)respons",
+    "(?i)analisis",
+    "(?i)templat",
+    "(?i)maka",
+    "(?i)tema",
+    "(?i)cros",
+    "(?i)hepler",
+    "(?i)simbol",
+    "(?i)cahe",
+    "(?i)linke",
+    "(?i)hight",
+    "(?i)segmen",
+    "(?i)soket",
+    "(?i)restauration",
+    "(?i)fonction",
+    "(?i)davantage",
+    "(?i)facilitant",
+    "(?i)certificat",
+    "(?i)conteneurs",
+    "(?i)principales",
+    "(?i)sur",
+]
+[files]
+extend-exclude = ["docs/README.fr.md", "frontend/src/lang/modules/ms.ts"]
