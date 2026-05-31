@@ -1,5 +1,5 @@
 <template>
-    <DrawerPro :header="$t('commons.button.' + mode)" v-model="drawerVisiable" size="large" @close="handleClose">
+    <DrawerPro :header="$t('commons.button.' + mode)" v-model="drawerVisible" size="large" @close="handleClose">
         <el-alert :title="$t('aiTools.tensorRT.imageAlert')" class="common-prompt" :closable="false" type="warning" />
         <el-form ref="formRef" label-position="top" :model="tensorRTLLM" :rules="rules" v-loading="loading">
             <el-form-item :label="$t('commons.table.name')" prop="name">
@@ -45,7 +45,7 @@
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="drawerVisiable = false">{{ $t('commons.button.cancel') }}</el-button>
+                <el-button @click="drawerVisible = false">{{ $t('commons.button.cancel') }}</el-button>
                 <el-button :disabled="loading" type="primary" @click="onSubmit">
                     {{ $t('commons.button.confirm') }}
                 </el-button>
@@ -71,7 +71,7 @@ const { isFxplay } = useGlobalStore();
 
 const loading = ref(false);
 const mode = ref('create');
-const drawerVisiable = ref(false);
+const drawerVisible = ref(false);
 const newTensorRTLLM = () => {
     return {
         name: '',
@@ -94,7 +94,7 @@ const emit = defineEmits(['search']);
 
 const openCreate = (): void => {
     mode.value = 'create';
-    drawerVisiable.value = true;
+    drawerVisible.value = true;
     tensorRTLLM.value = newTensorRTLLM();
 };
 
@@ -114,11 +114,11 @@ const openEdit = (rowData: any): void => {
     if (tensorRTLLM.value.extraHosts == null) {
         tensorRTLLM.value.extraHosts = [];
     }
-    drawerVisiable.value = true;
+    drawerVisible.value = true;
 };
 
 const handleClose = () => {
-    drawerVisiable.value = false;
+    drawerVisible.value = false;
 };
 
 const getModelDir = (path: string) => {
@@ -156,7 +156,7 @@ const onSubmit = async () => {
                     loading.value = false;
                     MsgSuccess(i18n.global.t('commons.msg.operationSuccess'));
                     emit('search');
-                    drawerVisiable.value = false;
+                    drawerVisible.value = false;
                 })
                 .catch(() => {
                     loading.value = false;
@@ -168,7 +168,7 @@ const onSubmit = async () => {
                 loading.value = false;
                 MsgSuccess(i18n.global.t('commons.msg.operationSuccess'));
                 emit('search');
-                drawerVisiable.value = false;
+                drawerVisible.value = false;
             })
             .catch(() => {
                 loading.value = false;

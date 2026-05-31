@@ -81,14 +81,14 @@ const acceptParams = async (params: DialogProps): Promise<void> => {
     monitorVisible.value = true;
     dialogData.value.containerID = params.containerID;
     title.value = params.container;
-    cpuDatas.value = [];
-    memDatas.value = [];
-    cacheDatas.value = [];
-    ioReadDatas.value = [];
-    ioWriteDatas.value = [];
-    netTxDatas.value = [];
-    netRxDatas.value = [];
-    timeDatas.value = [];
+    cpuData.value = [];
+    memData.value = [];
+    cacheData.value = [];
+    ioReadData.value = [];
+    ioWriteData.value = [];
+    netTxData.value = [];
+    netRxData.value = [];
+    timeData.value = [];
     timeInterval.value = 5;
     isInit.value = true;
     loadData();
@@ -100,14 +100,14 @@ const acceptParams = async (params: DialogProps): Promise<void> => {
     }, 1000 * timeInterval.value);
 };
 
-const cpuDatas = ref<Array<string>>([]);
-const memDatas = ref<Array<string>>([]);
-const cacheDatas = ref<Array<string>>([]);
-const ioReadDatas = ref<Array<string>>([]);
-const ioWriteDatas = ref<Array<string>>([]);
-const netTxDatas = ref<Array<string>>([]);
-const netRxDatas = ref<Array<string>>([]);
-const timeDatas = ref<Array<string>>([]);
+const cpuData = ref<Array<string>>([]);
+const memData = ref<Array<string>>([]);
+const cacheData = ref<Array<string>>([]);
+const ioReadData = ref<Array<string>>([]);
+const ioWriteData = ref<Array<string>>([]);
+const netTxData = ref<Array<string>>([]);
+const netRxData = ref<Array<string>>([]);
+const timeData = ref<Array<string>>([]);
 const chartsOption = ref({ cpuChart: null, memoryChart: null, ioChart: null, networkChart: null });
 
 const changeTimer = () => {
@@ -121,46 +121,46 @@ const changeTimer = () => {
 
 const loadData = async () => {
     const res = await containerStats(dialogData.value.containerID);
-    cpuDatas.value.push(res.data.cpuPercent.toFixed(2));
-    if (cpuDatas.value.length > 20) {
-        cpuDatas.value.splice(0, 1);
+    cpuData.value.push(res.data.cpuPercent.toFixed(2));
+    if (cpuData.value.length > 20) {
+        cpuData.value.splice(0, 1);
     }
-    memDatas.value.push(res.data.memory.toFixed(2));
-    if (memDatas.value.length > 20) {
-        memDatas.value.splice(0, 1);
+    memData.value.push(res.data.memory.toFixed(2));
+    if (memData.value.length > 20) {
+        memData.value.splice(0, 1);
     }
-    cacheDatas.value.push(res.data.cache.toFixed(2));
-    if (cacheDatas.value.length > 20) {
-        cacheDatas.value.splice(0, 1);
+    cacheData.value.push(res.data.cache.toFixed(2));
+    if (cacheData.value.length > 20) {
+        cacheData.value.splice(0, 1);
     }
-    ioReadDatas.value.push(res.data.ioRead.toFixed(2));
-    if (ioReadDatas.value.length > 20) {
-        ioReadDatas.value.splice(0, 1);
+    ioReadData.value.push(res.data.ioRead.toFixed(2));
+    if (ioReadData.value.length > 20) {
+        ioReadData.value.splice(0, 1);
     }
-    ioWriteDatas.value.push(res.data.ioWrite.toFixed(2));
-    if (ioWriteDatas.value.length > 20) {
-        ioWriteDatas.value.splice(0, 1);
+    ioWriteData.value.push(res.data.ioWrite.toFixed(2));
+    if (ioWriteData.value.length > 20) {
+        ioWriteData.value.splice(0, 1);
     }
-    netTxDatas.value.push(res.data.networkTX.toFixed(2));
-    if (netTxDatas.value.length > 20) {
-        netTxDatas.value.splice(0, 1);
+    netTxData.value.push(res.data.networkTX.toFixed(2));
+    if (netTxData.value.length > 20) {
+        netTxData.value.splice(0, 1);
     }
-    netRxDatas.value.push(res.data.networkRX.toFixed(2));
-    if (netRxDatas.value.length > 20) {
-        netRxDatas.value.splice(0, 1);
+    netRxData.value.push(res.data.networkRX.toFixed(2));
+    if (netRxData.value.length > 20) {
+        netRxData.value.splice(0, 1);
     }
-    timeDatas.value.push(dateFormatForSecond(res.data.shotTime));
-    if (timeDatas.value.length > 20) {
-        timeDatas.value.splice(0, 1);
+    timeData.value.push(dateFormatForSecond(res.data.shotTime));
+    if (timeData.value.length > 20) {
+        timeData.value.splice(0, 1);
     }
 
     chartsOption.value['cpuChart'] = {
         title: 'CPU',
-        xData: timeDatas.value,
+        xData: timeData.value,
         yData: [
             {
                 name: 'CPU',
-                data: cpuDatas.value,
+                data: cpuData.value,
             },
         ],
         formatStr: '%',
@@ -168,15 +168,15 @@ const loadData = async () => {
 
     chartsOption.value['memoryChart'] = {
         title: i18n.global.t('monitor.memory'),
-        xData: timeDatas.value,
+        xData: timeData.value,
         yData: [
             {
                 name: i18n.global.t('monitor.memory'),
-                data: memDatas.value,
+                data: memData.value,
             },
             {
                 name: i18n.global.t('container.cache'),
-                data: cacheDatas.value,
+                data: cacheData.value,
             },
         ],
         formatStr: 'MB',
@@ -184,15 +184,15 @@ const loadData = async () => {
 
     chartsOption.value['ioChart'] = {
         title: i18n.global.t('monitor.disk') + ' IO',
-        xData: timeDatas.value,
+        xData: timeData.value,
         yData: [
             {
                 name: i18n.global.t('monitor.read'),
-                data: ioReadDatas.value,
+                data: ioReadData.value,
             },
             {
                 name: i18n.global.t('monitor.write'),
-                data: ioWriteDatas.value,
+                data: ioWriteData.value,
             },
         ],
         formatStr: 'MB',
@@ -200,15 +200,15 @@ const loadData = async () => {
 
     chartsOption.value['networkChart'] = {
         title: i18n.global.t('monitor.network'),
-        xData: timeDatas.value,
+        xData: timeData.value,
         yData: [
             {
                 name: i18n.global.t('monitor.up'),
-                data: netTxDatas.value,
+                data: netTxData.value,
             },
             {
                 name: i18n.global.t('monitor.down'),
-                data: netRxDatas.value,
+                data: netRxData.value,
             },
         ],
         formatStr: 'KB',

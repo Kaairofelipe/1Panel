@@ -2917,7 +2917,7 @@ const message = {
         serverCacheTimeHelper: '请求在服务器端缓存的时间，到期前相同请求会直接返回缓存结果，不再请求源站。',
         browserCacheTime: '浏览器缓存时间',
         browserCacheTimeHelper: '静态资源在浏览器本地缓存的时间，减少重复请求。到期前用户刷新页面会直接使用本地缓存。',
-        donotLinkeDB: '不关联数据库',
+        donotLinkDB: '不关联数据库',
         toWebsiteDir: '进入网站目录',
         execParameters: '执行参数',
         extCommand: '补充命令',
