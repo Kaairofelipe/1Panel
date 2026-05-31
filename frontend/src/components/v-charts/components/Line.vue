@@ -154,11 +154,11 @@ function initChart() {
         z: 1,
         tooltip: props.option.tooltip || {
             trigger: 'axis',
-            formatter: function (datas: any) {
-                let res = datas[0].name + '<br/>';
+            formatter: function (data: any) {
+                let res = data[0].name + '<br/>';
                 switch (props.option.formatStr) {
                     case 'KB/s':
-                        for (const item of datas) {
+                        for (const item of data) {
                             res +=
                                 item.marker +
                                 ' ' +
@@ -169,7 +169,7 @@ function initChart() {
                         }
                         break;
                     case 'KB':
-                        for (const item of datas) {
+                        for (const item of data) {
                             res +=
                                 item.marker +
                                 ' ' +
@@ -180,7 +180,7 @@ function initChart() {
                         }
                         break;
                     case 'MB':
-                        for (const item of datas) {
+                        for (const item of data) {
                             res +=
                                 item.marker +
                                 ' ' +
@@ -191,7 +191,7 @@ function initChart() {
                         }
                         break;
                     default:
-                        for (const item of datas) {
+                        for (const item of data) {
                             res +=
                                 item.marker +
                                 ' ' +
