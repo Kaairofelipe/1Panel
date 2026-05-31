@@ -1,0 +1,11 @@
+
+[default.extend-words]
+fo = "fo"
+lso = "lso"
+
+[files]
+extend-exclude = [
+    "docs/README.fr.md",
+    "docs/README.es.md",
+    "docs/README.tw.md"
+]

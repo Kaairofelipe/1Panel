@@ -377,13 +377,13 @@ const changeVersion = () => {
             runtime.appDetailID = res.data.id;
             runtime.image = res.data.image + ':' + runtime.version;
             appParams.value = res.data.params;
-            const fileds = res.data.params.formFields;
+            const fields = res.data.params.formFields;
             formFields.value = {};
-            for (const index in fileds) {
-                formFields.value[fileds[index]['envKey']] = fileds[index];
-                runtime.params[fileds[index]['envKey']] = fileds[index]['default'];
-                if (fileds[index]['envKey'] == 'PHP_VERSION') {
-                    runtime.image = '1panel-php-fpm:' + fileds[index]['default'];
+            for (const index in fields) {
+                formFields.value[fields[index]['envKey']] = fields[index];
+                runtime.params[fields[index]['envKey']] = fields[index]['default'];
+                if (fields[index]['envKey'] == 'PHP_VERSION') {
+                    runtime.image = '1panel-php-fpm:' + fields[index]['default'];
                 }
             }
             initParam.value = true;
@@ -450,13 +450,12 @@ const getRuntime = async (id: number) => {
             rebuild: true,
             source: data.source,
             remark: data.remark,
-            versionn: data.version,
         });
 
-        const fileds = data.appParams;
+        const fields = data.appParams;
         const forms = {};
-        for (const index in fileds) {
-            forms[fileds[index].key] = fileds[index];
+        for (const index in fields) {
+            forms[fields[index].key] = fields[index];
         }
         formFields.value = forms;
         if (data.params['PHP_EXTENSIONS'] != '') {
