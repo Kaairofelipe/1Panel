@@ -1,0 +1,170 @@
+[default.extend-words]
+datas = "datas"
+Datas = "Datas"
+Cahe = "Cahe"
+Linke = "Linke"
+hight = "hight"
+cros = "cros"
+Hepler = "Hepler"
+atual = "atual"
+librarys = "librarys"
+sistem = "sistem"
+recrete = "recrete"
+lso = "lso"
+Visiable = "Visiable"
+Rrror = "Rrror"
+conetnt = "conetnt"
+fileds = "fileds"
+Websit = "Websit"
+versionn = "versionn"
+Cutom = "Cutom"
+anser = "anser"
+Columnas = "Columnas"
+tyops = "tyops"
+Nginx = "Nginx"
+
+[default]
+extend-ignore-re = [
+    "(?i)typesdrew",
+    "(?i)recrete",
+    "(?i)requset",
+    "(?i)encryptio",
+    "(?i)sycn",
+    "(?i)broswer",
+    "(?i)contianer",
+    "(?i)ingore",
+    "(?i)lable",
+    "(?i)fo",
+    "(?i)unsupport",
+    "(?i)Supress",
+    "(?i)teh",
+    "(?i)adventerous",
+    "(?i)manifestion",
+    "(?i)manifestior",
+    "(?i)flate",
+    "(?i)arange",
+    "(?i)donw",
+    "(?i)usefull",
+    "(?i)becuase",
+    "(?i)arguement",
+    "(?i)Nd",
+    "(?i)ot",
+    "(?i)stap",
+    "(?i)existend",
+    "(?i)erronerous",
+    "(?i)empheral",
+    "(?i)grouepd",
+    "(?i)detctable",
+    "(?i)seaonal",
+    "(?i)wayferer",
+    "(?i)regylar",
+    "(?i)substitutents",
+    "(?i)serialzie",
+    "(?i)decreypted",
+    "(?i)wrappning",
+    "(?i)whaat",
+    "(?i)targest",
+    "(?i)pararmeter",
+    "(?i)stte",
+    "(?i)windo",
+    "(?i)deffer",
+    "(?i)opauqe",
+    "(?i)anonimised",
+    "(?i)anonimized",
+    "(?i)identitiy",
+    "(?i)unencyrpted",
+    "(?i)signign",
+    "(?i)requierment",
+    "(?i)descrepancy",
+    "(?i)surrouned",
+    "(?i)instantialed",
+    "(?i)ther",
+    "(?i)refernce",
+    "(?i)BA",
+    "(?i)ba",
+    "(?i)erro",
+    "(?i)cliente",
+    "(?i)comandos",
+    "(?i)arry",
+    "(?i)comando",
+    "(?i)anormal",
+    "(?i)analisis",
+    "(?i)faktor",
+    "(?i)grup",
+    "(?i)paket",
+    "(?i)referers",
+    "(?i)runing",
+    "(?i)faild",
+    "(?i)requset",
+    "(?i)encrypter",
+    "(?i)sycn",
+    "(?i)encryptio",
+    "(?i)broswer",
+    "(?i)contianer",
+    "(?i)ingore",
+    "(?i)lable",
+    "(?i)entrys",
+    "(?i)padam",
+    "(?i)limite",
+    "(?i)excede",
+    "(?i)ser",
+    "(?i)instale",
+    "(?i)parametre"
+]
+
+[files]
+extend-exclude = [
+    "docs/README*.md",
+    "frontend/src/lang/**/*.ts",
+    "agent/cmd/server/docs/x-log.json",
+    "frontend/src/views/**/*.vue",
+    "frontend/src/components/**/*.vue",
+    "agent/utils/cloud_storage/client/helper/webdav/reques.go",
+    ".github/workflows/tyops-check.yml",
+    "agent/utils/cloud_storage/client/helper/webdav/request.go",
+    "frontend/src/components/terminal/nginx-keywords.ts",
+    "core/i18n/lang/*.yaml",
+    "agent/i18n/lang/*.yaml",
+    "agent/app/service/dashboard.go",
+    "agent/app/service/website.go",
+    "core/utils/firewall/firewall.go",
+    "agent/app/service/alert_helper.go",
+    "core/utils/req_helper/requset.go",
+    "core/utils/encrypt/encrypt.go",
+    "core/cmd/server/docs/docs.go",
+    "agent/app/service/ssh.go",
+    "core/cmd/server/docs/swagger.json",
+    "agent/app/service/website_proxy.go",
+    "agent/app/service/container.go",
+    "agent/app/service/app_ingore_upgrade.go",
+    "agent/app/api/v2/ssh.go",
+    "core/app/dto/script_library.go",
+    "frontend/src/assets/json/iso.json",
+    "frontend/src/assets/iconfont/iconfont.json",
+    "agent/app/service/file.go",
+    "agent/app/service/disk_utils.go",
+    "agent/app/service/file_history.go",
+    "README.md",
+    "doc/CHANGELOG.md",
+    "frontend/src/lang/fu.ts",
+    "frontend/src/views/container/container/monitor/index.vue",
+    "frontend/src/views/host/monitor/monitor/index.vue",
+    "frontend/src/views/home/index.vue",
+    "frontend/src/views/setting/backup-account/operate/index.vue",
+    "frontend/src/views/ai/model/tensorrt/operate/index.vue",
+    "frontend/src/views/website/website/config/basic/proxy/cache/index.vue",
+    "frontend/src/views/website/runtime/php/create/index.vue",
+    "frontend/src/views/website/website/index.vue",
+    "frontend/src/views/app-store/apps/index.vue",
+    "frontend/src/views/database/redis/index.vue",
+    "frontend/src/views/database/postgresql/index.vue",
+    "frontend/src/views/ai/mcp/server/index.vue",
+    "frontend/src/views/website/website/config/basic/resource/index.vue",
+    "frontend/src/views/website/website/config/basic/rewrite/custom/index.vue",
+    "agent/utils/toolbox/pure-ftpd.go",
+    "agent/utils/encrypt/encrypt.go",
+    "core/go.mod",
+    "agent/go.mod",
+    "core/go.sum",
+    "agent/go.sum"
+]
