@@ -32,12 +32,50 @@ lable = "lable"
 anser = "anser"
 typesdrew = "typesdrew"
 Regsitry = "Regsitry"
+Padam = "Padam"
+padam = "padam"
+entrys = "entrys"
+Parametre = "Parametre"
+limite = "limite"
+operacional = "operacional"
+atual = "atual"
+Limite = "Limite"
+excede = "excede"
+instale = "instale"
+styl = "styl"
+cros = "cros"
+Broswer = "Broswer"
+reques = "reques"
+fo = "fo"
+ingore = "ingore"
+librarys = "librarys"
+contianer = "contianer"
+Encryptio = "Encryptio"
+referers = "referers"
+tootip = "tootip"
+Cahe = "Cahe"
+unsupport = "unsupport"
+conetnt = "conetnt"
+Arry = "Arry"
+Websit = "Websit"
+faild = "faild"
+fileds = "fileds"
+versionn = "versionn"
+abd = "abd"
+umarshal = "umarshal"
+requset = "requset"
+Cutom = "Cutom"
+Visiable = "Visiable"
+Rrror = "Rrror"
+lso = "lso"
+Linke = "Linke"
 
 [files]
 extend-exclude = [
     "frontend/src/lang/**/*",
+    "agent/i18n/lang/**/*",
+    "core/i18n/lang/**/*",
     "docs/README.*.md",
-    "core/i18n/lang/*.yaml",
     "agent/router/*.go",
     "core/cmd/server/docs/*"
 ]
