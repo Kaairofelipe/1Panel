@@ -1,0 +1,12 @@
+[default.extend-words]
+datas = "datas"
+Datas = "Datas"
+fo = "fo"
+Cutom = "Cutom"
+fileds = "fileds"
+Broswer = "Broswer"
+reques = "reques"
+lso = "lso"
+
+[files]
+extend-exclude = ["docs/README.fr.md", ".github/workflows/tyops-check.yml"]
