@@ -100,7 +100,7 @@ export namespace Container {
         tty: boolean;
         entrypoint: Array<string>;
         publishAllPorts: boolean;
-        exposedPorts: Array<Port>;
+        exposedPorts?: Array<Port>;
         nanoCPUs: number;
         cpuShares: number;
         memory: number;

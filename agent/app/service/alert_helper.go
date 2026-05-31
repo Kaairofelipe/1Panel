@@ -606,7 +606,7 @@ func sendAlerts(alert dto.AlertDTO, alertType, quota, quotaType string, params [
 				}
 				alertErr := xpack.CreateSMSAlertLog(alertType, alert, create, quotaType, params, constant.SMS)
 				if alertErr != nil {
-					global.LOG.Infof("%s alert sms push faild, err: %v", alertType, alertErr.Error())
+					global.LOG.Infof("%s alert sms push failed, err: %v", alertType, alertErr.Error())
 					continue
 				}
 				alertUtil.CreateNewAlertTask(quota, alertType, quotaType, constant.SMS)
@@ -628,7 +628,7 @@ func sendAlerts(alert dto.AlertDTO, alertType, quota, quotaType string, params [
 				agentInfo, _ := xpack.GetAgentInfo()
 				alertErr := alertUtil.CreateEmailAlertLog(create, alertInfo, params, transport, agentInfo)
 				if alertErr != nil {
-					global.LOG.Infof("%s alert email push faild, err: %v", alertType, alertErr.Error())
+					global.LOG.Infof("%s alert email push failed, err: %v", alertType, alertErr.Error())
 					continue
 				}
 				alertUtil.CreateNewAlertTask(quota, alertType, quotaType, constant.Email)
@@ -646,7 +646,7 @@ func sendAlerts(alert dto.AlertDTO, alertType, quota, quotaType string, params [
 				agentInfo, _ := xpack.GetAgentInfo()
 				err := xpack.CreateWebhookAlertLog(alertType, alert, create, quotaType, params, m, transport, agentInfo)
 				if err != nil {
-					global.LOG.Infof("%s alert webhook %s push faild, err: %v", alertType, m, err)
+					global.LOG.Infof("%s alert webhook %s push failed, err: %v", alertType, m, err)
 					continue
 				}
 				alertUtil.CreateNewAlertTask(quota, alertType, quotaType, m)
