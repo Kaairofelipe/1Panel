@@ -7,7 +7,7 @@ ErrRecordNotFound: 'Kayıt bulunamadı'
 ErrStructTransform: 'Dönüşüm hatası: {{ .err }}'
 ErrNotLogin: 'Oturum açılmamış: {{ .detail }}'
 ErrSessionDataNotFound: "Mevcut oturumun süresi doldu"
-ErrSessionDataFormat: "Mevcut oturum verisi biçimi anormal"
+ErrSessionDataFormat: "Mevcut oturum verisi biçimi abnormal"
 ErrPasswordExpired: 'Şifre süresi doldu: {{ .detail }}'
 ErrNotSupportType: 'Bu tür desteklenmiyor: {{ .name }}'
 ErrProxy: 'İstek başarısız: {{ .detail }}'
@@ -31,8 +31,8 @@ ErrEntranceFormat: "{{ .name }} güvenlik girişi şu anda desteklenmiyor. Lütf
 ErrDemoEnvironment: 'Demo modunda yok'
 ErrCmdTimeout: 'Komut zaman aşımına uğradı'
 ErrEntrance: "Güvenlik girişi bilgi hatası, lütfen kontrol edip tekrar deneyin"
-ErrGroupIsDefault: "Varsayılan grup, silinemez"
-ErrGroupIsInUse: "Grup kullanımda ve silinemez."
+ErrGroupIsDefault: "Varsayılan group, silinemez"
+ErrGroupIsInUse: "Group kullanımda ve silinemez."
 ErrLocalDelete: "Yerel düğüm silinemez"
 ErrPortInUsed: "{{ .name }} portu zaten kullanımda"
 ErrInternalServerKey: "İç sunucu hatası:"
@@ -245,7 +245,7 @@ ErrExpiredToken: 'Token süresi dolmuş, lütfen sıfırlayın ve tekrar tarayı
 #cluster
 ErrMasterDelete: "Ana düğümü silinemiyor, lütfen önce alt düğümleri silin."
 ClusterNameIsExist: "Küme adı zaten var."
-AppStatusUnHealthy: "Uygulama durumu alımı anormal, lütfen düğüm listesindeki yükleme düğümü durumunu kontrol edin."
+AppStatusUnHealthy: "Uygulama durumu alımı abnormal, lütfen düğüm listesindeki yükleme düğümü durumunu kontrol edin."
 MasterNodePortNotAvailable: "Düğüm {{ .name }} portu {{ .port }} bağlantı doğrulaması başarısız oldu, lütfen güvenlik duvarı/güvenlik grubu ayarlarını ve ana düğüm durumunu kontrol edin."
 ClusterMasterNotExist: "Küme ana düğümü bağlantısı kesildi, lütfen alt düğümleri silin."
 
