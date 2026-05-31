@@ -1,6 +1,8 @@
 package webdav
 
 import (
+	"compress/gzip"
+	"compress/zlib"
 	"fmt"
 	"io"
 	"net/http"
@@ -66,8 +68,7 @@ func (c *Client) propfind(path string, self bool, body string, resp interface{},
 		rq.Header.Add("Content-Type", "application/xml;charset=UTF-8")
 		rq.Header.Add("Accept", "application/xml,text/xml")
 		rq.Header.Add("Accept-Charset", "utf-8")
-		// TODO add support for 'gzip,deflate;q=0.8,q=0.7'
-		rq.Header.Add("Accept-Encoding", "")
+		rq.Header.Add("Accept-Encoding", "gzip,deflate;q=0.8,q=0.7")
 	})
 	if err != nil {
 		return err
@@ -78,7 +79,25 @@ func (c *Client) propfind(path string, self bool, body string, resp interface{},
 		return NewPathError("PROPFIND", path, rs.StatusCode)
 	}
 
-	return parseXML(rs.Body, resp, parse)
+	var bodyReader io.Reader = rs.Body
+	switch rs.Header.Get("Content-Encoding") {
+	case "gzip":
+		gzReader, err := gzip.NewReader(rs.Body)
+		if err != nil {
+			return err
+		}
+		defer gzReader.Close()
+		bodyReader = gzReader
+	case "deflate":
+		zlibReader, err := zlib.NewReader(rs.Body)
+		if err != nil {
+			return err
+		}
+		defer zlibReader.Close()
+		bodyReader = zlibReader
+	}
+
+	return parseXML(bodyReader, resp, parse)
 }
 
 func (c *Client) put(path string, stream io.Reader, contentLength int64) (status int, err error) {
