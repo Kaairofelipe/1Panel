@@ -48,7 +48,7 @@ Exécutez le script ci-dessous et suivez les instructions pour installer 1Panel 
 curl -sSL https://resource.1panel.pro/quick_start.sh -o quick_start.sh && bash quick_start.sh
 ```
 
-Veuillez vous référer à notre [documentation](https://docs.1panel.pro/quick_start/) pour plus d'informations.
+Veuillez vous référer à notre [documentation](https://docs.1panel.pro/quick_start/) pour plus d'information.
 
 ## Capture d'écran
 
@@ -58,14 +58,14 @@ Veuillez vous référer à notre [documentation](https://docs.1panel.pro/quick_s
 
 [![Star History Chart](https://api.star-history.com/svg?repos=1Panel-dev/1Panel&type=Date)](https://star-history.com/#1Panel-dev/1Panel&Date)
 
-## Informations de sécurité
+## Information de sécurité
 
 Si vous découvrez un quelconque problème de sécurité, veuillez nous contacter via : wanghe@fit2cloud.com.
 
 ## Licence
 
-Ce logiciel est sous licence GNU General Public License version 3 (GPLv3) (la « Licence ») ; vous ne pouvez utiliser ce fichier que conformément à la Licence. Vous pouvez obtenir une copie de la Licence à l'adresse suivante :
+Ce logiciel est sous licence GNU General Public License version 3 (GPLv3) (la « Licence ») ; vous ne pouvez utiliser ce fichier que conformément à la Licence. Vous pouvez obtenir une copied de la Licence à l'address suivante :
 
 <https://www.gnu.org/licenses/gpl-3.0.html>
 
-Sauf si exigé par la loi en vigueur ou convenu par écrit, le logiciel distribué sous la Licence est distribué « tel quel », SANS GARANTIE D'AUCUNE SORTE, expresse ou implicite, et sans aucune condition. Consultez la Licence pour les termes spécifiques régissant les autorisations et les limitations prévues par la Licence.
+Sauf si exigé par la loi en vigueur ou convenu par écrit, le logiciel distribué sous la Licence est distribué « tel quel », SANS GUARANTEE D'AUCUNE SORTE, expressive ou implicit, et sans aucune condition. Consultez la Licence pour les termes spécifiques régissant les autorisations et les limitations prévues par la Licence.
