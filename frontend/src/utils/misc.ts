@@ -1,12 +1,10 @@
 import { toUnicode } from 'punycode';
 
 export function deepCopy<T>(obj: any): T {
-    let newObj: any;
-    try {
-        newObj = obj.push ? [] : {};
-    } catch (error) {
-        newObj = {};
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
     }
+    let newObj: any = Array.isArray(obj) ? [] : {};
     for (let attr in obj) {
         if (typeof obj[attr] === 'object') {
             newObj[attr] = deepCopy(obj[attr]);
