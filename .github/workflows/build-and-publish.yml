@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.11.1'
 
@@ -24,7 +24,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff
         with:
           go-version: '1.25'
           cache-dependency-path: |
@@ -32,14 +32,14 @@ jobs:
             agent/go.sum
 
       - name: Build Release
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a
         with:
           distribution: goreleaser
           version: '~> v2'
           args: release --skip=publish --clean
 
       - name: Upload Assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@26994186c0ac3ef5cae75ac16aa32e8153525f77
         if: startsWith(github.ref, 'refs/tags/')
         with:
           draft: true
@@ -48,7 +48,7 @@ jobs:
             dist/checksums.txt
 
       - name: Setup OSSUTIL
-        uses: yizhoumo/setup-ossutil@v2
+        uses: yizhoumo/setup-ossutil@80f4dc3682862e71bd1ccc10acc2328f8d00a11a
         with:
           endpoint: ${{ secrets.OSS_ENDPOINT }}
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
@@ -60,7 +60,7 @@ jobs:
           ossutil cp -r dist/ oss://resource-fit2cloud-com/1panel/package/v2/stable/${{ github.ref_name }}/release/ --include "*.tar.gz" --include "checksums.txt" --only-current-dir --force
 
       - name: Setup Rclone
-        uses: AnimMouse/setup-rclone@v1
+        uses: AnimMouse/setup-rclone@26ef2133e09fd383329a1d4c1fbe6a71db1976c9
         with:
           rclone_config: ${{ secrets.RCLONE_CONFIG }}
 
