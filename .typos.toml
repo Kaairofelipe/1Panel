@@ -1,0 +1,43 @@
+[default.extend-words]
+ba = "ba"
+implicite = "implicite"
+ist = "ist"
+Prozess = "Prozess"
+Klick = "Klick"
+populer = "populer"
+Sie = "Sie"
+unter = "unter"
+oder = "oder"
+controle = "controle"
+adres = "adres"
+Analisis = "Analisis"
+sistem = "sistem"
+Cliente = "Cliente"
+Sistem = "Sistem"
+Comandos = "Comandos"
+faktor = "faktor"
+Erro = "Erro"
+comando = "comando"
+anormal = "anormal"
+grup = "grup"
+Grup = "Grup"
+Paket = "Paket"
+datas = "datas"
+Runing = "Runing"
+recrete = "recrete"
+Sycn = "Sycn"
+Encrypter = "Encrypter"
+Lable = "Lable"
+lable = "lable"
+anser = "anser"
+typesdrew = "typesdrew"
+Regsitry = "Regsitry"
+
+[files]
+extend-exclude = [
+    "frontend/src/lang/**/*",
+    "docs/README.*.md",
+    "core/i18n/lang/*.yaml",
+    "agent/router/*.go",
+    "core/cmd/server/docs/*"
+]
