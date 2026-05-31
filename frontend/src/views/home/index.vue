@@ -480,7 +480,7 @@ const loadMonitorEmptyTime = () => Array.from({ length: monitorChartEmptyLength 
 const loadMonitorChartData = (data: Array<number>) => (data.length === 0 ? loadMonitorEmptyData() : data);
 const loadMonitorChartTime = (data: Array<string>) => (data.length === 0 ? loadMonitorEmptyTime() : data);
 const loadIOChartOption = () => ({
-    xData: loadMonitorChartTime(timeIODatas.value),
+    xData: loadMonitorChartTime(timeIOData.value),
     yData: [
         {
             name: i18n.global.t('monitor.read'),
@@ -495,7 +495,7 @@ const loadIOChartOption = () => ({
     formatStr: 'MB',
 });
 const loadNetworkChartOption = () => ({
-    xData: loadMonitorChartTime(timeNetDatas.value),
+    xData: loadMonitorChartTime(timeNetData.value),
     yData: [
         {
             name: i18n.global.t('monitor.up'),
@@ -531,8 +531,8 @@ const ioReadBytes = ref<Array<number>>([]);
 const ioWriteBytes = ref<Array<number>>([]);
 const netBytesSents = ref<Array<number>>([]);
 const netBytesRecvs = ref<Array<number>>([]);
-const timeIODatas = ref<Array<string>>([]);
-const timeNetDatas = ref<Array<string>>([]);
+const timeIOData = ref<Array<string>>([]);
+const timeNetData = ref<Array<string>>([]);
 
 const simpleNodes = ref([]);
 const ioOptions = ref();
@@ -725,13 +725,13 @@ const onLoadBaseInfo = async (isInit: boolean, range: string) => {
     if (range === 'all' || range === 'io') {
         ioReadBytes.value = [];
         ioWriteBytes.value = [];
-        timeIODatas.value = [];
+        timeIOData.value = [];
         resetChartData = true;
     }
     if (range === 'all' || range === 'network') {
         netBytesSents.value = [];
         netBytesRecvs.value = [];
-        timeNetDatas.value = [];
+        timeNetData.value = [];
         resetChartData = true;
     }
     if (resetChartData) {
@@ -856,13 +856,13 @@ const onLoadCurrentInfo = async () => {
     let ioChoose = ioReadTime > ioWriteTime ? ioReadTime : ioWriteTime;
     currentChartInfo.ioTime = Math.round(Number(ioChoose / timeInterval));
 
-    timeIODatas.value.push(dateFormatForSecond(res.data.shotTime));
-    if (timeIODatas.value.length > 20) {
-        timeIODatas.value.splice(0, 1);
+    timeIOData.value.push(dateFormatForSecond(res.data.shotTime));
+    if (timeIOData.value.length > 20) {
+        timeIOData.value.splice(0, 1);
     }
-    timeNetDatas.value.push(dateFormatForSecond(res.data.shotTime));
-    if (timeNetDatas.value.length > 20) {
-        timeNetDatas.value.splice(0, 1);
+    timeNetData.value.push(dateFormatForSecond(res.data.shotTime));
+    if (timeNetData.value.length > 20) {
+        timeNetData.value.splice(0, 1);
     }
     loadData();
     updateCurrentInfo(res.data);
