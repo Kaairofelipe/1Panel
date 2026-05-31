@@ -1,0 +1,14 @@
+[default.extend-words]
+lso = "lso"
+datas = "datas"
+Datas = "Datas"
+Rrror = "Rrror"
+Visiable = "Visiable"
+Cutom = "Cutom"
+
+[files]
+extend-exclude = [
+    "frontend/src/lang/modules/es-es.ts",
+    "docs/README.fr.md",
+    "docs/README.es.md"
+]
