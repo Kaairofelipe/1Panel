@@ -7,5 +7,10 @@ lso = "lso"
 extend-exclude = [
     "docs/README.fr.md",
     "docs/README.es.md",
+    "docs/README.es-es.md",
+    "docs/README.id.md",
+    "docs/README.de.md",
+    "core/i18n/lang/tr.yaml",
+    "frontend/src/lang/modules/es-es.ts",
     "docs/README.tw.md"
 ]

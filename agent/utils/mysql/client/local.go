@@ -300,10 +300,10 @@ func (r *Local) Recover(info RecoverInfo) error {
 }
 
 func (r *Local) SyncDB(version string) ([]SyncDBInfo, error) {
-	var datas []SyncDBInfo
+	var data []SyncDBInfo
 	lines, err := r.ExecSQLForRows("SELECT SCHEMA_NAME, DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME FROM information_schema.SCHEMATA", 300)
 	if err != nil {
-		return datas, err
+		return data, err
 	}
 	for _, line := range lines {
 		parts := strings.Fields(line)
@@ -324,7 +324,7 @@ func (r *Local) SyncDB(version string) ([]SyncDBInfo, error) {
 		if err != nil {
 			global.LOG.Debugf("sync user of db %s failed, err: %v", parts[0], err)
 			dataItem.Permission = "%"
-			datas = append(datas, dataItem)
+			data = append(data, dataItem)
 			continue
 		}
 
@@ -361,9 +361,9 @@ func (r *Local) SyncDB(version string) ([]SyncDBInfo, error) {
 				dataItem.Permission = strings.Join(permissionItem, ",")
 			}
 		}
-		datas = append(datas, dataItem)
+		data = append(data, dataItem)
 	}
-	return datas, nil
+	return data, nil
 }
 
 func (r *Local) Close() {}
