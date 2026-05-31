@@ -70,7 +70,7 @@
 <script lang="ts" setup>
 import { App } from '@/api/interface/app';
 import { onMounted, reactive, ref, computed } from 'vue';
-import { searchApp, syncApp, syncCutomAppStore, syncLocalApp, getCurrentNodeCustomAppConfig } from '@/api/modules/app';
+import { searchApp, syncApp, syncCustomAppStore, syncLocalApp, getCurrentNodeCustomAppConfig } from '@/api/modules/app';
 import Install from '../detail/install/index.vue';
 import router from '@/routers';
 import { MsgSuccess } from '@/utils/message';
@@ -181,13 +181,11 @@ const sync = async () => {
     try {
         let res;
         if (isOffLine.value || (isProductPro.value && syncCustomAppstore.value)) {
-            res = await syncCutomAppStore(syncReq);
+            res = await syncCustomAppStore(syncReq);
         } else {
             res = await syncApp(syncReq);
         }
-        console.log(res);
         if (res.message != '' && res.message != 'success') {
-            console.log(res.message);
             MsgSuccess(res.message);
         } else {
             openTaskLog(taskID);

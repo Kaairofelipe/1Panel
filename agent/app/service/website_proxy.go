@@ -140,7 +140,7 @@ func (w WebsiteService) OperateProxy(req request.WebsiteProxyConfig) (err error)
 	if req.CacheTime > 0 {
 		location.AddBrowserCache(req.CacheTime, req.CacheUnit)
 	} else if req.CacheTime < 0 {
-		location.AddBroswerNoCache()
+		location.AddBrowserNoCache()
 	} else {
 		location.RemoveBrowserCache()
 	}
