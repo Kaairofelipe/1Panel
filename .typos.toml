@@ -37,6 +37,44 @@ umarshal = "umarshal"
 requset = "requset"
 abd = "abd"
 Cutom = "Cutom"
+nin = "nin"
+Cahe = "Cahe"
+adres = "adres"
+performans = "performans"
+Linke = "Linke"
+Gir = "Gir"
+unsupport = "unsupport"
+Soket = "Soket"
+parametre = "parametre"
+hight = "hight"
+Parametre = "Parametre"
+cros = "cros"
+Broswer = "Broswer"
+Buton = "Buton"
+buton = "buton"
+Adres = "Adres"
+Tema = "Tema"
+tema = "tema"
+contianer = "contianer"
+Hepler = "Hepler"
+onnections = "onnections"
+connnection = "connnection"
+expirence = "expirence"
+Exmaple = "Exmaple"
+referers = "referers"
+Websit = "Websit"
+fo = "fo"
+conetnt = "conetnt"
+Visiable = "Visiable"
+Rrror = "Rrror"
+lso = "lso"
 
 [files]
-extend-exclude = ["docs/README.de.md", "docs/README.tr.md"]
+extend-exclude = [
+  "docs/README.de.md",
+  "docs/README.tr.md",
+  "docs/README.fr.md",
+  "frontend/src/lang/modules/tr.ts",
+  "frontend/src/lang/modules/zh.ts",
+  "frontend/src/lang/modules/en.ts"
+]
