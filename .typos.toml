@@ -1,0 +1,110 @@
+[default.extend-words]
+atual = "atual"
+anormal = "anormal"
+Comando = "Comando"
+Erro = "Erro"
+ser = "ser"
+limite = "limite"
+comando = "comando"
+internacional = "internacional"
+erros = "erros"
+Cliente = "Cliente"
+Comandos = "Comandos"
+caracteres = "caracteres"
+grup = "grup"
+Grup = "Grup"
+sistem = "sistem"
+Paket = "Paket"
+Sistem = "Sistem"
+lso = "lso"
+Analisis = "Analisis"
+faktor = "faktor"
+requiere = "requiere"
+detectaron = "detectaron"
+coincidente = "coincidente"
+producto = "producto"
+utiliza = "utiliza"
+cliente = "cliente"
+factores = "factores"
+cancele = "cancele"
+operacional = "operacional"
+correspondente = "correspondente"
+instale = "instale"
+conter = "conter"
+inicial = "inicial"
+ative = "ative"
+datas = "datas"
+nin = "nin"
+referers = "referers"
+Standart = "Standart"
+Cahe = "Cahe"
+adres = "adres"
+performans = "performans"
+Linke = "Linke"
+Gir = "Gir"
+Soket = "Soket"
+parametre = "parametre"
+Datas = "Datas"
+Adres = "Adres"
+cros = "cros"
+Buton = "Buton"
+buton = "buton"
+Tema = "Tema"
+tema = "tema"
+onnections = "onnections"
+connnection = "connnection"
+Hepler = "Hepler"
+hight = "hight"
+expirence = "expirence"
+Exmaple = "Exmaple"
+Websit = "Websit"
+Cutom = "Cutom"
+conetnt = "conetnt"
+fileds = "fileds"
+versionn = "versionn"
+librarys = "librarys"
+Visiable = "Visiable"
+Rrror = "Rrror"
+abd = "abd"
+Runing = "Runing"
+umarshal = "umarshal"
+requset = "requset"
+Lable = "Lable"
+lable = "lable"
+Parametre = "Parametre"
+
+[files]
+extend-exclude = [
+  "docs/**/*",
+  "frontend/lint-staged.config.js",
+  "frontend/package.json",
+  "core/i18n/lang/**/*",
+  "agent/i18n/lang/**/*",
+  "core/app/dto/script_library.go",
+  "core/app/api/v2/script_library.go",
+  "frontend/src/views/ai/model/tensorrt/operate/index.vue",
+  "core/middleware/operation.go",
+  "frontend/src/views/ai/model/tensorrt/index.vue",
+  "core/go.mod",
+  "core/utils/firewall/firewall.go",
+  "frontend/src/views/ai/mcp/server/index.vue",
+  "frontend/src/views/host/monitor/monitor/index.vue",
+  "core/utils/req_helper/proxy_local/req_to_local.go",
+  "core/utils/req_helper/requset.go",
+  "frontend/src/views/app-store/apps/index.vue",
+  "frontend/src/views/home/index.vue",
+  "frontend/src/lang/**/*",
+  "frontend/src/components/v-charts/components/Line.vue",
+  "frontend/src/components/codemirror-pro/nginx.ts",
+  "frontend/src/views/website/website/index.vue",
+  "frontend/src/api/modules/app.ts",
+  "frontend/src/views/website/website/config/basic/rewrite/custom/index.vue",
+  "frontend/src/views/website/website/config/basic/proxy/cache/index.vue",
+  "frontend/src/views/website/website/config/basic/resource/index.vue",
+  "frontend/src/views/database/mysql/index.vue",
+  "frontend/src/views/website/runtime/php/create/index.vue",
+  "frontend/src/views/database/redis/index.vue",
+  "frontend/src/views/database/postgresql/index.vue",
+  "frontend/src/views/database/mongodb/index.vue",
+  "frontend/src/views/container/container/monitor/index.vue"
+]
