@@ -1,0 +1,26 @@
+[default.extend-words]
+Datas = "Datas"
+datas = "datas"
+onnections = "onnections"
+connnection = "connnection"
+entrys = "entrys"
+expirence = "expirence"
+Hepler = "Hepler"
+Exmaple = "Exmaple"
+Cahe = "Cahe"
+Linke = "Linke"
+hight = "hight"
+cros = "cros"
+referers = "referers"
+Broswer = "Broswer"
+Websit = "Websit"
+lso = "lso"
+conetnt = "conetnt"
+Visiable = "Visiable"
+Rrror = "Rrror"
+fileds = "fileds"
+versionn = "versionn"
+Cutom = "Cutom"
+
+[files]
+extend-exclude = ["docs/README.de.md", "docs/README.tr.md", "frontend/lint-staged.config.js", "frontend/package.json"]
