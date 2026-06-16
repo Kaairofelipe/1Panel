@@ -34,4 +34,4 @@ requset = "requset"
 Runing = "Runing"
 
 [files]
-extend-exclude = ["docs/README.*.md", "core/i18n/lang/*.yaml", "frontend/lint-staged.config.js", "frontend/package.json"]
+extend-exclude = ["docs/README.*.md", "core/i18n/lang/*.yaml", "frontend/lint-staged.config.js", "frontend/package.json", "frontend/src/lang/modules/*.ts", "frontend/src/lang/fu.ts", "core/cmd/server/docs/*.json", "frontend/src/assets/json/iso.json", "frontend/src/assets/images/cros.png", "frontend/src/assets/iconfont/iconfont.json"]
