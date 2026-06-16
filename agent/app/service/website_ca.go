@@ -379,10 +379,22 @@ func (w WebsiteCAService) ObtainSSL(req request.WebsiteCAObtain) (*model.Website
 		}
 		logger.Println(i18n.GetMsgByKey("ExecShellStart"))
 		cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(30*time.Minute), cmd.WithLogger(logger), cmd.WithWorkDir(workDir))
-		if err = cmdMgr.RunBashC(websiteSSL.Shell); err != nil {
-			logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": err.Error()}))
+
+		scriptFile, tempErr := os.CreateTemp("", "ssl_script_*.sh")
+		if tempErr != nil {
+			logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": tempErr.Error()}))
 		} else {
-			logger.Println(i18n.GetMsgByKey("ExecShellSuccess"))
+			defer os.Remove(scriptFile.Name())
+			defer scriptFile.Close()
+			if _, err := scriptFile.WriteString(websiteSSL.Shell); err != nil {
+				logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": err.Error()}))
+			} else {
+				if err = cmdMgr.Run("bash", scriptFile.Name()); err != nil {
+					logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": err.Error()}))
+				} else {
+					logger.Println(i18n.GetMsgByKey("ExecShellSuccess"))
+				}
+			}
 		}
 	}
 	reloadSystemSSL(websiteSSL, logger)

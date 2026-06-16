@@ -403,10 +403,21 @@ func (w WebsiteSSLService) obtainSSL(id uint, autoRenew bool) error {
 			}
 			printSSLLog(logger, "ExecShellStart", nil)
 			cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(30*time.Minute), cmd.WithLogger(logger), cmd.WithWorkDir(workDir))
-			if err = cmdMgr.RunBashC(websiteSSL.Shell); err != nil {
-				printSSLLog(logger, "ErrExecShell", map[string]interface{}{"err": err.Error()})
+			scriptFile, tempErr := os.CreateTemp("", "ssl_script_*.sh")
+			if tempErr != nil {
+				printSSLLog(logger, "ErrExecShell", map[string]interface{}{"err": tempErr.Error()})
 			} else {
-				printSSLLog(logger, "ExecShellSuccess", nil)
+				defer os.Remove(scriptFile.Name())
+				defer scriptFile.Close()
+				if _, err := scriptFile.WriteString(websiteSSL.Shell); err != nil {
+					printSSLLog(logger, "ErrExecShell", map[string]interface{}{"err": err.Error()})
+				} else {
+					if err = cmdMgr.Run("bash", scriptFile.Name()); err != nil {
+						printSSLLog(logger, "ErrExecShell", map[string]interface{}{"err": err.Error()})
+					} else {
+						printSSLLog(logger, "ExecShellSuccess", nil)
+					}
+				}
 			}
 		}
 
