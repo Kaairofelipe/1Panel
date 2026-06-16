@@ -57,18 +57,18 @@ func (u *CommandService) SearchForTree(req dto.OperateByType) ([]dto.CommandTree
 	if err != nil {
 		return nil, err
 	}
+	cmdMap := make(map[uint][]dto.CommandTree)
+	for _, cmd := range cmdList {
+		cmdMap[cmd.GroupID] = append(cmdMap[cmd.GroupID], dto.CommandTree{Label: cmd.Name, Value: cmd.Command})
+	}
 	var lists []dto.CommandTree
 	for _, group := range groups {
-		var data dto.CommandTree
-		data.Label = group.Name
-		data.Value = group.Name
-		for _, cmd := range cmdList {
-			if cmd.GroupID == group.ID {
-				data.Children = append(data.Children, dto.CommandTree{Label: cmd.Name, Value: cmd.Command})
-			}
-		}
-		if len(data.Children) != 0 {
-			lists = append(lists, data)
+		if children, ok := cmdMap[group.ID]; ok && len(children) > 0 {
+			lists = append(lists, dto.CommandTree{
+				Label:    group.Name,
+				Value:    group.Name,
+				Children: children,
+			})
 		}
 	}
 	return lists, err
