@@ -18,7 +18,7 @@ func (u *ContainerService) PageNetwork(req dto.SearchWithPage) (int64, interface
 		return 0, nil, err
 	}
 	defer client.Close()
-	list, err := client.NetworkList(context.TODO(), network.ListOptions{})
+	list, err := client.NetworkList(context.Background(), network.ListOptions{})
 	if err != nil {
 		return 0, nil, err
 	}
@@ -81,7 +81,7 @@ func (u *ContainerService) ListNetwork() ([]dto.Options, error) {
 		return nil, err
 	}
 	defer client.Close()
-	list, err := client.NetworkList(context.TODO(), network.ListOptions{})
+	list, err := client.NetworkList(context.Background(), network.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func (u *ContainerService) DeleteNetwork(req dto.BatchDelete) error {
 	}
 	defer client.Close()
 	for _, id := range req.Names {
-		if err := client.NetworkRemove(context.TODO(), id); err != nil {
+		if err := client.NetworkRemove(context.Background(), id); err != nil {
 			if strings.Contains(err.Error(), "has active endpoints") {
 				return buserr.WithDetail("ErrInUsed", id, nil)
 			}
@@ -167,7 +167,7 @@ func (u *ContainerService) CreateNetwork(req dto.NetworkCreate) error {
 	if len(ipams) != 0 {
 		options.IPAM = &network.IPAM{Config: ipams}
 	}
-	if _, err := client.NetworkCreate(context.TODO(), req.Name, options); err != nil {
+	if _, err := client.NetworkCreate(context.Background(), req.Name, options); err != nil {
 		return err
 	}
 	return nil
