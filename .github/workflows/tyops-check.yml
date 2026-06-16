@@ -6,6 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Actions Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@ee0669bd1cc54295c223e0ce666b36208fdfdd92
     - name: Check spelling
-      uses: crate-ci/typos@master
+      uses: crate-ci/typos@6d7293fc72fec01a7042a9b7dc87d9a96e987c88
