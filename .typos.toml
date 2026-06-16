@@ -1,0 +1,24 @@
+[default.extend-words]
+ba = "ba"
+datas = "datas"
+lso = "lso"
+Hepler = "Hepler"
+Cahe = "Cahe"
+Linke = "Linke"
+hight = "hight"
+cros = "cros"
+onnections = "onnections"
+connnection = "connnection"
+Visiable = "Visiable"
+Rrror = "Rrror"
+expirence = "expirence"
+Exmaple = "Exmaple"
+entrys = "entrys"
+Broswer = "Broswer"
+Cutom = "Cutom"
+Datas = "Datas"
+reques = "reques"
+fo = "fo"
+
+[files]
+extend-exclude = ["docs/README*.md", "frontend/package.json"]
