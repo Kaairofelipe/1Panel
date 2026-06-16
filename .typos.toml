@@ -1,0 +1,22 @@
+[default.extend-words]
+datas = "datas"
+Exmaple = "Exmaple"
+Cahe = "Cahe"
+Linke = "Linke"
+hight = "hight"
+cros = "cros"
+Broswer = "Broswer"
+Websit = "Websit"
+conetnt = "conetnt"
+entrys = "entrys"
+reques = "reques"
+referers = "referers"
+lso = "lso"
+fileds = "fileds"
+versionn = "versionn"
+Visiable = "Visiable"
+Rrror = "Rrror"
+Datas = "Datas"
+Cutom = "Cutom"
+[files]
+extend-exclude = ["docs/**/*.md", "frontend/package.json"]
