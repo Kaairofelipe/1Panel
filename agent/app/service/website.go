@@ -635,7 +635,7 @@ func (w WebsiteService) UpdateWebsite(req request.WebsiteUpdate) error {
 		website.ExpireDate = expireDate
 	}
 
-	return websiteRepo.Save(context.TODO(), &website)
+	return websiteRepo.Save(context.Background(), &website)
 }
 
 func (w WebsiteService) GetWebsite(id uint) (response.WebsiteDTO, error) {
@@ -719,7 +719,7 @@ func (w WebsiteService) DeleteWebsite(req request.WebsiteDelete) error {
 					Database:    mysqlDB.MysqlName,
 					ForceDelete: req.ForceDelete,
 				}
-				if err = NewIMysqlService().Delete(context.TODO(), deleteReq); err != nil && !req.ForceDelete {
+				if err = NewIMysqlService().Delete(context.Background(), deleteReq); err != nil && !req.ForceDelete {
 					return err
 				}
 			}
@@ -731,7 +731,7 @@ func (w WebsiteService) DeleteWebsite(req request.WebsiteDelete) error {
 					ForceDelete: req.ForceDelete,
 					Database:    pgDB.PostgresqlName,
 				}
-				if err = NewIPostgresqlService().Delete(context.TODO(), deleteReq); err != nil && !req.ForceDelete {
+				if err = NewIPostgresqlService().Delete(context.Background(), deleteReq); err != nil && !req.ForceDelete {
 					return err
 				}
 			}
@@ -817,7 +817,7 @@ func (w WebsiteService) UpdateWebsiteDomain(req request.WebsiteDomainUpdate) err
 	if err = nginxCheckAndReload(nginxConfig.OldContent, nginxConfig.FilePath, nginxFull.Install.ContainerName); err != nil {
 		return err
 	}
-	return websiteDomainRepo.Save(context.TODO(), &domain)
+	return websiteDomainRepo.Save(context.Background(), &domain)
 }
 
 func (w WebsiteService) GetNginxConfigByScope(req request.NginxScopeReq) (*response.WebsiteNginxConfig, error) {
