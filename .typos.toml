@@ -1,0 +1,12 @@
+[default.extend-words]
+populer = "populer"
+Ein = "Ein"
+Klick = "Klick"
+Prozess = "Prozess"
+ein = "ein"
+ist = "ist"
+anser = "anser"
+adres = "adres"
+
+[files]
+extend-exclude = ["**/*"]
