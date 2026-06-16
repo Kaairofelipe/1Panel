@@ -41,10 +41,18 @@ detectaron = "detectaron"
 Comandos = "Comandos"
 requiere = "requiere"
 erros = "erros"
+fileds = "fileds"
+Cutom = "Cutom"
+Visiable = "Visiable"
+Rrror = "Rrror"
+lso = "lso"
+tootip = "tootip"
+referers = "referers"
 
 [files]
 extend-exclude = [
   "docs/**/*",
   "core/i18n/lang/**/*",
-  "core/cmd/server/docs/**/*"
+  "core/cmd/server/docs/**/*",
+  "frontend/src/lang/**/*"
 ]
