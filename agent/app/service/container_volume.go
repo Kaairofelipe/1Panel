@@ -107,7 +107,7 @@ func (u *ContainerService) DeleteVolume(req dto.BatchDelete) error {
 	}
 	defer client.Close()
 	for _, id := range req.Names {
-		if err := client.VolumeRemove(context.TODO(), id, true); err != nil {
+		if err := client.VolumeRemove(context.Background(), id, true); err != nil {
 			if strings.Contains(err.Error(), "volume is in use") {
 				return buserr.WithDetail("ErrInUsed", id, nil)
 			}
