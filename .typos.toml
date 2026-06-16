@@ -1,0 +1,21 @@
+[default.extend-words]
+datas = "datas"
+fo = "fo"
+entrys = "entrys"
+reques = "reques"
+fileds = "fileds"
+versionn = "versionn"
+Runing = "Runing"
+umarshal = "umarshal"
+requset = "requset"
+Broswer = "Broswer"
+Visiable = "Visiable"
+Rrror = "Rrror"
+Cutom = "Cutom"
+Datas = "Datas"
+styl = "styl"
+anser = "anser"
+lso = "lso"
+
+[files]
+extend-exclude = ["docs/README.fr.md", "docs/README.id.md"]
