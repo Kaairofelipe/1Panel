@@ -1,0 +1,37 @@
+[default.extend-words]
+datas = "datas"
+fo = "fo"
+sistem = "sistem"
+Datas = "Datas"
+Analisis = "Analisis"
+Sistem = "Sistem"
+faktor = "faktor"
+Comando = "Comando"
+requiere = "requiere"
+detectaron = "detectaron"
+internacional = "internacional"
+coincidente = "coincidente"
+producto = "producto"
+utiliza = "utiliza"
+cliente = "cliente"
+Comandos = "Comandos"
+factores = "factores"
+caracteres = "caracteres"
+comando = "comando"
+anormal = "anormal"
+Runing = "Runing"
+Visiable = "Visiable"
+Rrror = "Rrror"
+umarshal = "umarshal"
+requset = "requset"
+lso = "lso"
+Cutom = "Cutom"
+abd = "abd"
+ingore = "ingore"
+
+[files]
+extend-exclude = [
+    "lang/**/*",
+    "docs/**/*.md",
+    "core/i18n/lang/**/*"
+]
