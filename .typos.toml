@@ -1,0 +1,20 @@
+[default.extend-words]
+datas = "datas"
+entrys = "entrys"
+fo = "fo"
+reques = "reques"
+lso = "lso"
+
+[files]
+extend-exclude = [
+    "docs/README.de.md",
+    "docs/README.id.md",
+    "docs/README.tr.md",
+    "docs/README.fr.md",
+    "frontend/src/lang/modules/tr.ts",
+    "frontend/src/lang/modules/zh.ts",
+    "frontend/src/lang/modules/en.ts",
+    "agent/i18n/lang/es-ES.yaml",
+    "agent/i18n/lang/ms.yaml",
+    "agent/app/service/app_ingore_upgrade.go",
+]

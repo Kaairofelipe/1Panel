@@ -19,7 +19,7 @@ func handlerErr(out string, err error) error {
 	return nil
 }
 
-func run(client *ssh.SSHClient, name string, args ...string) (string, error) {
+var run = func(client *ssh.SSHClient, name string, args ...string) (string, error) {
 	if client == nil {
 		return cmd.NewCommandMgr(cmd.WithTimeout(10*time.Second)).RunWithStdoutBashCf("LANGUAGE=en_US:en %s %s", name, strings.Join(args, " "))
 	}
