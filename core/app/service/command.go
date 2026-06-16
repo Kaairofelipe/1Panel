@@ -57,18 +57,19 @@ func (u *CommandService) SearchForTree(req dto.OperateByType) ([]dto.CommandTree
 	if err != nil {
 		return nil, err
 	}
+	cmdGroupMap := make(map[uint][]dto.CommandTree)
+	for _, cmd := range cmdList {
+		cmdGroupMap[cmd.GroupID] = append(cmdGroupMap[cmd.GroupID], dto.CommandTree{Label: cmd.Name, Value: cmd.Command})
+	}
+
 	var lists []dto.CommandTree
 	for _, group := range groups {
-		var data dto.CommandTree
-		data.Label = group.Name
-		data.Value = group.Name
-		for _, cmd := range cmdList {
-			if cmd.GroupID == group.ID {
-				data.Children = append(data.Children, dto.CommandTree{Label: cmd.Name, Value: cmd.Command})
-			}
-		}
-		if len(data.Children) != 0 {
-			lists = append(lists, data)
+		if children, ok := cmdGroupMap[group.ID]; ok && len(children) > 0 {
+			lists = append(lists, dto.CommandTree{
+				Label:    group.Name,
+				Value:    group.Name,
+				Children: children,
+			})
 		}
 	}
 	return lists, err
@@ -90,18 +91,24 @@ func (u *CommandService) SearchWithPage(req dto.SearchCommandWithPage) (int64, i
 		return 0, nil, err
 	}
 	groups, _ := groupRepo.GetList(repo.WithByType(req.Type))
+
+	groupMap := make(map[uint]string)
+	for _, group := range groups {
+		groupMap[group.ID] = group.Name
+	}
+
 	var dtoCommands []dto.CommandInfo
 	for _, command := range commands {
 		var item dto.CommandInfo
 		if err := copier.Copy(&item, &command); err != nil {
 			return 0, nil, buserr.WithDetail("ErrStructTransform", err.Error(), nil)
 		}
-		for _, group := range groups {
-			if command.GroupID == group.ID {
-				item.GroupBelong = group.Name
-				item.GroupID = group.ID
-			}
+
+		if groupName, ok := groupMap[command.GroupID]; ok {
+			item.GroupBelong = groupName
+			item.GroupID = command.GroupID
 		}
+
 		dtoCommands = append(dtoCommands, item)
 	}
 	return total, dtoCommands, err
