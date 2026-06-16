@@ -1,0 +1,15 @@
+🧪 Add tests for Systemd operations
+
+🎯 **What:** The `Systemd.IsActive` and other related functions lacked testing because they executed external shell commands (`systemctl`) tightly coupled to the system state via the package-local `run` function.
+
+📊 **Coverage:**
+- Modifed the `run` function in `core/utils/controller/manager/common.go` to be a package variable, enabling testing by dependency injection via mock replacement.
+- Created `core/utils/controller/manager/systemd_test.go` and implemented tests for:
+  - `IsActive`: success, failure, fallback to Snap success, fallback to Snap failure, unhandled err types.
+  - `IsEnable`: success, failure, `sshd` aliases resolution, and fallback logic to Snap.
+  - `IsExist`: presence verification and `sshd` aliases testing.
+  - `Status`: status parsing verification.
+  - `Operate`: operate functionalities verifying snap operation invocation as a fallback.
+  - `Reload`: Reload daemon and handling daemon errors.
+
+✨ **Result:** Enhanced the testing coverage of `core/utils/controller/manager/systemd.go` to 100% of statements, ensuring correctness during refactoring, and verifying external systemctl processes interact and fallback efficiently as expected.
