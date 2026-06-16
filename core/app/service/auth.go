@@ -600,8 +600,8 @@ func savePasskeyCredentialRecords(records []passkey.PasskeyCredentialRecord) err
 
 func passkeyCredentialExists(records []passkey.PasskeyCredentialRecord, credentialID []byte) bool {
 	encoded := base64.RawURLEncoding.EncodeToString(credentialID)
-	for _, record := range records {
-		if record.ID == encoded {
+	for i := range records {
+		if records[i].ID == encoded {
 			return true
 		}
 	}
