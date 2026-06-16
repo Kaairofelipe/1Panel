@@ -9,7 +9,7 @@ jobs:
     if: github.repository == '1Panel-dev/1Panel' && github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - uses: actions-ecosystem/action-add-labels@v1
         with:
           github_token: ${{ secrets.GITHUBTOKEN }}
