@@ -344,7 +344,7 @@ func (u *ImageService) ImageLoad(req dto.ImageLoad) error {
 					return err
 				}
 				defer file.Close()
-				res, err := client.ImageLoad(context.TODO(), file)
+				res, err := client.ImageLoad(context.Background(), file)
 				if err != nil {
 					return err
 				}
@@ -377,7 +377,7 @@ func (u *ImageService) ImageSave(req dto.ImageSave) error {
 		}
 		defer client.Close()
 
-		out, err := client.ImageSave(context.TODO(), []string{req.TagName})
+		out, err := client.ImageSave(context.Background(), []string{req.TagName})
 		if err != nil {
 			return err
 		}
@@ -419,7 +419,7 @@ func (u *ImageService) ImageTag(req dto.ImageTag) error {
 			}
 		}
 		if isNew {
-			if err := client.ImageTag(context.TODO(), req.SourceID, tag); err != nil {
+			if err := client.ImageTag(context.Background(), req.SourceID, tag); err != nil {
 				return err
 			}
 		}
@@ -433,7 +433,7 @@ func (u *ImageService) ImageTag(req dto.ImageTag) error {
 			}
 		}
 		if isDel {
-			if _, err := client.ImageRemove(context.TODO(), tagOld, image.RemoveOptions{}); err != nil {
+			if _, err := client.ImageRemove(context.Background(), tagOld, image.RemoveOptions{}); err != nil {
 				return err
 			}
 		}
@@ -477,7 +477,7 @@ func (u *ImageService) ImagePush(req dto.ImagePush) error {
 		taskItem.AddSubTask(i18n.GetMsgByKey("ImageRenameTag"), func(t *task.Task) error {
 			taskItem.Log(i18n.GetWithName("ImageNewTag", newName))
 			if newName != req.TagName {
-				if err := client.ImageTag(context.TODO(), req.TagName, newName); err != nil {
+				if err := client.ImageTag(context.Background(), req.TagName, newName); err != nil {
 					return err
 				}
 			}
@@ -510,11 +510,11 @@ func (u *ImageService) ImageRemove(req dto.BatchDelete) error {
 
 	for _, id := range req.Names {
 		taskItem.AddSubTask(i18n.GetMsgByKey("TaskDelete")+id, func(t *task.Task) error {
-			imageItem, err := client.ImageInspect(context.TODO(), id)
+			imageItem, err := client.ImageInspect(context.Background(), id)
 			if err != nil {
 				return err
 			}
-			if _, err := client.ImageRemove(context.TODO(), id, image.RemoveOptions{Force: req.Force, PruneChildren: true}); err != nil {
+			if _, err := client.ImageRemove(context.Background(), id, image.RemoveOptions{Force: req.Force, PruneChildren: true}); err != nil {
 				if strings.Contains(err.Error(), "image is being used") || strings.Contains(err.Error(), "is using") {
 					if strings.Contains(id, "sha256:") {
 						return buserr.New("ErrObjectInUsed")
