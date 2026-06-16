@@ -131,15 +131,29 @@ func (u *ScriptService) Create(req dto.ScriptOperate) error {
 }
 
 func (u *ScriptService) Delete(req dto.OperateByIDs) error {
-	for _, item := range req.IDs {
-		scriptItem, _ := scriptRepo.Get(repo.WithByID(item))
+	if len(req.IDs) == 0 {
+		return nil
+	}
+
+	scripts, err := scriptRepo.GetList(repo.WithByIDs(req.IDs))
+	if err != nil {
+		return err
+	}
+
+	var toDelete []uint
+	for _, scriptItem := range scripts {
 		if scriptItem.ID == 0 || scriptItem.IsSystem {
 			continue
 		}
-		if err := scriptRepo.Delete(repo.WithByID(item)); err != nil {
+		toDelete = append(toDelete, scriptItem.ID)
+	}
+
+	if len(toDelete) > 0 {
+		if err := scriptRepo.Delete(repo.WithByIDs(toDelete)); err != nil {
 			return err
 		}
 	}
+
 	if err := xpack.Sync(constant.SyncScripts); err != nil {
 		global.LOG.Errorf("sync scripts to node failed, err: %v", err)
 	}
