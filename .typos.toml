@@ -1,0 +1,30 @@
+[default.extend-words]
+reques = "reques"
+
+[files]
+extend-exclude = [
+  "agent/i18n/lang/**/*",
+  "frontend/src/views/ai/model/tensorrt/operate/index.vue",
+  "frontend/src/views/ai/model/tensorrt/index.vue",
+  "agent/utils/firewall/client/iptables.go",
+  "agent/utils/firewall/client/ufw.go",
+  "agent/utils/firewall/client/firewalld.go",
+  "frontend/src/views/database/mysql/index.vue",
+  "frontend/src/views/database/redis/index.vue",
+  "agent/utils/mysql/client/remote.go",
+  "frontend/src/views/ai/mcp/server/index.vue",
+  "agent/utils/nginx/components/location.go",
+  "agent/utils/mysql/client/local.go",
+  "frontend/src/views/host/monitor/monitor/index.vue",
+  "frontend/src/views/database/postgresql/index.vue",
+  "agent/utils/cloud_storage/client/kodo.go",
+  "agent/utils/cloud_storage/client/cos.go",
+  "agent/utils/postgresql/client/remote.go",
+  "agent/utils/toolbox/pure-ftpd.go",
+  "agent/utils/postgresql/client/local.go",
+  "frontend/src/views/app-store/apps/index.vue",
+  "frontend/src/views/home/index.vue",
+  "docs/README.de.md",
+  "docs/README.tr.md",
+  "frontend/package.json"
+]
