@@ -195,7 +195,7 @@ func (w WebsiteSSLService) Create(create request.WebsiteSSLCreate) (request.Webs
 		websiteSSL.DnsAccountID = dnsAccount.ID
 	}
 
-	if err := websiteSSLRepo.Create(context.TODO(), &websiteSSL); err != nil {
+	if err := websiteSSLRepo.Create(context.Background(), &websiteSSL); err != nil {
 		return res, err
 	}
 	create.ID = websiteSSL.ID
@@ -471,7 +471,7 @@ func (w WebsiteSSLService) GetDNSResolve(req request.WebsiteDNSReq) ([]response.
 	if err != nil {
 		return nil, err
 	}
-	resolves, err := client.GetDNSResolve(context.TODO(), websiteSSL)
+	resolves, err := client.GetDNSResolve(context.Background(), websiteSSL)
 	if err != nil {
 		return nil, err
 	}
