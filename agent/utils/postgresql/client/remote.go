@@ -5,6 +5,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 	"io"
 	"os"
 	"os/exec"
@@ -38,7 +39,7 @@ func NewRemote(db Remote) *Remote {
 	return &db
 }
 func (r *Remote) Create(info CreateInfo) error {
-	createSql := fmt.Sprintf("CREATE DATABASE \"%s\"", info.Name)
+	createSql := fmt.Sprintf("CREATE DATABASE %s", pgx.Identifier{info.Name}.Sanitize())
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrDatabaseIsExist")
@@ -52,7 +53,7 @@ func (r *Remote) Create(info CreateInfo) error {
 }
 
 func (r *Remote) CreateUser(info CreateInfo, withDeleteDB bool) error {
-	createSql := fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s'", info.Username, info.Password)
+	createSql := fmt.Sprintf("CREATE USER %s WITH PASSWORD '%s'", pgx.Identifier{info.Username}.Sanitize(), strings.ReplaceAll(info.Password, "'", "''"))
 	if err := r.ExecSQL(createSql, info.Timeout); err != nil {
 		if strings.Contains(strings.ToLower(err.Error()), "already exists") {
 			return buserr.New("ErrUserIsExist")
@@ -78,7 +79,7 @@ func (r *Remote) CreateUser(info CreateInfo, withDeleteDB bool) error {
 			return err
 		}
 	}
-	grantSql := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE \"%s\" TO \"%s\"", info.Name, info.Username)
+	grantSql := fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE %s TO %s", pgx.Identifier{info.Name}.Sanitize(), pgx.Identifier{info.Username}.Sanitize())
 	if err := r.ExecSQL(grantSql, info.Timeout); err != nil {
 		if withDeleteDB {
 			_ = r.Delete(DeleteInfo{
@@ -102,12 +103,12 @@ func (r *Remote) Delete(info DeleteInfo) error {
 		if inUse && !info.ForceDelete {
 			return buserr.WithDetail("ErrInUsed", info.Name, nil)
 		}
-		dropSql := fmt.Sprintf("DROP DATABASE \"%s\"", info.Name)
+		dropSql := fmt.Sprintf("DROP DATABASE %s", pgx.Identifier{info.Name}.Sanitize())
 		if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 			return fmt.Errorf("drop database failed, err: %v", err)
 		}
 	}
-	dropSql := fmt.Sprintf("DROP USER \"%s\"", info.Username)
+	dropSql := fmt.Sprintf("DROP USER %s", pgx.Identifier{info.Username}.Sanitize())
 	if err := r.ExecSQL(dropSql, info.Timeout); err != nil && !info.ForceDelete {
 		return fmt.Errorf("drop user failed, err: %v", err)
 	}
@@ -137,11 +138,11 @@ func (r *Remote) ChangePrivileges(info Privileges) error {
 	if !info.SuperUser {
 		super = "NOSUPERUSER"
 	}
-	return r.ExecSQL(fmt.Sprintf("ALTER USER \"%s\" WITH %s", info.Username, super), info.Timeout)
+	return r.ExecSQL(fmt.Sprintf("ALTER USER %s WITH %s", pgx.Identifier{info.Username}.Sanitize(), super), info.Timeout)
 }
 
 func (r *Remote) ChangePassword(info PasswordChangeInfo) error {
-	return r.ExecSQL(fmt.Sprintf("ALTER USER \"%s\" WITH ENCRYPTED PASSWORD '%s'", info.Username, info.Password), info.Timeout)
+	return r.ExecSQL(fmt.Sprintf("ALTER USER %s WITH ENCRYPTED PASSWORD '%s'", pgx.Identifier{info.Username}.Sanitize(), strings.ReplaceAll(info.Password, "'", "''")), info.Timeout)
 }
 
 func (r *Remote) Backup(info BackupInfo) error {
