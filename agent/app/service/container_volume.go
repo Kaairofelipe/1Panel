@@ -20,7 +20,7 @@ func (u *ContainerService) PageVolume(req dto.SearchWithPage) (int64, interface{
 		return 0, nil, err
 	}
 	defer client.Close()
-	list, err := client.VolumeList(context.TODO(), volume.ListOptions{})
+	list, err := client.VolumeList(context.Background(), volume.ListOptions{})
 	if err != nil {
 		return 0, nil, err
 	}
@@ -85,7 +85,7 @@ func (u *ContainerService) ListVolume() ([]dto.Options, error) {
 		return nil, err
 	}
 	defer client.Close()
-	list, err := client.VolumeList(context.TODO(), volume.ListOptions{})
+	list, err := client.VolumeList(context.Background(), volume.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func (u *ContainerService) DeleteVolume(req dto.BatchDelete) error {
 	}
 	defer client.Close()
 	for _, id := range req.Names {
-		if err := client.VolumeRemove(context.TODO(), id, true); err != nil {
+		if err := client.VolumeRemove(context.Background(), id, true); err != nil {
 			if strings.Contains(err.Error(), "volume is in use") {
 				return buserr.WithDetail("ErrInUsed", id, nil)
 			}
@@ -124,7 +124,7 @@ func (u *ContainerService) CreateVolume(req dto.VolumeCreate) error {
 	defer client.Close()
 	arg := filters.NewArgs()
 	arg.Add("name", req.Name)
-	vos, _ := client.VolumeList(context.TODO(), volume.ListOptions{Filters: arg})
+	vos, _ := client.VolumeList(context.Background(), volume.ListOptions{Filters: arg})
 	if len(vos.Volumes) != 0 {
 		for _, v := range vos.Volumes {
 			if v.Name == req.Name {
@@ -138,7 +138,7 @@ func (u *ContainerService) CreateVolume(req dto.VolumeCreate) error {
 		DriverOpts: stringsToMap(req.Options),
 		Labels:     stringsToMap(req.Labels),
 	}
-	if _, err := client.VolumeCreate(context.TODO(), options); err != nil {
+	if _, err := client.VolumeCreate(context.Background(), options); err != nil {
 		return err
 	}
 	return nil
