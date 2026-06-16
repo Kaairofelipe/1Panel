@@ -9,7 +9,7 @@ jobs:
   llm-code-review:
     runs-on: ubuntu-latest
     steps:
-      - uses: fit2cloud/LLM-CodeReview-Action@main
+      - uses: fit2cloud/LLM-CodeReview-Action@23c7c2518e3ddf7a83d3eeb1ec826e792e3a8b43
         env:
           GITHUB_TOKEN: ${{ secrets.FIT2CLOUDRD_LLM_CODE_REVIEW_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.ALIYUN_LLM_API_KEY }}
