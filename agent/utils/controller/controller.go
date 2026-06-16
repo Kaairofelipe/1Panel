@@ -46,7 +46,7 @@ func Handle(operate, serviceName string) error {
 	if err != nil {
 		return err
 	}
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return err
 	}
@@ -79,7 +79,7 @@ func CheckExist(serviceName string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return false, err
 	}
@@ -91,7 +91,7 @@ func CheckActive(serviceName string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return false, err
 	}
@@ -102,7 +102,7 @@ func CheckEnable(serviceName string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return false, err
 	}
@@ -110,7 +110,7 @@ func CheckEnable(serviceName string) (bool, error) {
 }
 
 func Reload() error {
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return err
 	}
@@ -118,7 +118,7 @@ func Reload() error {
 }
 
 func RestartPanel(core, agent, reload bool) {
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		global.LOG.Errorf("load client for controller failed, err: %v", err)
 		return
@@ -143,8 +143,10 @@ func RestartPanel(core, agent, reload bool) {
 	}
 }
 
+var newController = New
+
 func LoadServiceName(keyword string) (string, error) {
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return "", err
 	}
@@ -209,7 +211,7 @@ func loadFromPredefined(mgr Controller, keyword string) string {
 //   - error: Error if the service manager is unsupported or command execution fails.
 func GetServicePath(serviceName string) (string, error) {
 	if serviceName == "" {
-		client, err := New()
+		client, err := newController()
 		if err != nil {
 			return "", err
 		}
@@ -226,7 +228,7 @@ func GetServicePath(serviceName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return "", err
 	}
@@ -249,7 +251,7 @@ func GetServicePath(serviceName string) (string, error) {
 }
 
 func SelectInitScript(keyword string) (string, error) {
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return "", err
 	}
@@ -271,7 +273,7 @@ func SelectInitScript(keyword string) (string, error) {
 }
 
 func GetScriptName(keyword string) (string, error) {
-	client, err := New()
+	client, err := newController()
 	if err != nil {
 		return "", err
 	}
