@@ -1,0 +1,13 @@
+[default.extend-words]
+datas = "datas"
+entrys = "entrys"
+fo = "fo"
+reques = "reques"
+lso = "lso"
+
+[files]
+extend-exclude = [
+    "docs/README.de.md",
+    "docs/README.id.md",
+    "docs/README.tr.md",
+]
