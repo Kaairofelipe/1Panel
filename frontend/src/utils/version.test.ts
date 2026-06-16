@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert';
-import { compareVersion } from './version.ts';
+import { compareVersion } from './version';
 
 test('compareVersion', async (t) => {
     await t.test('returns true for identical versions', () => {
