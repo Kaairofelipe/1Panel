@@ -1,0 +1,41 @@
+[default]
+extend-ignore-re = [
+    # Ignore false positives like URLs and codes
+    "(?i)(http|https)://[a-zA-Z0-9.-]+",
+]
+
+[default.extend-words]
+datas = "datas"
+reques = "reques"
+entrys = "entrys"
+Broswer = "Broswer"
+Sycn = "Sycn"
+Lable = "Lable"
+lable = "lable"
+Erro = "Erro"
+anormal = "anormal"
+Comando = "Comando"
+ser = "ser"
+limite = "limite"
+comando = "comando"
+internacional = "internacional"
+erros = "erros"
+Cliente = "Cliente"
+Comandos = "Comandos"
+sistem = "sistem"
+Paket = "Paket"
+Sistem = "Sistem"
+Analisis = "Analisis"
+requiere = "requiere"
+detectaron = "detectaron"
+coincidente = "coincidente"
+producto = "producto"
+utiliza = "utiliza"
+cliente = "cliente"
+factores = "factores"
+Runing = "Runing"
+
+[files]
+extend-exclude = [
+    "core/i18n/lang/**/*"
+]

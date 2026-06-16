@@ -2047,7 +2047,7 @@
 		"paramKeys": [],
 		"beforeFunctions": [],
 		"formatZH": "清空监控数据",
-		"formatEN": "clean monitor datas"
+		"formatEN": "clean monitor data"
 	},
 	"/hosts/monitor/setting/update": {
 		"bodyKeys": [

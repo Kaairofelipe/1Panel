@@ -15362,7 +15362,7 @@ const docTemplate = `{
 				"x-panel-log": {
 					"BeforeFunctions": [],
 					"bodyKeys": [],
-					"formatEN": "clean monitor datas",
+					"formatEN": "clean monitor data",
 					"formatZH": "清空监控数据",
 					"paramKeys": []
 				}
@@ -15644,7 +15644,7 @@ const docTemplate = `{
 						"Timestamp": []
 					}
 				],
-				"summary": "Sycn host SSH secret",
+				"summary": "Sync host SSH secret",
 				"tags": [
 					"SSH"
 				],

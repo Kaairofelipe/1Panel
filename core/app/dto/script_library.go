@@ -6,7 +6,7 @@ type ScriptInfo struct {
 	ID            uint      `json:"id"`
 	Name          string    `json:"name"`
 	IsInteractive bool      `json:"isInteractive"`
-	Lable         string    `json:"lable"`
+	Label         string    `json:"label"`
 	Script        string    `json:"script"`
 	GroupList     []uint    `json:"groupList"`
 	GroupBelong   []string  `json:"groupBelong"`
