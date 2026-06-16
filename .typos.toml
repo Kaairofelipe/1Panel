@@ -1,0 +1,35 @@
+[default.extend-words]
+sistem = "sistem"
+Sistem = "Sistem"
+datas = "datas"
+Datas = "Datas"
+hight = "hight"
+Parametre = "Parametre"
+parametre = "parametre"
+Adres = "Adres"
+adres = "adres"
+nin = "nin"
+cros = "cros"
+Buton = "Buton"
+buton = "buton"
+anormal = "anormal"
+Anormal = "Anormal"
+Paket = "Paket"
+Tema = "Tema"
+tema = "tema"
+Hepler = "Hepler"
+Cahe = "Cahe"
+Linke = "Linke"
+lso = "lso"
+reques = "reques"
+fo = "fo"
+entrys = "entrys"
+Broswer = "Broswer"
+Rrror = "Rrror"
+Cutom = "Cutom"
+[files]
+extend-exclude = [
+    "docs/README.de.md",
+    "frontend/package.json",
+    "docs/README.tr.md"
+]
