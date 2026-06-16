@@ -280,7 +280,7 @@ func (l *Location) AddBrowserCache(cacheTime int, cacheUint string) {
 	l.CacheUint = cacheUint
 }
 
-func (l *Location) AddBroswerNoCache() {
+func (l *Location) AddBrowserNoCache() {
 	l.RemoveDirective("add_header", []string{"Cache-Control", "no-cache"})
 	l.RemoveDirectiveByFullParams("if", []string{"(", "$uri", "~*", `"\.(gif|png|jpg|css|js|woff|woff2)$"`, ")"})
 	l.RemoveDirectiveByFullParams("if", []string{"(", "$uri", "~*", `"\.(gif|png|jpg|css|js|woff|woff2|jpeg|svg|webp|avif)$"`, ")"})

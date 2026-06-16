@@ -146,7 +146,7 @@ func (f *Ftp) SetPasswd(username, passwd string) error {
 	}
 	defer pwdFile.Close()
 
-	var entrys []string
+	var entries []string
 	scanner := bufio.NewScanner(pwdFile)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -161,7 +161,7 @@ func (f *Ftp) SetPasswd(username, passwd string) error {
 			userEntry[1] = string(hashedPassword)
 			line = strings.Join(userEntry, ":")
 		}
-		entrys = append(entrys, line)
+		entries = append(entrys, line)
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -175,7 +175,7 @@ func (f *Ftp) SetPasswd(username, passwd string) error {
 	}
 	defer pwdFile.Close()
 
-	for _, entry := range entrys {
+	for _, entry := range entries {
 		_, err := pwdFile.WriteString(entry + "\n")
 		if err != nil {
 			return err
