@@ -1,3 +1,18 @@
+[files]
+extend-exclude = [
+    "docs/README.de.md",
+    "frontend/package.json",
+    "docs/README.tr.md",
+    "docs/README.fr.md",
+    "docs/README.id.md",
+    "docs/README.pt-br.md",
+    "docs/README.es-es.md",
+    "core/i18n/lang/pt-BR.yaml",
+    "core/i18n/lang/tr.yaml",
+    "core/i18n/lang/ms.yaml",
+    "core/i18n/lang/es-ES.yaml"
+]
+
 [default.extend-words]
 sistem = "sistem"
 Sistem = "Sistem"
@@ -27,9 +42,68 @@ entrys = "entrys"
 Broswer = "Broswer"
 Rrror = "Rrror"
 Cutom = "Cutom"
-[files]
-extend-exclude = [
-    "docs/README.de.md",
-    "frontend/package.json",
-    "docs/README.tr.md"
-]
+styl = "styl"
+grup = "grup"
+Grup = "Grup"
+performans = "performans"
+Performans = "Performans"
+imge = "imge"
+Lable = "Lable"
+lable = "lable"
+fileds = "fileds"
+Blok = "Blok"
+librarys = "librarys"
+ingore = "ingore"
+versionn = "versionn"
+servise = "servise"
+ABD = "ABD"
+abd = "abd"
+Standart = "Standart"
+soket = "soket"
+Soket = "Soket"
+Gir = "Gir"
+Erro = "Erro"
+atual = "atual"
+Comando = "Comando"
+comando = "comando"
+ser = "ser"
+limite = "limite"
+internacional = "internacional"
+erros = "erros"
+Cliente = "Cliente"
+cliente = "cliente"
+Comandos = "Comandos"
+caracteres = "caracteres"
+Visiable = "Visiable"
+onnections = "onnections"
+connnection = "connnection"
+Analisis = "Analisis"
+faktor = "faktor"
+requiere = "requiere"
+detectaron = "detectaron"
+coincidente = "coincidente"
+producto = "producto"
+utiliza = "utiliza"
+factores = "factores"
+expirence = "expirence"
+Exmaple = "Exmaple"
+Runing = "Runing"
+umarshal = "umarshal"
+requset = "requset"
+directorios = "directorios"
+protocolos = "protocolos"
+extensiones = "extensiones"
+Extensiones = "Extensiones"
+contener = "contener"
+tendencias = "tendencias"
+historial = "historial"
+momento = "momento"
+problemas = "problemas"
+posible = "posible"
+accesible = "accesible"
+Procede = "Procede"
+versiones = "versiones"
+hace = "hace"
+Oficial = "Oficial"
+Websit = "Websit"
+conetnt = "conetnt"
