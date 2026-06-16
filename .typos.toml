@@ -1,0 +1,20 @@
+[default.extend-words]
+Datas = "Datas"
+datas = "datas"
+Websit = "Websit"
+Linke = "Linke"
+conetnt = "conetnt"
+Cahe = "Cahe"
+fileds = "fileds"
+versionn = "versionn"
+Visiable = "Visiable"
+Rrror = "Rrror"
+lso = "lso"
+referers = "referers"
+Cutom = "Cutom"
+
+[files]
+extend-exclude = [
+  "docs/**/*",
+  "frontend/package.json"
+]
