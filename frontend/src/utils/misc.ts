@@ -29,11 +29,16 @@ export function debounce(func: Function, wait: number) {
     };
 }
 
-export function isJson(str: string) {
+export function isJson(str: string): boolean {
+    if (!str || typeof str !== 'string') {
+        return false;
+    }
     try {
-        if (typeof JSON.parse(str) === 'object') {
+        const obj = JSON.parse(str);
+        if (obj && typeof obj === 'object') {
             return true;
         }
+        return false;
     } catch {
         return false;
     }
