@@ -84,7 +84,7 @@ func (w WebsiteService) CreateWebsiteDomain(create request.WebsiteDomainCreate) 
 		return nil, err
 	}
 
-	return domainModels, websiteDomainRepo.BatchCreate(context.TODO(), domainModels)
+	return domainModels, websiteDomainRepo.BatchCreate(context.Background(), domainModels)
 }
 
 func (w WebsiteService) GetWebsiteDomain(websiteId uint) ([]model.WebsiteDomain, error) {
@@ -181,5 +181,5 @@ func (w WebsiteService) DeleteWebsiteDomain(domainId uint) error {
 		}
 	}
 
-	return websiteDomainRepo.DeleteBy(context.TODO(), repo.WithByID(domainId))
+	return websiteDomainRepo.DeleteBy(context.Background(), repo.WithByID(domainId))
 }
