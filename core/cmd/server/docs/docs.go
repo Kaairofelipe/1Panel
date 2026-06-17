@@ -15644,7 +15644,7 @@ const docTemplate = `{
 						"Timestamp": []
 					}
 				],
-				"summary": "Sycn host SSH secret",
+				"summary": "Sync host SSH secret",
 				"tags": [
 					"SSH"
 				],
@@ -18424,7 +18424,7 @@ const docTemplate = `{
 					"bodyKeys": [
 						"id"
 					],
-					"formatEN": "recrete the snapshot [name]",
+					"formatEN": "recreate the snapshot [name]",
 					"formatZH": "重试创建快照 [name]",
 					"paramKeys": []
 				}

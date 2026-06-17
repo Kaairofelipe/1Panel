@@ -21,8 +21,8 @@ func UpdatePort(oldPort, newPort string) error {
 		return nil
 	}
 	status, _ := cmd.RunDefaultWithStdoutBashC("LANGUAGE=en_US:en ufw status | grep Status")
-	isRuning := status == "Status: active\n"
-	if isRuning {
+	isRunning := status == "Status: active\n"
+	if isRunning {
 		return ufwUpdatePort(oldPort, newPort)
 	}
 	return nil

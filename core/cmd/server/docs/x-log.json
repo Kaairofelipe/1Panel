@@ -2372,7 +2372,7 @@
 			}
 		],
 		"formatZH": "重试创建快照 [name]",
-		"formatEN": "recrete the snapshot [name]"
+		"formatEN": "recreate the snapshot [name]"
 	},
 	"/settings/snapshot/rollback": {
 		"bodyKeys": [
