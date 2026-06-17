@@ -1,0 +1,22 @@
+[default.extend-words]
+librarys = "librarys"
+datas = "datas"
+recrete = "recrete"
+abd = "abd"
+Lable = "Lable"
+lable = "lable"
+Runing = "Runing"
+umarshal = "umarshal"
+requset = "requset"
+Sycn = "Sycn"
+fo = "fo"
+reques = "reques"
+
+[files]
+extend-exclude = [
+    "docs/README.de.md",
+    "core/i18n/lang/pt-BR.yaml",
+    "core/i18n/lang/ms.yaml",
+    "core/i18n/lang/tr.yaml",
+    "core/i18n/lang/es-ES.yaml"
+]
