@@ -363,9 +363,9 @@ func (u *ContainerService) Inspect(req dto.InspectReq) (string, error) {
 	case "image":
 		inspectInfo, _, err = client.ImageInspectWithRaw(context.Background(), req.ID)
 	case "network":
-		inspectInfo, err = client.NetworkInspect(context.TODO(), req.ID, network.InspectOptions{})
+		inspectInfo, err = client.NetworkInspect(context.Background(), req.ID, network.InspectOptions{})
 	case "volume":
-		inspectInfo, err = client.VolumeInspect(context.TODO(), req.ID)
+		inspectInfo, err = client.VolumeInspect(context.Background(), req.ID)
 	}
 	if err != nil {
 		return "", err
@@ -1139,7 +1139,7 @@ func (u *ContainerService) ContainerStats(id string) (*dto.ContainerStats, error
 		return nil, err
 	}
 	defer client.Close()
-	res, err := client.ContainerStats(context.TODO(), id, false)
+	res, err := client.ContainerStats(context.Background(), id, false)
 	if err != nil {
 		return nil, err
 	}

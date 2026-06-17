@@ -1,115 +1,168 @@
-<p align="center"><a href="https://1panel.pro"><img src="https://resource.1panel.pro/img/1panel-logo.png" alt="1Panel" width="300" /></a></p>
+# typos
 
-<h3 align="center">The open-source VPS control panel with native AI agent support</h3>
+> **Source code spell checker**
 
-<p align="center">
-  Trusted by <strong>2,000,000+</strong> self-hosters worldwide
-</p>
+Finds and corrects spelling mistakes among source code:
+- Fast enough to run on monorepos
+- Low false positives so you can run on PRs
 
-<p align="center">
-  <a href="https://trendshift.io/repositories/2462" target="_blank"><img src="https://trendshift.io/api/badge/repositories/2462" alt="1Panel-dev%2F1Panel | Trendshift" style="width: 240px; height: auto;" /></a>
-</p>
+![Screenshot](./docs/screenshot.png)
 
-<p align="center">
-  <a href="https://www.gnu.org/licenses/gpl-3.0.html"><img src="https://shields.io/github/license/1Panel-dev/1Panel?color=%231890FF" alt="License: GPL v3"></a>
-  <a href="https://app.codacy.com/gh/1Panel-dev/1Panel"><img src="https://app.codacy.com/project/badge/Grade/da67574fd82b473992781d1386b937ef" alt="Codacy"></a>
-  <a href="https://discord.gg/bUpUqWqdRr"><img src="https://img.shields.io/discord/1318846410149335080?logo=discord&labelColor=%20%235462eb&logoColor=%20%23f5f5f5&color=%20%235462eb" alt="Discord"></a>
-  <a href="https://github.com/1Panel-dev/1Panel/releases"><img src="https://img.shields.io/github/v/release/1Panel-dev/1Panel" alt="GitHub release"></a>
-  <a href="https://github.com/1Panel-dev/1Panel"><img src="https://img.shields.io/github/stars/1Panel-dev/1Panel?color=%231890FF&style=flat-square" alt="Stars"></a>
-</p>
+[![codecov](https://codecov.io/gh/crate-ci/typos/branch/master/graph/badge.svg)](https://codecov.io/gh/crate-ci/typos)
+[![Documentation](https://img.shields.io/badge/docs-master-blue.svg)][Documentation]
+![License](https://img.shields.io/crates/l/typos.svg)
+[![Crates Status](https://img.shields.io/crates/v/typos.svg)][Crates.io]
 
-<p align="center">
-  <a href="/README.md"><img alt="English" src="https://img.shields.io/badge/English-d9d9d9"></a>
-  <a href="/docs/README.zh-Hans.md"><img alt="中文(简体)" src="https://img.shields.io/badge/中文(简体)-d9d9d9"></a>
-  <a href="/docs/README.ja.md"><img alt="日本語" src="https://img.shields.io/badge/日本語-d9d9d9"></a>
-  <a href="/docs/README.pt-br.md"><img alt="Português (Brasil)" src="https://img.shields.io/badge/Português (Brasil)-d9d9d9"></a>
-  <a href="/docs/README.ar.md"><img alt="العربية" src="https://img.shields.io/badge/العربية-d9d9d9"></a>
-  <a href="/docs/README.de.md"><img alt="Deutsch" src="https://img.shields.io/badge/Deutsch-d9d9d9"></a>
-  <a href="/docs/README.es.md"><img alt="Español" src="https://img.shields.io/badge/Español-d9d9d9"></a>
-  <a href="/docs/README.fr.md"><img alt="français" src="https://img.shields.io/badge/français-d9d9d9"></a>
-  <a href="/docs/README.ko.md"><img alt="한국어" src="https://img.shields.io/badge/한국어-d9d9d9"></a>
-  <a href="/docs/README.id.md"><img alt="Bahasa Indonesia" src="https://img.shields.io/badge/Bahasa Indonesia-d9d9d9"></a>
-  <a href="/docs/README.zh-Hant.md"><img alt="中文(繁體)" src="https://img.shields.io/badge/中文(繁體)-d9d9d9"></a>
-  <a href="/docs/README.tr.md"><img alt="Türkçe" src="https://img.shields.io/badge/Türkçe-d9d9d9"></a>
-  <a href="/docs/README.ru.md"><img alt="Русский" src="https://img.shields.io/badge/Русский-d9d9d9"></a>
-  <a href="/docs/README.ms.md"><img alt="Bahasa Melayu" src="https://img.shields.io/badge/Bahasa Melayu-d9d9d9"></a>
-</p>
+Dual-licensed under [MIT](LICENSE-MIT) or [Apache 2.0](LICENSE-APACHE)
 
----
+## Documentation
 
-## What is 1Panel?
+- [Installation](#install)
+- [Getting Started](#getting-started)
+  - [False Positives](#false-positives)
+  - [Integrations](#integrations)
+    - [GitHub Action](docs/github-action.md)
+    - [pre-commit](docs/pre-commit.md)
+    - [Custom](#custom)
+  - [Debugging](#debugging)
+- [Reference](docs/reference.md)
+- [FAQ](#faq)
+- [Comparison with other spell checkers](docs/comparison.md)
+- [Projects using typos](https://github.com/crate-ci/typos/wiki)
+- [Benchmarks](benchsuite/runs)
+- [Design](docs/design.md)
+- [Contribute](CONTRIBUTING.md)
+- [CHANGELOG](CHANGELOG.md)
 
-1Panel is a modern, open-source VPS control panel — and the only one with **native AI agent support**. Run Ollama models, deploy OpenClaw agents, and manage your entire server stack from one clean web interface. No CLI memorization required.
+## Install
 
-👉 Watch the [2-minute introduction](https://www.youtube.com/watch?v=Jl_wqp-XA08)
+[Download](https://github.com/crate-ci/typos/releases) a pre-built binary
+(installable via [gh-install](https://github.com/crate-ci/gh-install)).
 
-## Why 1Panel?
-
-| | 1Panel | cPanel / Plesk | aaPanel | Webmin |
-|--|--------|----------------|---------|--------|
-| Free & open source | ✅ | ❌ | Partial | ✅ |
-| Native AI agent runtime | ✅ | ❌ | ❌ | ❌ |
-| One-click app marketplace | ✅ 165+ apps | ❌ | ✅ | ❌ |
-| Modern UI (post-2020) | ✅ | ❌ | Partial | ❌ |
-| Docker / container management | ✅ | ❌ | ❌ | ❌ |
-| Active development | ✅ | ✅ | ✅ | Slow |
-
-## Key Features
-
-- **AI Agent Runtime**: Deploy Ollama LLMs, spin up OpenClaw personal agents, and monitor GPU utilization — all from the dashboard. No separate AI stack to manage.
-- **One-Click Website Deployment**: Launch production-ready websites with automatic domain binding, SSL provisioning, and Nginx config — zero manual setup.
-- **App Marketplace**: 165+ trusted open-source apps (Nextcloud, Bitwarden, Umami, NocoBase, and more) installed and updated with a single click.
-- **Docker & Container Management**: Create, start, stop, and inspect containers, images, networks, and volumes through a visual UI — no CLI juggling.
-- **Security Out of the Box**: Firewall rules, fail2ban, container isolation, WAF, and audit logs — configured and running from day one.
-- **Backup & Restore**: Schedule automated backups to AWS S3, Cloudflare R2, or local storage. Restore any snapshot in one click.
-
-## Quick Start
-
-> **Requirements:** Linux VPS (Debian / Ubuntu / CentOS / Rocky), 1 GB RAM, internet access.  
-> Takes ~60 seconds.
-
+Or use rust to install:
 ```bash
-bash -c "$(curl -sSL https://resource.1panel.pro/v2/quick_start.sh)"
+cargo install typos-cli
 ```
 
-After installation, open `http://<your-server-ip>:<port>/<security-path>` in your browser.  
-Run `1pctl user-info` via SSH if you need to retrieve your access credentials.
+Or use [Homebrew](https://brew.sh/) to install:
+```bash
+brew install typos-cli
+```
 
-## Screenshot
+Or use [Conda](https://conda.io/) to install:
+```bash
+conda install typos
+```
 
-![1Panel UI](https://resource.1panel.pro/img/overview_en_v2.png)
+## Getting Started
 
-## Pro Edition
+Most commonly, you'll either want to see what typos are available with
+```bash
+typos
+```
 
-1Panel OSS is free forever. Pro adds features built for teams and production workloads:
+Or have them fixed
+```bash
+typos --write-changes
+typos -w
+```
+If there is any ambiguity (multiple possible corrections), `typos` will just report it to the user and move on.
 
-| Feature | OSS | Pro |
-|---------|:---:|:---:|
-| One-click app installs | ✅ | ✅ |
-| AI agents (OpenClaw) | 1 agent | Unlimited |
-| WAF & advanced security | Basic | ✅ |
-| Website tamper protection | ❌ | ✅ |
-| Website uptime monitoring | ❌ | ✅ |
-| Multi-node management | ❌ | ✅ |
-| Custom logo & theme | ❌ | ✅ |
-| Priority support | ❌ | ✅ |
+### False-positives
 
-**From $80/year.** [Compare plans & start 30-day free trial →](https://1panel.pro/pricing)
+Sometimes, what looks like a typo is intentional, like with people's names, acronyms, or localized content.
 
-## Star History
+To mark a word or an identifier (grouping of words) as valid, add it your [`_typos.toml`](docs/reference.md) by declaring itself as the valid spelling:
+```toml
+[default]
+extend-ignore-identifiers-re = [
+    # *sigh* this just isn't worth the cost of fixing
+    "AttributeID.*Supress.*",
+]
 
-[![Star History Chart](https://api.star-history.com/svg?repos=1Panel-dev/1Panel&type=Date)](https://star-history.com/#1Panel-dev/1Panel&Date)
+[default.extend-identifiers]
+# *sigh* this just isn't worth the cost of fixing
+AttributeIDSupressMenu = "AttributeIDSupressMenu"
 
-## Community & Support
+[default.extend-words]
+# Don't correct the surname "Teh"
+teh = "teh"
+```
 
-- **Discord** — [Join the community](https://discord.gg/bUpUqWqdRr) for help, feature requests, and show-and-tell
-- **Docs** — [1panel.pro/docs](https://1panel.pro/docs)
-- **Issues** — [GitHub Issues](https://github.com/1Panel-dev/1Panel/issues) for bug reports
+For cases like localized content, you can disable spell checking of file contents while still checking the file name:
+```toml
+[type.po]
+extend-glob = ["*.po"]
+check-file = false
+```
+(run `typos --type-list` to see configured file types)
 
-## Security
+If you need some more flexibility, you can completely exclude some files from consideration:
+```toml
+[files]
+extend-exclude = ["localized/*.po"]
+```
 
-Found a vulnerability? Please read [SECURITY.md](/SECURITY.md) before disclosing.
+### Integrations
 
-## License
+- [GitHub Actions](docs/github-action.md)
+- [pre-commit](docs/pre-commit.md)
+- [🐊Putout Processor](https://github.com/putoutjs/putout-processor-typos)
+- [Visual Studio Code](https://github.com/tekumara/typos-vscode)
+- [typos-lsp (Language Server Protocol server)](https://github.com/tekumara/typos-vscode)
 
-Licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
+#### Custom
+
+`typos` provides several building blocks for custom native integrations
+- `-` reads from `stdin`, `--write-changes` will be written to `stdout`
+- `--diff` to provide a diff
+- `--format json` to get jsonlines with exit code 0 on no errors, code 2 on typos, anything else is an error.
+
+Examples:
+```bash
+# Read file from stdin, write corrected version to stdout
+typos - --write-changes
+# Creates a diff of what would change
+typos dir/file --diff
+# Fully programmatic control
+typos dir/file --format json
+```
+
+### Debugging
+
+You can see what the effective config looks like by running
+```bash
+typos --dump-config -
+```
+
+You can then see how typos is processing your project with
+```bash
+typos --files
+typos --identifiers
+typos --words
+```
+
+If you need to dig in more, you can enable debug logging with `-v`
+
+## FAQ
+
+### Why was ... not corrected?
+
+tl;dr `typos` doesn't know about it yet
+
+`typos` maintains a list of known typo corrections to keep the false positive
+count low so it can safely run unassisted.
+
+This is in contrast to most spell checking UIs people use where there is a
+known list of valid words.  In this case, the spell checker tries to guess your
+intent by finding the closest-looking word.  It then has a gauge for when a
+word isn't close enough and assumes you know best.  The user has the
+opportunity to verify these corrections and explicitly allow or reject them.
+
+For more on the trade offs of these approaches, see [Design](docs/design.md).
+
+- To correct it locally, see also our [False Positives documentation](#false-positives).
+- To contribute your correction, see [Contribute](CONTRIBUTING.md)
+
+[Crates.io]: https://crates.io/crates/typos-cli
+[Documentation]: https://docs.rs/typos
