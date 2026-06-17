@@ -1,0 +1,33 @@
+[default.extend-words]
+datas = "datas"
+entrys = "entrys"
+Visiable = "Visiable"
+reques = "reques"
+Rrror = "Rrror"
+Cutom = "Cutom"
+Broswer = "Broswer"
+Datas = "Datas"
+ser = "ser"
+requiere = "requiere"
+comando = "comando"
+contener = "contener"
+caracteres = "caracteres"
+utiliza = "utiliza"
+montajes = "montajes"
+ignora = "ignora"
+directorios = "directorios"
+protocolos = "protocolos"
+curso = "curso"
+termine = "termine"
+instale = "instale"
+Comando = "Comando"
+
+[files]
+extend-exclude = [
+    "frontend/src/lang/modules/*",
+    "backend/i18n/lang/*",
+    "agent/i18n/lang/*",
+    "docs/README.*.md",
+    "frontend/package.json",
+    "frontend/lint-staged.config.js"
+]
