@@ -15,6 +15,7 @@ import (
 	"net"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -378,11 +379,25 @@ func (w WebsiteCAService) ObtainSSL(req request.WebsiteCAObtain) (*model.Website
 			workDir = websiteSSL.Dir
 		}
 		logger.Println(i18n.GetMsgByKey("ExecShellStart"))
-		cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(30*time.Minute), cmd.WithLogger(logger), cmd.WithWorkDir(workDir))
-		if err = cmdMgr.RunBashC(websiteSSL.Shell); err != nil {
-			logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": err.Error()}))
+		tmpDir := filepath.Join(global.Dir.DataDir, "tmp")
+		_ = os.MkdirAll(tmpDir, 0700)
+		if scriptFile, errFile := os.CreateTemp(tmpDir, "ssl_shell_*.sh"); errFile == nil {
+			scriptPath := scriptFile.Name()
+			defer os.Remove(scriptPath)
+			if _, errWrite := scriptFile.Write([]byte(websiteSSL.Shell)); errWrite == nil {
+				scriptFile.Close()
+				cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(30*time.Minute), cmd.WithLogger(logger), cmd.WithWorkDir(workDir))
+				if err = cmdMgr.Run("bash", scriptPath); err != nil {
+					logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": err.Error()}))
+				} else {
+					logger.Println(i18n.GetMsgByKey("ExecShellSuccess"))
+				}
+			} else {
+				scriptFile.Close()
+				logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": errWrite.Error()}))
+			}
 		} else {
-			logger.Println(i18n.GetMsgByKey("ExecShellSuccess"))
+			logger.Println(i18n.GetMsgWithMap("ErrExecShell", map[string]interface{}{"err": errFile.Error()}))
 		}
 	}
 	reloadSystemSSL(websiteSSL, logger)
