@@ -116,7 +116,7 @@ func aesEncryptWithSalt(key, plaintext []byte) ([]byte, error) {
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
 		return nil, err
 	}
-	cbc := cipher.NewCBCEncrypter(block, iv)
+	cbc := cipher.NewCBCEncryptor(block, iv)
 	cbc.CryptBlocks(ciphertext[aes.BlockSize:], plaintext)
 	return ciphertext, nil
 }

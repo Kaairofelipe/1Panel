@@ -19,7 +19,7 @@ const fuLocales: Record<string, FuLocaleMessage> = {
         fu: {
             table: {
                 more: 'Más',
-                custom_table_rows: 'Columnas personalizadas',
+                custom_table_rows: 'Columns personalizadas',
             },
             steps: {
                 cancel: 'Cancelar',

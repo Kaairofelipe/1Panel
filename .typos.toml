@@ -1,0 +1,83 @@
+[default.extend-words]
+Anormal = "Anormal"
+Adres = "Adres"
+anormal = "anormal"
+sistem = "sistem"
+Sistem = "Sistem"
+Paket = "Paket"
+adres = "adres"
+Tema = "Tema"
+tema = "tema"
+Rrror = "Rrror"
+Hepler = "Hepler"
+Cahe = "Cahe"
+Linke = "Linke"
+datas = "datas"
+hight = "hight"
+cros = "cros"
+Datas = "Datas"
+onnections = "onnections"
+connnection = "connnection"
+expirence = "expirence"
+fo = "fo"
+fileds = "fileds"
+Broswer = "Broswer"
+entrys = "entrys"
+versionn = "versionn"
+Cutom = "Cutom"
+lso = "lso"
+styl = "styl"
+anser = "anser"
+
+Columnas = "Columnas"
+Visiable = "Visiable"
+Websit = "Websit"
+conetnt = "conetnt"
+typesdrew = "typesdrew"
+ser = "ser"
+Erro = "Erro"
+limite = "limite"
+comando = "comando"
+internacional = "internacional"
+erros = "erros"
+Cliente = "Cliente"
+Comandos = "Comandos"
+Analisis = "Analisis"
+faktor = "faktor"
+grup = "grup"
+Grup = "Grup"
+Runing = "Runing"
+requset = "requset"
+Encrypter = "Encrypter"
+recrete = "recrete"
+Sycn = "Sycn"
+Lable = "Lable"
+lable = "lable"
+abd = "abd"
+requiere = "requiere"
+detectaron = "detectaron"
+coincidente = "coincidente"
+producto = "producto"
+utiliza = "utiliza"
+factores = "factores"
+ba = "ba"
+
+[files]
+extend-exclude = [
+  "lang/**/*",
+  "frontend/src/lang/modules/**/*",
+  "docs/**/*",
+  "frontend/src/lang/**/*",
+  "core/i18n/lang/**/*",
+  "agent/i18n/lang/**/*",
+  "README.md",
+  "doc/CHANGELOG.md",
+  "frontend/src/components/codemirror-pro/nginx.ts",
+  "agent/app/service/alert_helper.go",
+  "agent/app/service/app_ingore_upgrade.go",
+  "agent/app/service/container.go",
+  "agent/app/service/dashboard.go",
+  "agent/app/service/disk_utils.go",
+  "agent/app/service/ssh.go",
+  "agent/app/service/website.go"
+]
