@@ -1,0 +1,48 @@
+[default.extend-words]
+datas = "datas"
+librarys = "librarys"
+recrete = "recrete"
+reques = "reques"
+Runing = "Runing"
+entrys = "entrys"
+Lable = "Lable"
+lable = "lable"
+umarshal = "umarshal"
+requset = "requset"
+Sycn = "Sycn"
+abd = "abd"
+fo = "fo"
+anser = "anser"
+Encrypter = "Encrypter"
+typesdrew = "typesdrew"
+referers = "referers"
+Rrror = "Rrror"
+conetnt = "conetnt"
+fileds = "fileds"
+Cutom = "Cutom"
+Visiable = "Visiable"
+faild = "faild"
+Encryptio = "Encryptio"
+Broswer = "Broswer"
+contianer = "contianer"
+ingore = "ingore"
+Supress = "Supress"
+teh = "teh"
+Cahe = "Cahe"
+Linke = "Linke"
+cros = "cros"
+ba = "ba"
+BA = "BA"
+unsupport = "unsupport"
+Arry = "Arry"
+
+[files]
+extend-exclude = [
+  "docs/README.*.md",
+  "core/i18n/lang/**/*",
+  "frontend/src/lang/**/*",
+  "agent/i18n/lang/**/*",
+  "frontend/src/components/codemirror-pro/nginx.ts",
+  "doc/**/*",
+  "README.md"
+]
