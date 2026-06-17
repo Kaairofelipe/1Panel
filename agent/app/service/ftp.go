@@ -2,7 +2,9 @@ package service
 
 import (
 	"os"
+	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/1Panel-dev/1Panel/agent/app/repo"
 	"github.com/1Panel-dev/1Panel/agent/buserr"
@@ -133,6 +135,13 @@ func (f *FtpService) Sync() error {
 }
 
 func (f *FtpService) Create(req dto.FtpCreate) (uint, error) {
+	if strings.Contains(req.Path, "..") {
+		return 0, buserr.New("ErrInvalidParams")
+	}
+	req.Path = filepath.Clean(req.Path)
+	if !filepath.IsAbs(req.Path) {
+		return 0, buserr.New("ErrInvalidParams")
+	}
 	if _, err := os.Stat(req.Path); err != nil {
 		if os.IsNotExist(err) {
 			if err := os.MkdirAll(req.Path, os.ModePerm); err != nil {
@@ -186,6 +195,13 @@ func (f *FtpService) Delete(req dto.BatchDeleteReq) error {
 }
 
 func (f *FtpService) Update(req dto.FtpUpdate) error {
+	if strings.Contains(req.Path, "..") {
+		return buserr.New("ErrInvalidParams")
+	}
+	req.Path = filepath.Clean(req.Path)
+	if !filepath.IsAbs(req.Path) {
+		return buserr.New("ErrInvalidParams")
+	}
 	if _, err := os.Stat(req.Path); err != nil {
 		if os.IsNotExist(err) {
 			if err := os.MkdirAll(req.Path, os.ModePerm); err != nil {
