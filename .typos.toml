@@ -1,0 +1,46 @@
+[default.extend-words]
+librarys = "librarys"
+datas = "datas"
+recrete = "recrete"
+abd = "abd"
+Lable = "Lable"
+lable = "lable"
+Runing = "Runing"
+umarshal = "umarshal"
+requset = "requset"
+Sycn = "Sycn"
+fo = "fo"
+reques = "reques"
+anser = "anser"
+styl = "styl"
+tootip = "tootip"
+conetnt = "conetnt"
+fileds = "fileds"
+versionn = "versionn"
+Rrror = "Rrror"
+Cutom = "Cutom"
+Websit = "Websit"
+Visiable = "Visiable"
+onnections = "onnections"
+connnection = "connnection"
+expirence = "expirence"
+Exmaple = "Exmaple"
+referers = "referers"
+
+[files]
+extend-exclude = [
+    "docs/README.de.md",
+    "core/i18n/lang/pt-BR.yaml",
+    "core/i18n/lang/ms.yaml",
+    "core/i18n/lang/tr.yaml",
+    "core/i18n/lang/es-ES.yaml",
+    "docs/README.fr.md",
+    "docs/README.es-es.md",
+    "docs/README.id.md",
+    "docs/README.pt-br.md",
+    "docs/README.tr.md",
+    "frontend/src/lang/modules/tr.ts",
+    "frontend/src/lang/modules/zh.ts",
+    "frontend/src/lang/modules/en.ts",
+    "frontend/package.json"
+]

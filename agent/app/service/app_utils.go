@@ -665,7 +665,7 @@ func buildNginx(parentTask *task.Task) error {
 	logStr := fmt.Sprintf("%s %s", i18n.GetMsgByKey("TaskBuild"), i18n.GetMsgByKey("Image"))
 	parentTask.LogStart(logStr)
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTask(*parentTask), cmd.WithTimeout(60*time.Minute))
-	if err = cmdMgr.RunBashCf("docker compose -f %s build", nginxInstall.GetComposePath()); err != nil {
+	if err = cmdMgr.Run("docker", "compose", "-f", nginxInstall.GetComposePath(), "build"); err != nil {
 		return err
 	}
 	parentTask.LogSuccess(logStr)
@@ -1129,7 +1129,7 @@ func runScript(task *task.Task, appInstall *model.AppInstall, operate string) er
 	task.LogStart(logStr)
 
 	cmdMgr := cmd.NewCommandMgr(cmd.WithTimeout(10*time.Minute), cmd.WithWorkDir(workDir))
-	if err := cmdMgr.RunBashC(scriptPath); err != nil {
+	if err := cmdMgr.Run("bash", scriptPath); err != nil {
 		task.LogFailedWithErr(logStr, err)
 		return err
 	}
