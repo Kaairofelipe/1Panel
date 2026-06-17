@@ -1,0 +1,27 @@
+[default.extend-words]
+Datas = "Datas"
+datas = "datas"
+reques = "reques"
+fo = "fo"
+entrys = "entrys"
+Websit = "Websit"
+Broswer = "Broswer"
+conetnt = "conetnt"
+Cahe = "Cahe"
+Linke = "Linke"
+Visiable = "Visiable"
+Rrror = "Rrror"
+fileds = "fileds"
+versionn = "versionn"
+lso = "lso"
+Cutom = "Cutom"
+Klick = "Klick"
+Ein = "Ein"
+ein = "ein"
+populer = "populer"
+Prozess = "Prozess"
+ist = "ist"
+adres = "adres"
+
+[files]
+extend-exclude = ["docs/**/*", "core/i18n/lang/**/*", "frontend/src/views/**/*", "agent/utils/**/*", "core/utils/**/*", "core/app/**/*", "core/init/**/*", "core/router/**/*", "core/cmd/**/*", "core/go.mod", "frontend/src/components/log/custom-highlight/index.vue", "frontend/src/components/codemirror/nginx.ts"]
