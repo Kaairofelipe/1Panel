@@ -1,6 +1,6 @@
 import { describe, it, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert';
-import { buildFileSharePageUrl } from './file.ts';
+import { buildFileSharePageUrl } from './file';
 
 describe('buildFileSharePageUrl', () => {
     let originalWindow: any;
