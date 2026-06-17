@@ -35,11 +35,59 @@ import (
 	"github.com/1Panel-dev/1Panel/core/utils/passkey"
 	"github.com/1Panel-dev/1Panel/core/utils/req_helper/proxy_local"
 	"github.com/1Panel-dev/1Panel/core/utils/xpack"
+	"github.com/patrickmn/go-cache"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/net/proxy"
 )
 
 type SettingService struct{}
+
+var settingMapCache = cache.New(5*time.Minute, 10*time.Minute)
+
+type settingRepoWrapper struct {
+	repo.ISettingRepo
+}
+
+func (w *settingRepoWrapper) Update(key, value string) error {
+	err := w.ISettingRepo.Update(key, value)
+	settingMapCache.Delete("settingMap")
+	return err
+}
+
+func (w *settingRepoWrapper) UpdateOrCreate(key, value string) error {
+	err := w.ISettingRepo.UpdateOrCreate(key, value)
+	settingMapCache.Delete("settingMap")
+	return err
+}
+
+func (w *settingRepoWrapper) Create(key, value string) error {
+	err := w.ISettingRepo.Create(key, value)
+	settingMapCache.Delete("settingMap")
+	return err
+}
+
+func (w *settingRepoWrapper) DefaultMenu() error {
+	err := w.ISettingRepo.DefaultMenu()
+	settingMapCache.Delete("settingMap")
+	return err
+}
+
+func loadSettingMap() (map[string]string, error) {
+	if val, found := settingMapCache.Get("settingMap"); found {
+		return val.(map[string]string), nil
+	}
+	setting, err := settingRepo.List()
+	if err != nil {
+		return nil, buserr.New("ErrRecordNotFound")
+	}
+	settingMap := make(map[string]string)
+	for _, set := range setting {
+		settingMap[set.Key] = set.Value
+	}
+	settingMapCache.Set("settingMap", settingMap, cache.DefaultExpiration)
+	return settingMap, nil
+}
 
 type ISettingService interface {
 	GetSettingInfo() (*dto.SettingInfo, error)
@@ -75,13 +123,13 @@ func NewISettingService() ISettingService {
 }
 
 func (u *SettingService) GetSettingInfo() (*dto.SettingInfo, error) {
-	setting, err := settingRepo.List()
+	cachedMap, err := loadSettingMap()
 	if err != nil {
-		return nil, buserr.New("ErrRecordNotFound")
+		return nil, err
 	}
-	settingMap := make(map[string]string)
-	for _, set := range setting {
-		settingMap[set.Key] = set.Value
+	settingMap := make(map[string]string, len(cachedMap))
+	for k, v := range cachedMap {
+		settingMap[k] = v
 	}
 	if hideMenu, ok := settingMap["HideMenu"]; ok && len(hideMenu) > 0 {
 		var menus []dto.ShowMenu
@@ -507,13 +555,9 @@ func (u *SettingService) HandlePasswordExpired(c *gin.Context, old, new string) 
 }
 
 func (u *SettingService) GetTerminalInfo() (*dto.TerminalInfo, error) {
-	setting, err := settingRepo.List()
+	settingMap, err := loadSettingMap()
 	if err != nil {
-		return nil, buserr.New("ErrRecordNotFound")
-	}
-	settingMap := make(map[string]string)
-	for _, set := range setting {
-		settingMap[set.Key] = set.Value
+		return nil, err
 	}
 	var info dto.TerminalInfo
 	arr, err := json.Marshal(settingMap)
